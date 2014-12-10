@@ -11,6 +11,12 @@
     "repoUrl": "http://146.148.38.121/parcel-repo/",
     "requiredTags" : [ "cdh", "cdap" ]
   },
+  "serviceDependencies" : [
+    {"name" : "ZOOKEEPER", "required" : "true" },
+    {"name" : "HDFS", "required" : "true"},
+    {"name" : "YARN", "required" : "true"},
+    {"name" : "HBASE", "required" : "true"}
+  ],
   "roles": [
     {
       "name": "CDAP_KAFKA",
