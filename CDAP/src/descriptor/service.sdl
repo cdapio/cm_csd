@@ -17,21 +17,95 @@
     {"name" : "YARN", "required" : "true"},
     {"name" : "HBASE", "required" : "true"}
   ],
+  "parameters": [
+    {
+      "name": "root_namespace",
+      "label": "Root Namespace",
+      "description": "Specifies the root namespace",
+      "configName": "root.namespace",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "cdap",
+      "type": "string"
+    },
+    {
+      "name": "zookeeper_quorum",
+      "label": "Zookeeper Quorum",
+      "description": "Specifies the zookeeper quorum",
+      "configName": "zookeeper.quorum",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "localhost:2181/${root.namespace}",
+      "type": "string"
+    },
+    {
+      "name": "hdfs_namespace",
+      "label": "HDFS Namespace",
+      "description": "Specifies the hdfs namespace",
+      "configName": "hdfs.namespace",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "/${root.namespace}",
+      "type": "string"
+    },
+    {
+      "name": "hdfs_user",
+      "label": "HDFS User",
+      "description": "Specifies the hdfs user",
+      "configName": "hdfs.user",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "yarn",
+      "type": "string"
+    },
+    {
+      "name": "kafka_log_dir",
+      "label": "Kafka Log Dir",
+      "description": "Specifies the Kafka Log Dir",
+      "configName": "kafka.log.dir",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "/data/cdap/kafka-logs",
+      "type": "path",
+      "pathType": "localDataDir",
+      "mode": "0755"
+    },
+    {
+      "name": "kafka_seed_brokers",
+      "label": "Kafka Seed Brokers",
+      "description": "List of Kafka brokers (comma separated)",
+      "configName": "kafka.seed.brokers",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "${host}:9092",
+      "type": "string"
+    },
+    {
+      "name": "kafka_default_replication_factor",
+      "label": "Kafka Default Replication Factor",
+      "description": "Kafka replication factor",
+      "configName": "kafka.default.replication.factor",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    }
+  ],
   "roles": [
     {
       "name": "CDAP_KAFKA",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
-      "parameters": [
-        {
-          "name": "kafka.default.replication.factor",
-          "label" : "Kafka default replication factor",
-          "description": "The default kafka replication factor",
-          "required": "false",
-          "type": "long",
-          "default": 1
-        }
-      ],
+      "configWriter": {
+        "generators": [
+          {
+            "filename": "cdap-site.xml",
+            "configFormat": "hadoop_xml",
+            "additionalConfigs": []
+          }
+        ]
+      },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "kafka", "kafka-server", "start" ],
