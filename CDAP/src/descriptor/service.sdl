@@ -1,0 +1,50 @@
+{
+  "name": "CDAP",
+  "label": "Cask DAP",
+  "description": "Cask Data Application Platform",
+  "version": "0.0.1",
+  "runAs": {
+    "user": "cdap",
+    "group": "cdap"
+  },
+  "parcel" : {
+    "repoUrl": "http://146.148.38.121/parcel-repo/",
+    "requiredTags" : [ "cdh", "cdap" ]
+  },
+  "roles": [
+    {
+      "name": "CDAP_KAFKA",
+      "label": "CDAP Kafka Service",
+      "pluralLabel": "CDAP Kafka Services",
+      "parameters": [
+        {
+          "name": "kafka.default.replication.factor",
+          "label" : "Kafka default replication factor",
+          "description": "The default kafka replication factor",
+          "required": "false",
+          "type": "long",
+          "default": 1
+        }
+      ],
+      "startRunner": {
+        "program": "scripts/cdap-control.sh",
+        "args": [ "kafka", "kafka-server", "start" ],
+        "environmentVariables": {
+        }
+      }
+    },
+    {
+      "name": "CDAP_WEB_APP",
+      "label": "CDAP Web-App Service",
+      "pluralLabel": "CDAP Web-App Services",
+      "parameters": [
+      ],
+      "startRunner": {
+        "program": "scripts/cdap-control.sh",
+        "args": [ "web-app", "web-app", "start" ],
+        "environmentVariables": {
+        }
+      }
+    }
+  ]
+}
