@@ -178,6 +178,16 @@
       "label": "CDAP Web-App Service",
       "pluralLabel": "CDAP Web-App Services",
       "parameters": [
+        {
+          "name": "router_server_address",
+          "label": "Router Server Address",
+          "description": "Specifies the destination IP where the Router service is running",
+          "configName": "router.server.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "${host}",
+          "type": "string"
+        }
       ],
       "configWriter": {
         "generators": [
