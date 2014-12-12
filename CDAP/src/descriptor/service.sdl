@@ -25,7 +25,7 @@
       "description" : "Creates the top-level CDAP namespace directory in HDFS",
       "directoryDescription" : "CDAP HDFS namespace directory",
       "path" : "/cdap",
-      "permissions" : "0777"
+      "permissions" : "0755"
     }
   ],
   "serviceInit" : {
@@ -71,7 +71,7 @@
       "configName": "hdfs.user",
       "required": true,
       "configurableInWizard": false,
-      "default": "yarn",
+      "default": "cdap",
       "type": "string"
     },
     {
