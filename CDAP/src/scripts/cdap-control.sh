@@ -11,6 +11,10 @@ echo "**************** ENVIRONMENT **************"
 echo $MY_ENV
 echo "*******************************************"
 echo "ZOOKEEPER? $ZK_QUORUM"
+
+# set the conf dir to cloudera managers agent directory for this process
+export CDAP_CONF=$CONF_DIR
+
 case $CMD in
   (start)
     echo "Starting the CDAP ${SERVICE} service"
