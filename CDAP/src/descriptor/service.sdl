@@ -75,18 +75,6 @@
       "type": "string"
     },
     {
-      "name": "kafka_log_dir",
-      "label": "Kafka Log Dir",
-      "description": "Specifies the Kafka Log Dir",
-      "configName": "kafka.log.dir",
-      "required": true,
-      "configurableInWizard": true,
-      "default": "/data/cdap/kafka-logs",
-      "type": "path",
-      "pathType": "localDataDir",
-      "mode": "0755"
-    },
-    {
       "name": "kafka_seed_brokers",
       "label": "Kafka Seed Brokers",
       "description": "List of Kafka brokers (comma separated)",
@@ -135,6 +123,20 @@
       "name": "CDAP_KAFKA",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
+      "parameters": [
+        {
+          "name": "kafka_log_dir",
+          "label": "Kafka Log Dir",
+          "description": "Specifies the Kafka Log Dir",
+          "configName": "kafka.log.dir",
+          "required": true,
+          "configurableInWizard": true,
+          "default": "/data/cdap/kafka-logs",
+          "type": "path",
+          "pathType": "localDataDir",
+          "mode": "0755"
+        }
+      ],
       "configWriter": {
         "generators": [
           {
