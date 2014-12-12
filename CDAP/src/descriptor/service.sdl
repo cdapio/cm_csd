@@ -45,16 +45,6 @@
       "type": "string"
     },
     {
-      "name": "zookeeper_quorum",
-      "label": "Zookeeper Quorum",
-      "description": "Specifies the zookeeper quorum",
-      "configName": "zookeeper.quorum",
-      "required": true,
-      "configurableInWizard": true,
-      "default": "localhost:2181/${root.namespace}",
-      "type": "string"
-    },
-    {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
       "description": "Specifies the hdfs namespace",
@@ -108,7 +98,12 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "additionalConfigs": []
+            "additionalConfigs": [
+              {
+                "key": "zookeeper.quorum",
+                "value": "{{ZK_QUORUM}}/${root_namespace}"
+              }
+            ]
           }
         ]
       },
@@ -142,7 +137,12 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "additionalConfigs": []
+            "additionalConfigs": [
+              {
+                "key": "zookeeper.quorum",
+                "value": "{{ZK_QUORUM}}/${root_namespace}"
+              }
+            ]
           }
         ]
       },
@@ -162,7 +162,12 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "additionalConfigs": []
+            "additionalConfigs": [
+              {
+                "key": "zookeeper.quorum",
+                "value": "{{ZK_QUORUM}}/${root_namespace}"
+              }
+            ]
           }
         ]
       },
@@ -194,7 +199,12 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "additionalConfigs": []
+            "additionalConfigs": [
+              {
+                "key": "zookeeper.quorum",
+                "value": "{{ZK_QUORUM}}/${root_namespace}"
+              }
+            ]
           }
         ]
       },
