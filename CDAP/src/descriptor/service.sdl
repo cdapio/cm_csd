@@ -25,12 +25,12 @@
       "description" : "Creates the top-level CDAP namespace directory in HDFS",
       "directoryDescription" : "CDAP HDFS namespace directory",
       "path" : "/cdap",
-      "permissions" : "0755"
+      "permissions" : "0777"
     }
   ],
   "serviceInit" : {
     "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" },
+      { "commandName" : "CreateCdapHdfsDirCommand" }
     ]
   },
   "parameters": [
