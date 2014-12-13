@@ -65,16 +65,6 @@
       "type": "string"
     },
     {
-      "name": "kafka_seed_brokers",
-      "label": "Kafka Seed Brokers",
-      "description": "List of Kafka brokers (comma separated)",
-      "configName": "kafka.seed.brokers",
-      "required": true,
-      "configurableInWizard": true,
-      "default": "${host}:9092",
-      "type": "string"
-    },
-    {
       "name": "kafka_default_replication_factor",
       "label": "Kafka Default Replication Factor",
       "description": "Kafka replication factor",
@@ -140,6 +130,26 @@
           "type": "path",
           "pathType": "localDataDir",
           "mode": "0755"
+        },
+        {
+          "name": "kafka_bind_address",
+          "label": "Kafka Bind Address",
+          "description": "Kafka server hostname to bind to",
+          "configName": "kafka.bind.address",
+          "required": true,
+          "configurableInWizard": true,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "kafka_bind_port",
+          "label": "Kafka Bind Port",
+          "description": "Kafka server port",
+          "configName": "kafka.bind.port",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 9092,
+          "type": "port"
         }
       ],
       "configWriter": {
@@ -151,8 +161,18 @@
               {
                 "key": "zookeeper.quorum",
                 "value": "{{ZK_QUORUM}}/${root_namespace}"
-              }
+              },
+              {
+                "key": "kafka.seed.brokers",
+                "value": "{{KAFKA_SEED_BROKERS}}"
+              ]
             ]
+          }
+        ],
+        "peerConfigGenerators": [
+          {
+            "filename": "kafka.properties",
+            "params": [ "kafka_bind_address", "kafka_bind_port"],
           }
         ]
       },
