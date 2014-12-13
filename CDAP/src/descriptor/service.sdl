@@ -17,7 +17,7 @@
     {"name" : "HDFS", "required" : "true"},
     {"name" : "YARN", "required" : "true"},
     {"name" : "HBASE", "required" : "true"},
-    {"name" : "Hive", "required" : "false"}
+    {"name" : "HIVE", "required" : "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_WEB_APP"
