@@ -157,20 +157,6 @@
       "name": "CDAP_MASTER",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
-      "parameters": [
-        {
-          "name": "master_user_dir",
-          "label": "Master User Dir",
-          "description": "Specifies the Master User Dir",
-          "configName": "user.dir",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "/var/tmp/cdap",
-          "type": "path",
-          "pathType": "localDataDir",
-          "mode": "0755"
-        }
-      ],
       "configWriter": {
         "generators": [
           {

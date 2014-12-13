@@ -9,6 +9,7 @@ echo "PWD: `pwd`"
 
 # source common functions from CDAP init framework to reuse here
 source $CDAP_HOME/$PACKAGE/bin/common.sh
+source $CDAP_HOME/$PACKAGE/bin/common-env.sh
 
 MY_ENV=`env`
 
@@ -52,9 +53,6 @@ echo "MAIN_CMD: $MAIN_CMD"
 if [ $MAIN_CLASS ]; then
   # launch a java app
 
-  # set options
-  export OPTS="-XX:+UseConcMarkSweepGC"
-
   # set java
   JAVA=$JAVA_HOME/bin/java
 
@@ -72,6 +70,7 @@ if [ $MAIN_CLASS ]; then
   exec "$JAVA" -Dcdap.service=$SERVICE "$JAVA_HEAPMAX" \
     -Dexplore.conf.files=$EXPLORE_CONF_FILES \
     -Dexplore.classpath=$EXPLORE_CLASSPATH "$OPTS" \
+    -Duser.dir=$LOCAL_DIR \
     -cp $CLASSPATH $MAIN_CLASS $MAIN_CLASS_ARGS 
 
 elif [ $MAIN_CMD ]; then
