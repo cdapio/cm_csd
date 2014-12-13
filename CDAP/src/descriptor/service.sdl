@@ -92,6 +92,16 @@
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
+        {
+          "name": "router_bind_address",
+          "label": "Router Bind Address",
+          "description": "Specifies the Router Bind Address",
+          "configName": "router.bind.address",
+          "required": true,
+          "configurableInWizard": true,
+          "default": "0.0.0.0",
+          "type": "string"
+        }
       ],
       "configWriter": {
         "generators": [
@@ -188,9 +198,9 @@
           "label": "Router Server Address",
           "description": "Specifies the destination IP where the Router service is running",
           "configName": "router.server.address",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "${host}",
+          "required": false,
+          "configurableInWizard": true,
+          "default": "127.0.0.1",
           "type": "string"
         }
       ],
