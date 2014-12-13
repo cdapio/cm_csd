@@ -16,7 +16,8 @@
     {"name" : "ZOOKEEPER", "required" : "true" },
     {"name" : "HDFS", "required" : "true"},
     {"name" : "YARN", "required" : "true"},
-    {"name" : "HBASE", "required" : "true"}
+    {"name" : "HBASE", "required" : "true"},
+    {"name" : "Hive", "required" : "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_WEB_APP"
@@ -66,6 +67,16 @@
       "configurableInWizard": false,
       "default": "cdap",
       "type": "string"
+    },
+    {
+      "name": "explore_enabled",
+      "label": "Explore Enabled",
+      "description": "Specifies whether the CDAP Explore capability is enabled (requires Hive)",
+      "configName": "explore.enabled",
+      "required": true,
+      "configurableInWizard": true,
+      "default": false,
+      "type": "boolean"
     },
     {
       "name": "kafka_default_replication_factor",
