@@ -168,14 +168,14 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
-              ]
+              }
             ]
           }
         ],
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_address", "kafka_bind_port"],
+            "params": [ "kafka_bind_address", "kafka_bind_port" ]
           }
         ]
       },
