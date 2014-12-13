@@ -18,6 +18,9 @@
     {"name" : "YARN", "required" : "true"},
     {"name" : "HBASE", "required" : "true"}
   ],
+  "rolesWithExternalLinks": [
+    "CDAP_WEB_APP"
+  ],
   "hdfsDirs" : [
     {
       "name" : "CreateCdapHdfsDirCommand",
@@ -212,6 +215,11 @@
       "name": "CDAP_WEB_APP",
       "label": "CDAP Web-App Service",
       "pluralLabel": "CDAP Web-App Services",
+      "externalLink": {
+        "name": "cdap_web_app_ui",
+        "label": "CDAP UI",
+        "url": "http://${host}:${dashboard_bind_port}"
+      },
       "parameters": [
         {
           "name": "router_server_address",
@@ -222,6 +230,16 @@
           "configurableInWizard": true,
           "default": "127.0.0.1",
           "type": "string"
+        },
+        {
+          "name": "dashboard_bind_port",
+          "label": "Dashboard Bind Port",
+          "description": "Specifies the CDAP Dashboard Bind Port",
+          "configName": "dashboard.bind.port",
+          "required": false,
+          "configurableInWizard": true,
+          "default": 9999,
+          "type": "port"
         }
       ],
       "configWriter": {
