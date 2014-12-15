@@ -213,6 +213,18 @@
       "name": "CDAP_MASTER",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
+      "parameters": [
+        {
+          "name": "app_bind_address",
+          "label": "App Bind Address",
+          "description": "Host address on which the app fabric server is started",
+          "configName": "app.bind.address",
+          "required": false,
+          "configurableInWizard": true,
+          "default": "0.0.0.0",
+          "type": "string"
+        }
+      ],
       "configWriter": {
         "generators": [
           {
