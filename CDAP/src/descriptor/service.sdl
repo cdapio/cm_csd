@@ -116,8 +116,18 @@
               {
                 "key": "zookeeper.quorum",
                 "value": "{{ZK_QUORUM}}/${root_namespace}"
+              },
+              {
+                "key": "kafka.seed.brokers",
+                "value": "{{KAFKA_SEED_BROKERS}}"
               }
             ]
+          }
+        ],
+        "peerConfigGenerators": [
+          {
+            "filename": "kafka.properties",
+            "params": [ "kafka_bind_port" ]
           }
         ]
       },
@@ -125,6 +135,7 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "gateway", "router", "start" ],
         "environmentVariables": {
+          "KAFKA_PROPERTIES" : "kafka.properties"
         }
       }
     },
@@ -186,7 +197,7 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_address", "kafka_bind_port" ]
+            "params": [ "kafka_bind_port" ]
           }
         ]
       },
@@ -194,6 +205,7 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "kafka", "kafka-server", "start" ],
         "environmentVariables": {
+          "KAFKA_PROPERTIES" : "kafka.properties"
         }
       }
     },
@@ -210,8 +222,18 @@
               {
                 "key": "zookeeper.quorum",
                 "value": "{{ZK_QUORUM}}/${root_namespace}"
+              },
+              {
+                "key": "kafka.seed.brokers",
+                "value": "{{KAFKA_SEED_BROKERS}}"
               }
             ]
+          }
+        ],
+        "peerConfigGenerators": [
+          {
+            "filename": "kafka.properties",
+            "params": [ "kafka_bind_port" ]
           }
         ]
       },
@@ -219,6 +241,7 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "master", "master", "start" ],
         "environmentVariables": {
+          "KAFKA_PROPERTIES" : "kafka.properties"
         }
       }
     },
@@ -262,8 +285,18 @@
               {
                 "key": "zookeeper.quorum",
                 "value": "{{ZK_QUORUM}}/${root_namespace}"
+              },
+              {
+                "key": "kafka.seed.brokers",
+                "value": "{{KAFKA_SEED_BROKERS}}"
               }
             ]
+          }
+        ],
+        "peerConfigGenerators": [
+          {
+            "filename": "kafka.properties",
+            "params": [ "kafka_bind_port" ]
           }
         ]
       },
@@ -271,6 +304,7 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "web-app", "web-app", "start" ],
         "environmentVariables": {
+          "KAFKA_PROPERTIES" : "kafka.properties"
         }
       }
     }
