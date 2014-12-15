@@ -88,6 +88,26 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "kafka_bind_address",
+      "label": "Kafka Bind Address",
+      "description": "Kafka server hostname to bind to",
+      "configName": "kafka.bind.address",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "0.0.0.0",
+      "type": "string"
+    },
+    {
+      "name": "kafka_bind_port",
+      "label": "Kafka Bind Port",
+      "description": "Kafka server port",
+      "configName": "kafka.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 9092,
+      "type": "port"
     }
   ],
   "roles": [
@@ -155,26 +175,6 @@
           "type": "path",
           "pathType": "localDataDir",
           "mode": "0755"
-        },
-        {
-          "name": "kafka_bind_address",
-          "label": "Kafka Bind Address",
-          "description": "Kafka server hostname to bind to",
-          "configName": "kafka.bind.address",
-          "required": true,
-          "configurableInWizard": true,
-          "default": "0.0.0.0",
-          "type": "string"
-        },
-        {
-          "name": "kafka_bind_port",
-          "label": "Kafka Bind Port",
-          "description": "Kafka server port",
-          "configName": "kafka.bind.port",
-          "required": true,
-          "configurableInWizard": true,
-          "default": 9092,
-          "type": "port"
         }
       ],
       "configWriter": {
