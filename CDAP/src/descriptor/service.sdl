@@ -95,7 +95,7 @@
       "description": "Kafka server hostname to bind to",
       "configName": "kafka.bind.address",
       "required": true,
-      "configurableInWizard": true,
+      "configurableInWizard": false,
       "default": "0.0.0.0",
       "type": "string"
     },
