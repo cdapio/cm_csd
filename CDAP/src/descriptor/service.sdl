@@ -122,8 +122,8 @@
           "description": "Specifies the Router Bind Address",
           "configName": "router.bind.address",
           "required": true,
-          "configurableInWizard": true,
-          "default": "0.0.0.0",
+          "configurableInWizard": false,
+          "default": "{{HOSTNAME}}",
           "type": "string"
         }
       ],
@@ -220,8 +220,8 @@
           "description": "Host address on which the app fabric server is started",
           "configName": "app.bind.address",
           "required": false,
-          "configurableInWizard": true,
-          "default": "0.0.0.0",
+          "configurableInWizard": false,
+          "default": "{{HOSTNAME}}",
           "type": "string"
         }
       ],
@@ -274,7 +274,7 @@
           "configName": "router.server.address",
           "required": false,
           "configurableInWizard": true,
-          "default": "127.0.0.1",
+          "default": "{{HOSTNAME}}",
           "type": "string"
         },
         {
