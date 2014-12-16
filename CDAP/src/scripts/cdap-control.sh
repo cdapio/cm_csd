@@ -5,28 +5,40 @@ PACKAGE=$1
 SERVICE=$2
 CMD=$3
 
+# Reads a line in the format "$host:$key=$value", setting those variables.
+function readconf {
+  local conf
+  IFS=':' read host conf <<< "$1"
+  IFS='=' read key value <<< "$conf"
+}
+
+function generate_kafka_quorum {
+  local __seed_brokers=()
+  for line in `cat $KAFKA_PROPERTIES` ; do
+    readconf "$line"
+    if [ $key == "kafka.bind.port" ]; then
+      __seed_brokers+=("$host:$value")
+    fi
+  done
+  # join array
+  KAFKA_SEED_BROKERS=$(printf ",%s" "${__seed_brokers[@]}")
+  KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS:1}
+}
+
 echo "PWD: `pwd`"
 
 # source common functions from CDAP init framework to reuse here
 source $CDAP_HOME/$PACKAGE/bin/common.sh
 source $CDAP_HOME/$PACKAGE/bin/common-env.sh
 
-MY_ENV=`env`
-
-echo "**************** ENVIRONMENT **************"
-echo $MY_ENV
-echo "*******************************************"
-echo "ZOOKEEPER? $ZK_QUORUM"
-
-HBASE_CLASSPATH=`hbase classpath`
-echo "**************** HBASE_CLASSPATH **************"
-echo $HBASE_CLASSPATH
-echo "***********************************************"
-
-echo "*************** substituting zookeeper"
-
+# cdap-site.xml token variable substutions
 perl -pi -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
-echo "done"
+
+generate_kafka_quorum
+perl -pi -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-site.xml
+
+HOSTNAME=`hostname`
+perl -pi -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
 
 
 # set the conf dir to cloudera managers agent directory for this process
