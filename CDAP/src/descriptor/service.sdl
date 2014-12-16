@@ -273,7 +273,7 @@
           "description": "Specifies the destination IP where the Router service is running",
           "configName": "router.server.address",
           "required": false,
-          "configurableInWizard": true,
+          "configurableInWizard": false,
           "default": "{{HOSTNAME}}",
           "type": "string"
         },
