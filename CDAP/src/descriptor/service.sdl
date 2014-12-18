@@ -125,6 +125,17 @@
           "configurableInWizard": false,
           "default": "{{HOSTNAME}}",
           "type": "string"
+        },
+        {
+          "name": "gateway_memory_mb",
+          "label": "Gateway Memory MB",
+          "description": "Memory in MB for Gateway processin in YARN",
+          "configName": "gateway.memory.mb",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 2048,
+          "type": "long",
+          "min": 1
         }
       ],
       "configWriter": {
@@ -223,6 +234,27 @@
           "configurableInWizard": false,
           "default": "{{HOSTNAME}}",
           "type": "string"
+        },
+        {
+          "name": "dataset_service_bind_address",
+          "label": "Dataset Service Bind Address",
+          "description": "DataSet service hostname",
+          "configName": "dataset.service.bind.address",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "{{HOSTNAME}}",
+          "type": "string"
+        },
+        {
+          "name": "log_saver_run_memory_megs",
+          "label": "Log Saver Run Memory Megs",
+          "description": "Memory in MB allocated to the Log Saver process",
+          "configName": "log.saver.run.memory.megs",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 1024,
+          "type": "long",
+          "min": 1
         }
       ],
       "configWriter": {
