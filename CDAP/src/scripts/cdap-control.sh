@@ -26,6 +26,22 @@ function generate_kafka_quorum {
 }
 
 echo "PWD: `pwd`"
+MYENV=`env`
+echo "**************** ENV ***********"
+echo $MYENV
+echo "********************************"
+
+echo "*** HBASE_HOME: $HBASE_HOME"
+echo "*** HBASE_CLASSPATH: $HBASE_CLASSPATH"
+echo "*** CDH_HBASE_HOME: $CDH_HBASE_HOME"
+echo "*** CDH_HBASE_CLASSPATH: $CDH_HBASE_CLASSPATH"
+echo "*** CONF_DIR: $CONF_DIR"
+echo "*** CONF: $CONF"
+
+if [ $PACKAGE == "client" ]; then
+  echo "CLIENT CONF"
+  exit
+fi
 
 # source common functions from CDAP init framework to reuse here
 source $CDAP_HOME/$PACKAGE/bin/common.sh
