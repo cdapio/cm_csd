@@ -112,7 +112,7 @@
   ],
   "roles": [
     {
-      "name": "CDAP_GATEWAY",
+      "name": "CDAP_ROUTER",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
@@ -230,7 +230,7 @@
           "label": "App Bind Address",
           "description": "Host address on which the app fabric server is started",
           "configName": "app.bind.address",
-          "required": false,
+          "required": true,
           "configurableInWizard": false,
           "default": "{{HOSTNAME}}",
           "type": "string"
@@ -240,7 +240,7 @@
           "label": "Dataset Service Bind Address",
           "description": "DataSet service hostname",
           "configName": "dataset.service.bind.address",
-          "required": false,
+          "required": true,
           "configurableInWizard": false,
           "default": "{{HOSTNAME}}",
           "type": "string"
@@ -304,7 +304,7 @@
           "label": "Router Server Address",
           "description": "Specifies the destination IP where the Router service is running",
           "configName": "router.server.address",
-          "required": false,
+          "required": true,
           "configurableInWizard": false,
           "default": "{{HOSTNAME}}",
           "type": "string"
@@ -314,7 +314,7 @@
           "label": "Dashboard Bind Port",
           "description": "Specifies the CDAP Dashboard Bind Port",
           "configName": "dashboard.bind.port",
-          "required": false,
+          "required": true,
           "configurableInWizard": true,
           "default": 9999,
           "type": "port"
@@ -347,6 +347,67 @@
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "web-app", "web-app", "start" ],
+        "environmentVariables": {
+          "KAFKA_PROPERTIES" : "kafka.properties"
+        }
+      }
+    },
+    {
+      "name": "CDAP_SECURITY",
+      "label": "CDAP Security Service",
+      "pluralLabel": "CDAP Security Services",
+      "topology": {
+        "minInstances": "0"
+      },
+      "parameters": [
+        {
+          "name": "security_enabled",
+          "label": "Security Enabled",
+          "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
+          "configName": "security.enabled",
+          "required": true,
+          "configurableInWizard": true,
+          "default": false,
+          "type": "boolean"
+        },
+        {
+          "name": "security_auth_server_address",
+          "label": "Security Auth Server Address",
+          "description": "IP address that the CDAP Authentication Server should bind to",
+          "configName": "security.auth.server.address",
+          "required": true,
+          "configurableInWizard": true,
+          "default": "{{HOSTNAME}}",
+          "type": "string"
+        }
+      ],
+      "configWriter": {
+        "generators": [
+          {
+            "filename": "cdap-site.xml",
+            "configFormat": "hadoop_xml",
+            "additionalConfigs": [
+              {
+                "key": "zookeeper.quorum",
+                "value": "{{ZK_QUORUM}}/${root_namespace}"
+              },
+              {
+                "key": "kafka.seed.brokers",
+                "value": "{{KAFKA_SEED_BROKERS}}"
+              }
+            ]
+          }
+        ],
+        "peerConfigGenerators": [
+          {
+            "filename": "kafka.properties",
+            "params": [ "kafka_bind_port" ]
+          }
+        ]
+      },
+      "startRunner": {
+        "program": "scripts/cdap-control.sh",
+        "args": [ "security", "auth-server", "start" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
