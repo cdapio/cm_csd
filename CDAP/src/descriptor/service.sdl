@@ -235,6 +235,90 @@
       "configurableInWizard": false,
       "default": "",
       "type": "string"
+    },
+    {
+      "name": "router_bind_address",
+      "label": "Router Bind Address",
+      "description": "Specifies the Router Bind Address",
+      "configName": "router.bind.address",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{HOSTNAME}}",
+      "type": "string"
+    },
+    {
+      "name": "gateway_memory_mb",
+      "label": "Gateway Memory MB",
+      "description": "Memory in MB for Gateway processin in YARN",
+      "configName": "gateway.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2048,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "kafka_log_dir",
+      "label": "Kafka Log Dir",
+      "description": "Specifies the Kafka Log Dir",
+      "configName": "kafka.log.dir",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "/data/cdap/kafka-logs",
+      "type": "path",
+      "pathType": "localDataDir",
+      "mode": "0755"
+    },
+    {
+      "name": "app_bind_address",
+      "label": "App Bind Address",
+      "description": "Host address on which the app fabric server is started",
+      "configName": "app.bind.address",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{HOSTNAME}}",
+      "type": "string"
+    },
+    {
+      "name": "dataset_service_bind_address",
+      "label": "Dataset Service Bind Address",
+      "description": "DataSet service hostname",
+      "configName": "dataset.service.bind.address",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{HOSTNAME}}",
+      "type": "string"
+    },
+    {
+      "name": "log_saver_run_memory_megs",
+      "label": "Log Saver Run Memory Megs",
+      "description": "Memory in MB allocated to the Log Saver process",
+      "configName": "log.saver.run.memory.megs",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1024,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "router_server_address",
+      "label": "Router Server Address",
+      "description": "Specifies the destination IP where the Router service is running",
+      "configName": "router.server.address",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{HOSTNAME}}",
+      "type": "string"
+    },
+    {
+      "name": "dashboard_bind_port",
+      "label": "Dashboard Bind Port",
+      "description": "Specifies the CDAP Dashboard Bind Port",
+      "configName": "dashboard.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 9999,
+      "type": "port"
     }
 
   ],
@@ -243,29 +327,7 @@
       "name": "CDAP_ROUTER",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
-      "parameters": [
-        {
-          "name": "router_bind_address",
-          "label": "Router Bind Address",
-          "description": "Specifies the Router Bind Address",
-          "configName": "router.bind.address",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "{{HOSTNAME}}",
-          "type": "string"
-        },
-        {
-          "name": "gateway_memory_mb",
-          "label": "Gateway Memory MB",
-          "description": "Memory in MB for Gateway processin in YARN",
-          "configName": "gateway.memory.mb",
-          "required": true,
-          "configurableInWizard": true,
-          "default": 2048,
-          "type": "long",
-          "min": 1
-        }
-      ],
+      "parameters": [ ],
       "configWriter": {
         "generators": [
           {
@@ -302,20 +364,7 @@
       "name": "CDAP_KAFKA",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
-      "parameters": [
-        {
-          "name": "kafka_log_dir",
-          "label": "Kafka Log Dir",
-          "description": "Specifies the Kafka Log Dir",
-          "configName": "kafka.log.dir",
-          "required": true,
-          "configurableInWizard": true,
-          "default": "/data/cdap/kafka-logs",
-          "type": "path",
-          "pathType": "localDataDir",
-          "mode": "0755"
-        }
-      ],
+      "parameters": [ ],
       "configWriter": {
         "generators": [
           {
@@ -352,39 +401,7 @@
       "name": "CDAP_MASTER",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
-      "parameters": [
-        {
-          "name": "app_bind_address",
-          "label": "App Bind Address",
-          "description": "Host address on which the app fabric server is started",
-          "configName": "app.bind.address",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "{{HOSTNAME}}",
-          "type": "string"
-        },
-        {
-          "name": "dataset_service_bind_address",
-          "label": "Dataset Service Bind Address",
-          "description": "DataSet service hostname",
-          "configName": "dataset.service.bind.address",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "{{HOSTNAME}}",
-          "type": "string"
-        },
-        {
-          "name": "log_saver_run_memory_megs",
-          "label": "Log Saver Run Memory Megs",
-          "description": "Memory in MB allocated to the Log Saver process",
-          "configName": "log.saver.run.memory.megs",
-          "required": true,
-          "configurableInWizard": true,
-          "default": 1024,
-          "type": "long",
-          "min": 1
-        }
-      ],
+      "parameters": [ ],
       "configWriter": {
         "generators": [
           {
@@ -426,28 +443,7 @@
         "label": "CDAP UI",
         "url": "http://${host}:${dashboard_bind_port}"
       },
-      "parameters": [
-        {
-          "name": "router_server_address",
-          "label": "Router Server Address",
-          "description": "Specifies the destination IP where the Router service is running",
-          "configName": "router.server.address",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "{{HOSTNAME}}",
-          "type": "string"
-        },
-        {
-          "name": "dashboard_bind_port",
-          "label": "Dashboard Bind Port",
-          "description": "Specifies the CDAP Dashboard Bind Port",
-          "configName": "dashboard.bind.port",
-          "required": true,
-          "configurableInWizard": true,
-          "default": 9999,
-          "type": "port"
-        }
-      ],
+      "parameters": [ ],
       "configWriter": {
         "generators": [
           {
