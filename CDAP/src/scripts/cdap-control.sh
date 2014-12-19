@@ -97,7 +97,7 @@ if [ ${MAIN_CLASS} ]; then
   echo "`ulimit -a`"
   echo "Using classpath: ${CLASSPATH}"
 
-  CMD="${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
+  exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
     -Dexplore.classpath=${EXPLORE_CLASSPATH} "${OPTS}" \
     -Duser.dir=${LOCAL_DIR} \
@@ -109,8 +109,5 @@ elif [ ${MAIN_CMD} ]; then
   echo "`date` Starting service ${SERVICE} on ${HOSTNAME}"
   echo "`ulimit -a`"
 
-  CMD="${MAIN_CMD} ${MAIN_CMD_ARGS}"
+  exec ${MAIN_CMD} ${MAIN_CMD_ARGS}
 fi
-
-# Exec into process
-exec ${CMD}
