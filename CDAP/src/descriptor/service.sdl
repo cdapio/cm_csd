@@ -131,7 +131,7 @@
     },
     {
       "name": "security_authentication_handlerClassName",
-      "label": "Security Authentication HandlerClassName",
+      "label": "Security Authentication Handler Class Name",
       "description": "Name of the authentication implementation to use to validate user credentials",
       "configName": "security.authentication.handlerClassName",
       "required": true,
@@ -154,6 +154,16 @@
       "default": "",
       "type": "path",
       "pathType": "localDataFile"
+    },
+    {
+      "name": "security_authentication_loginmodule_className",
+      "label": "Security Authentication Login Module Class Name",
+      "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
+      "configName": "security.authentication.loginmodule.className",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
     },
     {
       "name": "security_authentication_handler_debug",
