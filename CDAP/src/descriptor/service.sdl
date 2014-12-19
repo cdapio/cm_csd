@@ -292,7 +292,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "gateway", "router", "start" ],
+        "args": [ "router" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
@@ -342,7 +342,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "kafka", "kafka-server", "start" ],
+        "args": [ "kafka-server" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
@@ -411,7 +411,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "master", "master", "start" ],
+        "args": [ "master" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
@@ -474,7 +474,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "web-app", "web-app", "start" ],
+        "args": [ "web-app" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
@@ -515,7 +515,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "security", "auth-server", "start" ],
+        "args": [ "auth-server" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }

@@ -1,125 +1,116 @@
 #!/usr/bin/env bash
 
-# expects arguments [package] [service] [action]
-PACKAGE=$1
-SERVICE=$2
-CMD=$3
+# Expects arguments [package] [service] [action]
+SERVICE=$1
 
-# Reads a line in the format "$host:$key=$value", setting those variables.
+# Reads a line from a generated properties file in the format "$host:$key=$value", setting those variables.
 function readconf {
   local conf
-  IFS=':' read host conf <<< "$1"
-  IFS='=' read key value <<< "$conf"
+  IFS=':' read host conf <<< "${1}"
+  IFS='=' read key value <<< "${conf}"
 }
 
+# Reads the 'peerConfig' generated kafka properties file and formulates the kafka quorum
 function generate_kafka_quorum {
   local __seed_brokers=()
-  for line in `cat $KAFKA_PROPERTIES` ; do
-    readconf "$line"
-    if [ $key == "kafka.bind.port" ]; then
-      __seed_brokers+=("$host:$value")
+  for line in `cat ${KAFKA_PROPERTIES}` ; do
+    readconf "${line}"
+    if [ ${key} == "kafka.bind.port" ]; then
+      __seed_brokers+=("${host}:${value}")
     fi
   done
-  # join array
+  # Join array
   KAFKA_SEED_BROKERS=$(printf ",%s" "${__seed_brokers[@]}")
   KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS:1}
 }
 
-echo "PWD: `pwd`"
-MYENV=`env`
-echo "**************** ENV ***********"
-echo $MYENV
-echo "********************************"
+# Determine relevant CDAP component paths from sourced parcel variables
+case ${SERVICE} in
+  (auth_server)
+    COMPONENT_HOME=${CDAP_AUTH_SERVER_HOME}
+    COMPONENT_CONF_SCRIPT=${CDAP_AUTH_SERVER_CONF_SCRIPT}
+    ;;
+  (kafka_server)
+    COMPONENT_HOME=${CDAP_KAFKA_SERVER_HOME}
+    COMPONENT_CONF_SCRIPT=${CDAP_KAFKA_SERVER_CONF_SCRIPT}
+    ;;
+  (master)
+    COMPONENT_HOME=${CDAP_MASTER_HOME}
+    COMPONENT_CONF_SCRIPT=${CDAP_MASTER_CONF_SCRIPT}
+    ;;
+  (router)
+    COMPONENT_HOME=${CDAP_ROUTER_HOME}
+    COMPONENT_CONF_SCRIPT=${CDAP_ROUTER_CONF_SCRIPT}
+    ;;
+  (web_app)
+    COMPONENT_HOME=${CDAP_WEB_APP_HOME}
+    COMPONENT_CONF_SCRIPT=${CDAP_WEB_APP_CONF_SCRIPT}
+    ;;
+  (*)
+    echo "Unknown service specified: ${SERVICE}"
+    exit 1
+    ;;
+esac
 
-echo "*** HBASE_HOME: $HBASE_HOME"
-echo "*** HBASE_CLASSPATH: $HBASE_CLASSPATH"
-echo "*** CDH_HBASE_HOME: $CDH_HBASE_HOME"
-echo "*** CDH_HBASE_CLASSPATH: $CDH_HBASE_CLASSPATH"
-echo "*** CONF_DIR: $CONF_DIR"
-echo "*** CONF: $CONF"
+# Source the CDAP common init functions
+source ${COMPONENT_HOME}/bin/common.sh
+source ${COMPONENT_HOME}/bin/common-env.sh
 
-if [ $PACKAGE == "client" ]; then
-  echo "CLIENT CONF"
-  exit
-fi
-
-# source common functions from CDAP init framework to reuse here
-source $CDAP_HOME/$PACKAGE/bin/common.sh
-source $CDAP_HOME/$PACKAGE/bin/common-env.sh
-
-# cdap-site.xml token variable substutions
+# Token replacement in CM-generated cdap-site.xml
+# Hostname
+HOSTNAME=`hostname`
+perl -pi -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
+# Zookeeper (ZK_QUORUM provided by CM)
 perl -pi -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
-
+# Kafka
 generate_kafka_quorum
 perl -pi -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-site.xml
 
-HOSTNAME=`hostname`
-perl -pi -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
+# Source CDAP Component config
+source ${COMPONENT_CONF_SCRIPT}
 
+# Debug info
+echo "CDAP_HOME: ${CDAP_HOME}"
+echo "COMPONENT_HOME: ${COMPONENT_HOME}"
+echo "COMPONENT_CONF_SCRIPT: ${COMPONENT_CONF_SCRIPT}"
+echo "CONF_DIR: ${CONF_DIR}"
+echo "ENV: `env`"
 
-# set the conf dir to cloudera managers agent directory for this process
-export CDAP_CONF=$CONF_DIR
+# Launch a cmd or a java app
+if [ ${MAIN_CLASS} ]; then
+  # Launch a java app
 
-export CDAP_COMPONENT_HOME=${CDAP_HOME}/${PACKAGE}
+  # Set java
+  JAVA=${JAVA_HOME}/bin/java
 
-# pull in CDH environment vars
-export HADOOP_HOME=$CDH_HADOOP_HOME
-export HBASE_HOME=$CDH_HBASE_HOME
-export YARN_HOME=$CDH_YARN_HOME
-
-
-echo "*** attempting to source ${CDAP_HOME}/${PACKAGE}/conf/${SERVICE}-env.sh"
-# source the service-specific conf to get $MAIN_CLASS or $MAIN_CMD
-if [ -f ${CDAP_HOME}/${PACKAGE}/conf/${SERVICE}-env.sh ]; then
-  . ${CDAP_HOME}/${PACKAGE}/conf/${SERVICE}-env.sh
-fi
-
-echo "MAIN_CLASS: $MAIN_CLASS"
-echo "MAIN_CMD: $MAIN_CMD"
-
-
-if [ $MAIN_CLASS ]; then
-  # launch a java app
-
-  # set java
-  JAVA=$JAVA_HOME/bin/java
-
-  set_classpath $CDAP_COMPONENT_HOME $CDAP_CONF
+  # Set base classpath to include component and conf directory (CM provided)
+  set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
   # Setup hive classpath if hive is installed, this has to be run after HBASE_CP is setup by set_classpath.
   set_hive_classpath
 
+  # Include appropriate hbase_compat module in classpath
   set_hbase
 
-  echo "`date` Starting Java service $SERVICE on `hostname`"
-  "$JAVA" -version
+  echo "`date` Starting Java service ${SERVICE} on `hostname`"
+  "${JAVA}" -version
+  echo "`ulimit -a`"
+  echo "Using classpath: ${CLASSPATH}"
+
+  CMD="${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
+    -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
+    -Dexplore.classpath=${EXPLORE_CLASSPATH} "${OPTS}" \
+    -Duser.dir=${LOCAL_DIR} \
+    -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}
+
+elif [ ${MAIN_CMD} ]; then
+  # Launch a non-java app
+
+  echo "`date` Starting service ${SERVICE} on ${HOSTNAME}"
   echo "`ulimit -a`"
 
-  exec "$JAVA" -Dcdap.service=$SERVICE "$JAVA_HEAPMAX" \
-    -Dexplore.conf.files=$EXPLORE_CONF_FILES \
-    -Dexplore.classpath=$EXPLORE_CLASSPATH "$OPTS" \
-    -Duser.dir=$LOCAL_DIR \
-    -cp $CLASSPATH $MAIN_CLASS $MAIN_CLASS_ARGS 
-
-elif [ $MAIN_CMD ]; then
-  # launch a non-java app
-
-  echo "`date` Starting service $SERVICE on `hostname`"
-  echo "`ulimit -a`"
-
-  exec $MAIN_CMD $MAIN_CMD_ARGS
-
+  CMD="${MAIN_CMD} ${MAIN_CMD_ARGS}"
 fi
 
-
-
-#case $CMD in
-#  (start)
-#    echo "Starting the CDAP ${SERVICE} service"
-#    echo "CDAP_HOME: ${CDAP_HOME}"
-#    exec $CDAP_HOME/$PACKAGE/bin/service $CMD $SERVICE
-#    ;;
-#  (*)
-#    echo "Don't understand [$CMD]"
-#    ;;
-#esac
+# Exec into process
+exec ${CMD}
