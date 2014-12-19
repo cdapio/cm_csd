@@ -194,7 +194,7 @@
       "required": true,
       "configurableInWizard": false,
       "default": "",
-      "type": "string"
+      "type": "port"
     },
     {
       "name": "security_authentication_handler_userBaseDn",
