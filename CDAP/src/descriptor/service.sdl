@@ -108,7 +108,28 @@
       "configurableInWizard": true,
       "default": 9092,
       "type": "port"
+    },
+    {
+      "name": "security_enabled",
+      "label": "Security Enabled",
+      "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
+      "configName": "security.enabled",
+      "required": true,
+      "configurableInWizard": true,
+      "default": false,
+      "type": "boolean"
+    },
+    {
+      "name": "security_auth_server_address",
+      "label": "Security Auth Server Address",
+      "description": "IP address that the CDAP Authentication Server should bind to",
+      "configName": "security.auth.server.address",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "{{HOSTNAME}}",
+      "type": "string"
     }
+
   ],
   "roles": [
     {
@@ -360,26 +381,6 @@
         "minInstances": "0"
       },
       "parameters": [
-        {
-          "name": "security_enabled",
-          "label": "Security Enabled",
-          "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
-          "configName": "security.enabled",
-          "required": true,
-          "configurableInWizard": true,
-          "default": false,
-          "type": "boolean"
-        },
-        {
-          "name": "security_auth_server_address",
-          "label": "Security Auth Server Address",
-          "description": "IP address that the CDAP Authentication Server should bind to",
-          "configName": "security.auth.server.address",
-          "required": true,
-          "configurableInWizard": true,
-          "default": "{{HOSTNAME}}",
-          "type": "string"
-        }
       ],
       "configWriter": {
         "generators": [
