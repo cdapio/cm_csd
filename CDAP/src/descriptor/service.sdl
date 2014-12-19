@@ -120,6 +120,16 @@
       "type": "boolean"
     },
     {
+      "name": "kerberos_auth_enabled",
+      "label": "Kerberos Auth Enabled",
+      "description": "Enables Kerberos Authentication",
+      "configName": "kerberos.auth.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
+    },
+    {
       "name": "security_auth_server_address",
       "label": "Security Auth Server Address",
       "description": "IP address that the CDAP Authentication Server should bind to",
