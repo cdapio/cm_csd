@@ -115,7 +115,7 @@
       "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
       "configName": "security.enabled",
       "required": true,
-      "configurableInWizard": true,
+      "configurableInWizard": false,
       "default": false,
       "type": "boolean"
     },
@@ -125,8 +125,95 @@
       "description": "IP address that the CDAP Authentication Server should bind to",
       "configName": "security.auth.server.address",
       "required": true,
-      "configurableInWizard": true,
+      "configurableInWizard": false,
       "default": "{{HOSTNAME}}",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handlerClassName",
+      "label": "Security Authentication HandlerClassName",
+      "description": "Name of the authentication implementation to use to validate user credentials",
+      "configName": "security.authentication.handlerClassName",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
+      "type": "string_enum",
+      "validValues": [
+        "co.cask.cdap.security.server.BasicAuthenticationHandler",
+        "co.cask.cdap.security.server.LDAPAuthenticationHandler",
+        "co.cask.cdap.security.server.JASPIAuthenticationHandler"
+      ]
+    },
+    {
+      "name": "security_authentication_basic_realmfile",
+      "label": "Security Authentication Basic Realm File",
+      "description": "Username / password file to use when basic authentication is configured",
+      "configName": "security.authentication.basic.realmfile",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "path",
+      "pathType": "localDataFile"
+    },
+    {
+      "name": "security_authentication_handler_debug",
+      "label": "Security Authentication Handler Debug",
+      "description": "debug",
+      "configName": "security.authentication.handler.debug",
+      "required": true,
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "security_authentication_handler_hostname",
+      "label": "Security Authentication Handler Hostname",
+      "description": "hostname",
+      "configName": "security.authentication.handler.hostname",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+
+    {
+      "name": "security_authentication_handler_port",
+      "label": "Security Authentication Handler Port",
+      "description": "port",
+      "configName": "security.authentication.handler.port",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handler_userBaseDn",
+      "label": "Security Authentication Handler userBaseDn",
+      "description": "userBaseDn",
+      "configName": "security.authentication.handler.userBaseDn",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handler_userRdnAttribute",
+      "label": "Security Authentication Handler userRdnAttribute",
+      "description": "userRdnAttribute",
+      "configName": "security.authentication.handler.userRdnAttribute",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handler_userObjectClass",
+      "label": "Security Authentication Handler userObjectClass",
+      "description": "userObjectClass",
+      "configName": "security.authentication.handler.userObjectClass",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
       "type": "string"
     }
 
