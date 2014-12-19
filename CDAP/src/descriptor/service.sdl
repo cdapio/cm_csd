@@ -203,7 +203,7 @@
       "configName": "security.authentication.handler.port",
       "required": true,
       "configurableInWizard": false,
-      "default": "",
+      "default": "389",
       "type": "port"
     },
     {
