@@ -28,7 +28,7 @@
       "label" : "Create CDAP Namespace Dir",
       "description" : "Creates the top-level CDAP namespace directory in HDFS",
       "directoryDescription" : "CDAP HDFS namespace directory",
-      "path" : "/cdap",
+      "path" : "/${root_namespace}",
       "permissions" : "0755"
     }
   ],
