@@ -26,11 +26,11 @@ function generate_kafka_quorum {
 
 # Determine relevant CDAP component paths from sourced parcel variables
 case ${SERVICE} in
-  (auth_server)
+  (auth-server)
     COMPONENT_HOME=${CDAP_AUTH_SERVER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_AUTH_SERVER_CONF_SCRIPT}
     ;;
-  (kafka_server)
+  (kafka-server)
     COMPONENT_HOME=${CDAP_KAFKA_SERVER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_KAFKA_SERVER_CONF_SCRIPT}
     ;;
@@ -42,7 +42,7 @@ case ${SERVICE} in
     COMPONENT_HOME=${CDAP_ROUTER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_ROUTER_CONF_SCRIPT}
     ;;
-  (web_app)
+  (web-app)
     COMPONENT_HOME=${CDAP_WEB_APP_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_WEB_APP_CONF_SCRIPT}
     ;;
