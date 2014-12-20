@@ -477,9 +477,9 @@
       }
     },
     {
-      "name": "CDAP_SECURITY",
-      "label": "CDAP Security Service",
-      "pluralLabel": "CDAP Security Services",
+      "name": "CDAP_AUTH_SERVER",
+      "label": "CDAP Security Auth Service",
+      "pluralLabel": "CDAP Security Auth Services",
       "topology": {
         "minInstances": "0"
       },
