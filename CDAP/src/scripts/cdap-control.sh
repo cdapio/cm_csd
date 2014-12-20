@@ -69,6 +69,9 @@ perl -pi -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-s
 # Source CDAP Component config
 source ${COMPONENT_CONF_SCRIPT}
 
+# CDAP_CONF is used by Web-App to find cdap-site.xml
+export CDAP_CONF=${CONF_DIR}
+
 # Debug info
 echo "CDAP_HOME: ${CDAP_HOME}"
 echo "COMPONENT_HOME: ${COMPONENT_HOME}"
