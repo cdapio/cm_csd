@@ -249,7 +249,7 @@
     {
       "name": "gateway_memory_mb",
       "label": "Gateway Memory MB",
-      "description": "Memory in MB for Gateway processin in YARN",
+      "description": "Memory in MB for Gateway process in YARN",
       "configName": "gateway.memory.mb",
       "required": true,
       "configurableInWizard": true,
