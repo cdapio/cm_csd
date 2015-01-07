@@ -13,7 +13,7 @@ function readconf {
 # Reads the 'peerConfig' generated kafka properties file and formulates the kafka quorum
 function generate_kafka_quorum {
   local __seed_brokers=()
-  for line in `cat ${KAFKA_PROPERTIES}` ; do
+  for line in `cat ${KAFKA_PROPERTIES}`; do
     readconf "${line}"
     if [ "${key}" == "kafka.bind.port" ]; then
       __seed_brokers+=("${host}:${value}")
