@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Expects arguments [package] [service] [action]
+# Expects argument: [CDAP service]
 SERVICE=$1
 
 # Reads a line from a generated properties file in the format "$host:$key=$value", setting those variables.
