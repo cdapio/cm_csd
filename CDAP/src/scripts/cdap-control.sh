@@ -20,8 +20,8 @@ function generate_kafka_quorum {
     fi
   done
   # Join array
-  KAFKA_SEED_BROKERS=$(printf ",%s" "${__seed_brokers[@]}")
-  KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS:1}
+  KAFKA_SEED_BROKERS=${__seed_brokers[@]}
+  KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS/ /,}
 }
 
 # Determine relevant CDAP component paths from sourced parcel variables
