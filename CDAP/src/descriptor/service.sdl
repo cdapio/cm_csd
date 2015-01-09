@@ -426,6 +426,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "master" ],
