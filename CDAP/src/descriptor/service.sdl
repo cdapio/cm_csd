@@ -32,20 +32,9 @@
       "permissions" : "0755"
     }
   ],
-  "commands": [
-    {
-      "name": "Kafka_CreateKafkaLogDirCommand",
-      "label": "Create Kafka Log Dir",
-      "description": "Creates the local Kafka log directory",
-      "roleName": "CDAP_KAFKA",
-      "roleCommand": "CreateKafkaLogDirCommand",
-      "runMode": "all"
-    }
-  ],
   "serviceInit" : {
     "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" },
-      { "commandName" : "Kafka_CreateKafkaLogDirCommand" }
+      { "commandName" : "CreateCdapHdfsDirCommand" }
     ]
   },
   "parameters": [
@@ -269,18 +258,6 @@
       "min": 1
     },
     {
-      "name": "kafka_log_dir",
-      "label": "Kafka Log Dir",
-      "description": "Specifies the Kafka Log Dir",
-      "configName": "kafka.log.dir",
-      "required": true,
-      "configurableInWizard": true,
-      "default": "/data/cdap/kafka-logs",
-      "type": "path",
-      "pathType": "localDataDir",
-      "mode": "0755"
-    },
-    {
       "name": "app_bind_address",
       "label": "App Bind Address",
       "description": "Host address on which the app fabric server is started",
@@ -352,6 +329,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -376,19 +357,6 @@
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [ ],
-      "commands": [
-        {
-          "name" : "CreateKafkaLogDirCommand",
-          "label" : "Create Local Kafka Log Dir",
-          "description" : "Creates the local Kafka log directory",
-          "expectedExitCodes": [0],
-          "requiredRoleState": "stopped",
-          "commandRunner": {
-            "program": "mkdir",
-            "args": [ "-p", "${kafka_log_dir}" ]
-          }
-        }
-      ],
       "configWriter": {
         "generators": [
           {
@@ -402,6 +370,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -439,6 +411,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -481,6 +457,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -522,6 +502,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }

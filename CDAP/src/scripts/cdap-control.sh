@@ -65,6 +65,7 @@ perl -pi -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
 # Kafka
 generate_kafka_quorum
 perl -pi -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-site.xml
+perl -pi -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
 
 # Source CDAP Component config
 source ${COMPONENT_CONF_SCRIPT}
