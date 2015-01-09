@@ -37,6 +37,7 @@
       { "commandName" : "CreateCdapHdfsDirCommand" }
     ]
   },
+  "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
       "name": "root_namespace",
@@ -125,7 +126,7 @@
       "description": "Enables Kerberos Authentication",
       "configName": "kerberos.auth.enabled",
       "required": true,
-      "configurableInWizard": false,
+      "configurableInWizard": true,
       "default": false,
       "type": "boolean"
     },
