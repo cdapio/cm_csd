@@ -258,18 +258,6 @@
       "min": 1
     },
     {
-      "name": "kafka_log_dir",
-      "label": "Kafka Log Dir",
-      "description": "Specifies the Kafka Log Dir",
-      "configName": "kafka.log.dir",
-      "required": true,
-      "configurableInWizard": true,
-      "default": "/data/cdap/kafka-logs",
-      "type": "path",
-      "pathType": "localDataDir",
-      "mode": "0755"
-    },
-    {
       "name": "app_bind_address",
       "label": "App Bind Address",
       "description": "Host address on which the app fabric server is started",
@@ -341,6 +329,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -378,6 +370,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -415,6 +411,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -457,6 +457,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
@@ -498,6 +502,10 @@
               {
                 "key": "kafka.seed.brokers",
                 "value": "{{KAFKA_SEED_BROKERS}}"
+              },
+              {
+                "key": "kafka.log.dir",
+                "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
           }
