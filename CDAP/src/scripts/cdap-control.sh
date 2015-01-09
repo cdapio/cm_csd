@@ -59,13 +59,13 @@ source ${COMPONENT_HOME}/bin/common-env.sh
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
 HOSTNAME=`hostname`
-perl -pi -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
+sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
 # Zookeeper (ZK_QUORUM provided by CM)
-perl -pi -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
+sed -i -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
 # Kafka
 generate_kafka_quorum
-perl -pi -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-site.xml
-perl -pi -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
+sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-site.xml
+sed -i -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
 
 # Source CDAP Component config
 source ${COMPONENT_CONF_SCRIPT}
