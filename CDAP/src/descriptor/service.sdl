@@ -32,9 +32,20 @@
       "permissions" : "0755"
     }
   ],
+  "commands": [
+    {
+      "name": "Kafka_CreateKafkaLogDirCommand",
+      "label": "Create Kafka Log Dir",
+      "description": "Creates the local Kafka log directory",
+      "roleName": "CDAP_KAFKA",
+      "roleCommand": "CreateKafkaLogDirCommand",
+      "runMode": "all"
+    }
+  ],
   "serviceInit" : {
     "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" }
+      { "commandName" : "CreateCdapHdfsDirCommand" },
+      { "commandName" : "Kafka_CreateKafkaLogDirCommand" }
     ]
   },
   "parameters": [
@@ -365,6 +376,19 @@
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [ ],
+      "commands": [
+        {
+          "name" : "CreateKafkaLogDirCommand",
+          "label" : "Create Local Kafka Log Dir",
+          "description" : "Creates the local Kafka log directory",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "stopped",
+          "commandRunner": {
+            "program": "mkdir",
+            "args": [ "-p", "${kafka_log_dir}" ]
+          }
+        }
+      ],
       "configWriter": {
         "generators": [
           {
