@@ -30,11 +30,20 @@
       "directoryDescription" : "CDAP HDFS namespace directory",
       "path" : "/${root_namespace}",
       "permissions" : "0755"
+    },
+    {
+      "name" : "CreateCdapUserHdfsDirCommand",
+      "label" : "Create CDAP User Dir",
+      "description" : "Creates the /user/cdap HDFS directory needed for mapreduce",
+      "directoryDescription" : "CDAP HDFS user directory",
+      "path" : "/user/${root_namespace}",
+      "permissions" : "0755"
     }
   ],
   "serviceInit" : {
     "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" }
+      { "commandName" : "CreateCdapHdfsDirCommand" },
+      { "commandName" : "CreateCdapUserHdfsDirCommand" }
     ]
   },
   "kerberos": "${kerberos_auth_enabled}",
