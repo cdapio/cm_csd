@@ -80,6 +80,12 @@ echo "COMPONENT_CONF_SCRIPT: ${COMPONENT_CONF_SCRIPT}"
 echo "CONF_DIR: ${CONF_DIR}"
 echo "ENV: `env`"
 
+source $COMMON_SCRIPT
+if [ "$cdap_principal" != "" ]; then
+  export SCM_KERBEROS_PRINCIPAL=$cdap_principal
+  acquire_kerberos_tgt cdap.keytab
+fi
+
 # Launch a cmd or a java app
 if [ ${MAIN_CLASS} ]; then
   # Launch a java app
