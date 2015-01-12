@@ -46,6 +46,17 @@ case ${SERVICE} in
     COMPONENT_HOME=${CDAP_WEB_APP_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_WEB_APP_CONF_SCRIPT}
     ;;
+  (client)
+    CLIENT_CONF_DIR=${CONF_DIR}/cdap2-conf
+    HOSTNAME=`hostname`
+    sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CLIENT_CONF_DIR}/cdap-site.xml
+    # Zookeeper (ZK_QUORUM provided by CM)
+    sed -i -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CLIENT_CONF_DIR}/cdap-site.xml
+    # Kafka
+    generate_kafka_quorum
+    sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CLIENT_CONF_DIR}/cdap-site.xml
+    sed -i -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CLIENT_CONF_DIR}/cdap-site.xml
+    exit 0
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1

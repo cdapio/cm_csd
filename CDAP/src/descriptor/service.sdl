@@ -37,6 +37,49 @@
       { "commandName" : "CreateCdapHdfsDirCommand" }
     ]
   },
+  "gateway": {
+    "alternatives": {
+      "name": "cdap2-conf",
+      "linkRoot": "/etc/cdap2",
+      "priority": 60
+    },
+    "parameters": [],
+    "configWriter": {
+      "generators": [
+        {
+          "filename": "cdap2-conf/cdap-site.xml",
+          "configFormat": "hadoop_xml",
+          "additionalConfigs": [
+            {
+              "key": "zookeeper.quorum",
+              "value": "{{ZK_QUORUM}}/${root_namespace}"
+            },
+            {
+              "key": "kafka.seed.brokers",
+              "value": "{{KAFKA_SEED_BROKERS}}"
+            },
+            {
+              "key": "kafka.log.dir",
+              "value": "{{LOCAL_DIR}}/kafka-logs"
+            }
+          ]
+        }
+      ],
+      "peerConfigGenerators": [
+        {
+          "filename": "kafka.properties",
+          "params": [ "kafka_bind_port" ]
+        }
+      ]
+    },
+    "scriptRunner": {
+      "program": "scripts/cdap-control.sh",
+      "args": ["client"],
+      "environmentVariables": {
+        "KAFKA_PROPERTIES" : "kafka.properties"
+      }
+    }
+  },
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
