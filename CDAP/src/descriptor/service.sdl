@@ -247,6 +247,16 @@
       "type": "string"
     },
     {
+      "name": "router_bind_port",
+      "label": "Router Bind Port",
+      "description": "Port number that the CDAP router should bind to for HTTP Connections",
+      "configName": "router.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 10000,
+      "type": "port"
+    },
+    {
       "name": "gateway_memory_mb",
       "label": "Gateway Memory MB",
       "description": "Memory in MB for Gateway process in YARN",
@@ -297,6 +307,16 @@
       "configurableInWizard": false,
       "default": "{{HOSTNAME}}",
       "type": "string"
+    },
+    {
+      "name": "router_server_port",
+      "label": "Router Server Port",
+      "description": "Router port to which Console connects",
+      "configName": "router.server.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 10000,
+      "type": "port"
     },
     {
       "name": "dashboard_bind_port",
