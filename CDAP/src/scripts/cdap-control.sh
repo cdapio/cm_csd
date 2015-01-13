@@ -93,9 +93,13 @@ if [ ${MAIN_CLASS} ]; then
   # Set java
   JAVA=${JAVA_HOME}/bin/java
 
+  # Set HBASE_HOME to CM-provided active location
+  export HBASE_HOME=${CDH_HBASE_HOME}
   # Set base classpath to include component and conf directory (CM provided)
   set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
+  # Set HIVE_HOME to CM-provided active location
+  export HIVE_HOME=${CDH_HIVE_HOME}
   # Setup hive classpath if hive is installed, this has to be run after HBASE_CP is setup by set_classpath.
   set_hive_classpath
 
