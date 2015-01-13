@@ -374,6 +374,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "router" ],
@@ -554,6 +561,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "auth-server" ],
