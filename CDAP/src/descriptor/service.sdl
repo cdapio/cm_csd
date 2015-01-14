@@ -49,6 +49,13 @@
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
+      "name": "cdap_java_opts",
+      "label": "Additional Java Options",
+      "description": "Additional Java Options passed on the command line",
+      "default": "-XX:+UseConcMarkSweepGC",
+      "type": "string"
+    },
+    {
       "name": "root_namespace",
       "label": "Root Namespace",
       "description": "Specifies the root namespace",
@@ -365,7 +372,19 @@
       "name": "CDAP_ROUTER",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
-      "parameters": [ ],
+      "parameters": [
+        {
+          "name" : "router_java_heapmax",
+          "label" : "Router Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "min" : 2147483648,
+          "default" : 4294967296,
+          "scaleFactor" : 1.3
+        }
+      ],
       "configWriter": {
         "generators": [
           {
@@ -405,7 +424,9 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "router" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}",
+          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
         }
       }
     },
@@ -413,7 +434,19 @@
       "name": "CDAP_KAFKA",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
-      "parameters": [ ],
+      "parameters": [
+        {
+          "name" : "kafka_java_heapmax",
+          "label" : "Kafka Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "min" : 1073741824,
+          "default" : 2147483648,
+          "scaleFactor" : 1.3
+        }
+      ],
       "configWriter": {
         "generators": [
           {
@@ -446,7 +479,9 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "kafka-server" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}",
+          "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}"
         }
       }
     },
@@ -454,7 +489,19 @@
       "name": "CDAP_MASTER",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
-      "parameters": [ ],
+      "parameters": [
+        {
+          "name" : "master_java_heapmax",
+          "label" : "Master Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "min" : 2147483648,
+          "default" : 4294967296,
+          "scaleFactor" : 1.3
+        }
+      ],
       "configWriter": {
         "generators": [
           {
@@ -494,7 +541,9 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "master" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}",
+          "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
         }
       }
     },
@@ -552,6 +601,17 @@
         "minInstances": "0"
       },
       "parameters": [
+        {
+          "name" : "auth_java_heapmax",
+          "label" : "Auth Server Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "min" : 1073741824,
+          "default" : 2147483648,
+          "scaleFactor" : 1.3
+        }
       ],
       "configWriter": {
         "generators": [
@@ -592,7 +652,9 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "auth-server" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}",
+          "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}"
         }
       }
     }
