@@ -49,6 +49,13 @@
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
+      "name": "cdap_java_opts",
+      "label": "Additional Java Options",
+      "description": "Additional Java Options passed on the command line",
+      "default": "-XX:+UseConcMarkSweepGC",
+      "type": "string"
+    },
+    {
       "name": "root_namespace",
       "label": "Root Namespace",
       "description": "Specifies the root namespace",
@@ -405,7 +412,8 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "router" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}"
         }
       }
     },
@@ -446,7 +454,8 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "kafka-server" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}"
         }
       }
     },
@@ -494,7 +503,8 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "master" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}"
         }
       }
     },
@@ -592,7 +602,8 @@
         "program": "scripts/cdap-control.sh",
         "args": [ "auth-server" ],
         "environmentVariables": {
-          "KAFKA_PROPERTIES" : "kafka.properties"
+          "KAFKA_PROPERTIES" : "kafka.properties",
+          "OPTS": "${cdap_java_opts}"
         }
       }
     }
