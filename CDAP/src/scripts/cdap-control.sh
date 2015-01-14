@@ -85,7 +85,7 @@ if [ "$cdap_principal" != "" ]; then
   # Kerberos is enabled
   # Update cdap-site.xml keytab and principal settings
   sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}#${cdap_principal}#" ${CONF_DIR}/cdap-site.xml
-  sed -i -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}#cdap.keytab#" ${CONF_DIR}/cdap-site.xml
+  sed -i -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}#${CONF_DIR}/cdap.keytab#" ${CONF_DIR}/cdap-site.xml
   # Runs kinit
   export SCM_KERBEROS_PRINCIPAL=$cdap_principal
   acquire_kerberos_tgt cdap.keytab
