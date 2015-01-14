@@ -30,13 +30,23 @@
       "directoryDescription" : "CDAP HDFS namespace directory",
       "path" : "/${root_namespace}",
       "permissions" : "0755"
+    },
+    {
+      "name" : "CreateCdapUserHdfsDirCommand",
+      "label" : "Create CDAP User Dir",
+      "description" : "Creates the /user/cdap HDFS directory needed for mapreduce",
+      "directoryDescription" : "CDAP HDFS user directory",
+      "path" : "/user/${root_namespace}",
+      "permissions" : "0755"
     }
   ],
   "serviceInit" : {
     "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" }
+      { "commandName" : "CreateCdapHdfsDirCommand" },
+      { "commandName" : "CreateCdapUserHdfsDirCommand" }
     ]
   },
+  "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
       "name": "root_namespace",
@@ -125,9 +135,29 @@
       "description": "Enables Kerberos Authentication",
       "configName": "kerberos.auth.enabled",
       "required": true,
-      "configurableInWizard": false,
+      "configurableInWizard": true,
       "default": false,
       "type": "boolean"
+    },
+    {
+      "name": "cdap_master_kerberos_keytab",
+      "label": "CDAP Master Kerberos Keytab",
+      "description": "Kerberos keytab file location",
+      "configName": "cdap.master.kerberos.keytab",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{CDAP_MASTER_KERBEROS_KEYTAB}}",
+      "type": "string"
+    },
+    {
+      "name": "cdap_master_kerberos_principal",
+      "label": "CDAP Master Kerberos Principal",
+      "description": "Kerberos principal associated with the keytab",
+      "configName": "cdap.master.kerberos.principal",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}",
+      "type": "string"
     },
     {
       "name": "security_auth_server_address",
@@ -364,6 +394,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "router" ],
@@ -446,6 +483,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "master" ],
@@ -537,6 +581,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "auth-server" ],
