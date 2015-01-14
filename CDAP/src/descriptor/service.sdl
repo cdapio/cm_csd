@@ -380,7 +380,7 @@
           "required" : "true",
           "type" : "memory",
           "unit" : "bytes",
-          "min" : 67108864, 
+          "min" : 67108864,
           "default" : 1073741824,
           "scaleFactor" : 1.3
         }
