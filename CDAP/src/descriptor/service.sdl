@@ -140,6 +140,26 @@
       "type": "boolean"
     },
     {
+      "name": "cdap_master_kerberos_keytab",
+      "label": "CDAP Master Kerberos Keytab",
+      "description": "Kerberos keytab file location",
+      "configName": "cdap.master.kerberos.keytab",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{CDAP_MASTER_KERBEROS_KEYTAB}}",
+      "type": "string"
+    },
+    {
+      "name": "cdap_master_kerberos_principal",
+      "label": "CDAP Master Kerberos Principal",
+      "description": "Kerberos principal associated with the keytab",
+      "configName": "cdap.master.kerberos.principal",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}",
+      "type": "string"
+    },
+    {
       "name": "security_auth_server_address",
       "label": "Security Auth Server Address",
       "description": "IP address that the CDAP Authentication Server should bind to",
