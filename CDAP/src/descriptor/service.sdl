@@ -372,7 +372,18 @@
       "name": "CDAP_ROUTER",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
-      "parameters": [ ],
+      "parameters": [
+        {
+          "name" : "router_java_heapmax",
+          "label" : "Router Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "default" : 1073741824,
+          "scaleFactor" : 1.3
+        }
+      ],
       "configWriter": {
         "generators": [
           {
@@ -413,7 +424,8 @@
         "args": [ "router" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
-          "OPTS": "${cdap_java_opts}"
+          "OPTS": "${cdap_java_opts}",
+          "ROUTER_JAVA_HEAPMAX": "${router_java_heapmax}"
         }
       }
     },
@@ -421,7 +433,18 @@
       "name": "CDAP_KAFKA",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
-      "parameters": [ ],
+      "parameters": [
+        {
+          "name" : "kafka_java_heapmax",
+          "label" : "Kafka Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "default" : 1073741824,
+          "scaleFactor" : 1.3
+        }
+      ],
       "configWriter": {
         "generators": [
           {
@@ -455,7 +478,8 @@
         "args": [ "kafka-server" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
-          "OPTS": "${cdap_java_opts}"
+          "OPTS": "${cdap_java_opts}",
+          "KAFKA_JAVA_HEAPMAX": "${kafka_java_heapmax}"
         }
       }
     },
@@ -463,7 +487,18 @@
       "name": "CDAP_MASTER",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
-      "parameters": [ ],
+      "parameters": [
+        {
+          "name" : "master_java_heapmax",
+          "label" : "Master Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "default" : 1073741824,
+          "scaleFactor" : 1.3
+        }
+      ],
       "configWriter": {
         "generators": [
           {
@@ -504,7 +539,8 @@
         "args": [ "master" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
-          "OPTS": "${cdap_java_opts}"
+          "OPTS": "${cdap_java_opts}",
+          "MASTER_JAVA_HEAPMAX": "${master_java_heapmax}"
         }
       }
     },
@@ -562,6 +598,16 @@
         "minInstances": "0"
       },
       "parameters": [
+        {
+          "name" : "auth_java_heapmax",
+          "label" : "Auth Server Max Heapsize",
+          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "required" : "true",
+          "type" : "memory",
+          "unit" : "bytes",
+          "default" : 1073741824,
+          "scaleFactor" : 1.3
+        }
       ],
       "configWriter": {
         "generators": [
@@ -603,7 +649,8 @@
         "args": [ "auth-server" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
-          "OPTS": "${cdap_java_opts}"
+          "OPTS": "${cdap_java_opts}",
+          "AUTH_JAVA_HEAPMAX": "${auth_java_heapmax}"
         }
       }
     }
