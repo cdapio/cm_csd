@@ -7,6 +7,14 @@
     "user": "cdap",
     "group": "cdap"
   },
+  "maxInstances": 1,
+  "compatibility": {
+    "generation": 1,
+    "cdhVersion": {
+      "min": 4,
+      "max": 5
+    }
+  },
   "parcel" : {
     "repoUrl": "http://146.148.38.121/parcel-repo/",
     "requiredTags" : [ "cdh", "cdap" ]
