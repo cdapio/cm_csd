@@ -30,11 +30,20 @@
       "directoryDescription" : "CDAP HDFS namespace directory",
       "path" : "/${root_namespace}",
       "permissions" : "0755"
+    },
+    {
+      "name" : "CreateCdapUserHdfsDirCommand",
+      "label" : "Create CDAP User Dir",
+      "description" : "Creates the /user/cdap HDFS directory needed for mapreduce",
+      "directoryDescription" : "CDAP HDFS user directory",
+      "path" : "/user/${root_namespace}",
+      "permissions" : "0755"
     }
   ],
   "serviceInit" : {
     "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" }
+      { "commandName" : "CreateCdapHdfsDirCommand" },
+      { "commandName" : "CreateCdapUserHdfsDirCommand" }
     ]
   },
   "gateway": {
@@ -174,6 +183,26 @@
       "type": "boolean"
     },
     {
+      "name": "cdap_master_kerberos_keytab",
+      "label": "CDAP Master Kerberos Keytab",
+      "description": "Kerberos keytab file location",
+      "configName": "cdap.master.kerberos.keytab",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{CDAP_MASTER_KERBEROS_KEYTAB}}",
+      "type": "string"
+    },
+    {
+      "name": "cdap_master_kerberos_principal",
+      "label": "CDAP Master Kerberos Principal",
+      "description": "Kerberos principal associated with the keytab",
+      "configName": "cdap.master.kerberos.principal",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}",
+      "type": "string"
+    },
+    {
       "name": "security_auth_server_address",
       "label": "Security Auth Server Address",
       "description": "IP address that the CDAP Authentication Server should bind to",
@@ -291,6 +320,16 @@
       "type": "string"
     },
     {
+      "name": "router_bind_port",
+      "label": "Router Bind Port",
+      "description": "Port number that the CDAP router should bind to for HTTP Connections",
+      "configName": "router.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 10000,
+      "type": "port"
+    },
+    {
       "name": "gateway_memory_mb",
       "label": "Gateway Memory MB",
       "description": "Memory in MB for Gateway process in YARN",
@@ -343,6 +382,16 @@
       "type": "string"
     },
     {
+      "name": "router_server_port",
+      "label": "Router Server Port",
+      "description": "Router port to which Console connects",
+      "configName": "router.server.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 10000,
+      "type": "port"
+    },
+    {
       "name": "dashboard_bind_port",
       "label": "Dashboard Bind Port",
       "description": "Specifies the CDAP Dashboard Bind Port",
@@ -388,6 +437,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "router" ],
@@ -568,6 +624,13 @@
           }
         ]
       },
+      "kerberosPrincipals" : [
+        {
+          "name" : "cdap_principal",
+          "primary" : "cdap",
+          "instance" : "${host}"
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "auth-server" ],

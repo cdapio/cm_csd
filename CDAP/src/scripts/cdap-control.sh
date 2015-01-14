@@ -91,6 +91,21 @@ echo "COMPONENT_CONF_SCRIPT: ${COMPONENT_CONF_SCRIPT}"
 echo "CONF_DIR: ${CONF_DIR}"
 echo "ENV: `env`"
 
+source $COMMON_SCRIPT
+if [ "$cdap_principal" != "" ]; then
+  # Kerberos is enabled
+  # Update cdap-site.xml keytab and principal settings
+  sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}#${cdap_principal}#" ${CONF_DIR}/cdap-site.xml
+  sed -i -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}#${CONF_DIR}/cdap.keytab#" ${CONF_DIR}/cdap-site.xml
+  # Runs kinit
+  export SCM_KERBEROS_PRINCIPAL=$cdap_principal
+  acquire_kerberos_tgt cdap.keytab
+else
+  # Remove cdap-site.xml keytab and principal settings
+  sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}##" ${CONF_DIR}/cdap-site.xml
+  sed -i -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}##" ${CONF_DIR}/cdap-site.xml
+fi
+
 # Launch a cmd or a java app
 if [ ${MAIN_CLASS} ]; then
   # Launch a java app
@@ -98,9 +113,13 @@ if [ ${MAIN_CLASS} ]; then
   # Set java
   JAVA=${JAVA_HOME}/bin/java
 
+  # Set HBASE_HOME to CM-provided active location
+  export HBASE_HOME=${CDH_HBASE_HOME}
   # Set base classpath to include component and conf directory (CM provided)
   set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
+  # Set HIVE_HOME to CM-provided active location
+  export HIVE_HOME=${CDH_HIVE_HOME}
   # Setup hive classpath if hive is installed, this has to be run after HBASE_CP is setup by set_classpath.
   set_hive_classpath
 
