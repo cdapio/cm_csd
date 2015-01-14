@@ -411,6 +411,12 @@
             "filename": "kafka.properties",
             "params": [ "kafka_bind_port" ]
           }
+        ],
+        "auxConfigGenerators": [
+          {
+            "filename": "logback.xml",
+            "sourceFilename": "aux/logback.xml"
+          }
         ]
       },
       "kerberosPrincipals" : [
@@ -420,6 +426,12 @@
           "instance" : "${host}"
         }
       ],
+      "logging": {
+        "dir": "/var/log/cdap",
+        "filename": "router.log",
+        "isModifiable": true,
+        "loggingType": "other"
+      },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "router" ],
