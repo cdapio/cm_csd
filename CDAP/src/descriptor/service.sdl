@@ -48,15 +48,15 @@
   },
   "gateway": {
     "alternatives": {
-      "name": "cdap2-conf",
-      "linkRoot": "/etc/cdap2",
+      "name": "cdap-conf",
+      "linkRoot": "/etc/cdap",
       "priority": 60
     },
     "parameters": [],
     "configWriter": {
       "generators": [
         {
-          "filename": "cdap2-conf/cdap-site.xml",
+          "filename": "cdap-conf/cdap-site.xml",
           "configFormat": "hadoop_xml",
           "additionalConfigs": [
             {
