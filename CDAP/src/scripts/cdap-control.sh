@@ -68,6 +68,8 @@ sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-sit
 sed -i -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
 
 # Token replacement in aux-config logback.xml
+sed -i -e "s#{{LOGBACK_LOG_DIR}}#${LOGBACK_LOG_DIR}#" ${CONF_DIR}/logback.xml
+sed -i -e "s#{{LOGBACK_LOG_FILE}}#${LOGBACK_LOG_FILE}#" ${CONF_FILE}/logback.xml
 sed -i -e "s#{{LOGBACK_THRESHOLD}}#${LOGBACK_THRESHOLD}#" ${CONF_DIR}/logback.xml
 sed -i -e "s#{{LOGBACK_MAX_SIZE}}#${LOGBACK_MAX_SIZE}#" ${CONF_DIR}/logback.xml
 sed -i -e "s#{{LOGBACK_MAX_BACKUPS}}#${LOGBACK_MAX_BACKUPS}#" ${CONF_DIR}/logback.xml

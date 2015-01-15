@@ -471,7 +471,7 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "router.log",
-        "isModifiable": true,
+        "isModifiable": false,
         "loggingType": "other"
       },
       "startRunner": {
@@ -481,6 +481,8 @@
           "KAFKA_PROPERTIES" : "kafka.properties",
           "OPTS": "${cdap_java_opts}",
           "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}",
+          "LOGBACK_LOG_DIR": "/var/log/cdap",
+          "LOGBACK_LOG_FILE": "router.log",
           "LOGBACK_THRESHOLD": "${router_log_threshold}",
           "LOGBACK_MAX_SIZE": "${router_log_max_size}MB",
           "LOGBACK_MAX_BACKUPS": "${router_log_max_backups}"

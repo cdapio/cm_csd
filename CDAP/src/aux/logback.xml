@@ -38,7 +38,7 @@
 
     <appender name="RFA" class="ch.qos.logback.core.rolling.RollingFileAppender">
       <!--See also http://logback.qos.ch/manual/appenders.html#RollingFileAppender-->
-      <File>/var/log/cdap/router.log</File>
+      <File>{{LOGBACK_LOG_DIR}}/{{LOGBACK_LOG_FILE}}</File>
       <encoder>
         <pattern>%d{ISO8601} %p %c: %m%n</pattern>
       </encoder>
