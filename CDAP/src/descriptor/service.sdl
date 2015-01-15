@@ -413,7 +413,7 @@
           "label": "CDAP Gateway/Router Service Max Log Size",
           "description": "The maximum size, in megabytes, per log file for CDAP Gateway/Router Service logs (via logback)",
           "required": true,
-          "type": "memory",
+          "type": "long",
           "unit": "megabytes",
           "default": 200
         },
