@@ -544,7 +544,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax", "kafka_log_threshold", "kafka_log_max_size", "kafka_log_max_backups" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -650,7 +650,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "master_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "master_java_heapmax", "master_log_threshold", "master_log_max_size", "master_log_max_backups" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -813,7 +813,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "auth_log_threshold", "auth_log_max_size", "auth_log_max_backups" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
