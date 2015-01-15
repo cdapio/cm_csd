@@ -64,8 +64,12 @@ sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
 sed -i -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
 # Kafka
 generate_kafka_quorum
-sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CONF_DIR}/cdap-site.xml
-sed -i -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
+sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
+
+# Token replacement in aux-config logback.xml
+sed -i -e "s#{{LOGBACK_LOG_DIR}}#${LOGBACK_LOG_DIR}#" -e "s#{{LOGBACK_LOG_FILE}}#${LOGBACK_LOG_FILE}#" \
+  -e "s#{{LOGBACK_THRESHOLD}}#${LOGBACK_THRESHOLD}#" -e "s#{{LOGBACK_MAX_SIZE}}#${LOGBACK_MAX_SIZE}#" \
+  -e "s#{{LOGBACK_MAX_BACKUPS}}#${LOGBACK_MAX_BACKUPS}#" ${CONF_DIR}/logback.xml
 
 # Source CDAP Component config
 source ${COMPONENT_CONF_SCRIPT}
