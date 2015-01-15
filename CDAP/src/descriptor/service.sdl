@@ -431,7 +431,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "router_log_threshold", "router_log_max_size", "router_log_max_backups" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
