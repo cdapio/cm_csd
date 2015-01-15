@@ -391,6 +391,39 @@
           "min" : 2147483648,
           "default" : 4294967296,
           "scaleFactor" : 1.3
+        },
+        {
+          "name": "router_log_threshold",
+          "label": "CDAP Gateway/Router Service Logging Threshold",
+          "description": "The minimum log level for CDAP Gateway/Router Service logs (via logback)",
+          "required": true,
+          "default": "INFO",
+          "type": "string_enum",
+          "validValues": [
+            "TRACE",
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR",
+            "FATAL"
+          ]
+        },
+        {
+          "name": "router_log_max_size",
+          "label": "CDAP Gateway/Router Service Max Log Size",
+          "description": "The maximum size, in megabytes, per log file for CDAP Gateway/Router Service logs (via logback)",
+          "required": true,
+          "type": "memory",
+          "unit": "megabytes",
+          "default": 200
+        },
+        {
+          "name": "router_log_max_backups",
+          "label": "CDAP Gateway/Router Service Max Log File Backups",
+          "description": "The maximum number of rolled log files to keep for CDAP CDAP Gateway/Router Service logs (via logback)",
+          "required": true,
+          "type": "long",
+          "default": 10
         }
       ],
       "configWriter": {
@@ -447,7 +480,10 @@
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
           "OPTS": "${cdap_java_opts}",
-          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
+          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}",
+          "LOGBACK_THRESHOLD": "${router_log_threshold}",
+          "LOGBACK_MAX_SIZE": "${router_log_max_size}MB",
+          "LOGBACK_MAX_BACKUPS": "${router_log_max_backups}"
         }
       }
     },
