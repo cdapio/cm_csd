@@ -24,6 +24,32 @@ function generate_kafka_quorum {
   KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS/ /,}
 }
 
+function substitute_cdap_site_tokens {
+  local __cdap_site=$1
+  generate_kafka_quorum
+  sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" \
+    -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" \
+    ${__cdap_site}
+
+  if [ "${cdap_principal}" != "" ]; then
+    # Kerberos is enabled, update cdap-site.xml keytab and principal settings
+    sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}#${cdap_principal}#" \
+      -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}#${CONF_DIR}/cdap.keytab#" \
+      ${__cdap_site}
+  else
+    # Remove cdap-site.xml keytab and principal settings
+    sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}##" -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}##" ${__cdap_site}
+  fi
+}
+
+function substitute_logback_tokens {
+  local __logback=$1
+  # Token replacement in aux-config logback.xml
+  sed -i -e "s#{{LOGBACK_LOG_DIR}}#${LOGBACK_LOG_DIR}#" -e "s#{{LOGBACK_LOG_FILE}}#${LOGBACK_LOG_FILE}#" \
+    -e "s#{{LOGBACK_THRESHOLD}}#${LOGBACK_THRESHOLD}#" -e "s#{{LOGBACK_MAX_SIZE}}#${LOGBACK_MAX_SIZE}#" \
+    -e "s#{{LOGBACK_MAX_BACKUPS}}#${LOGBACK_MAX_BACKUPS}#" ${__logback}
+}
+
 # Determine relevant CDAP component paths from sourced parcel variables
 case ${SERVICE} in
   (auth-server)
@@ -47,15 +73,9 @@ case ${SERVICE} in
     COMPONENT_CONF_SCRIPT=${CDAP_WEB_APP_CONF_SCRIPT}
     ;;
   (client)
-    CLIENT_CONF_DIR=${CONF_DIR}/cdap2-conf
+    CLIENT_CONF_DIR=${CONF_DIR}/cdap-conf
     HOSTNAME=`hostname`
-    sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CLIENT_CONF_DIR}/cdap-site.xml
-    # Zookeeper (ZK_QUORUM provided by CM)
-    sed -i -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CLIENT_CONF_DIR}/cdap-site.xml
-    # Kafka
-    generate_kafka_quorum
-    sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" ${CLIENT_CONF_DIR}/cdap-site.xml
-    sed -i -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CLIENT_CONF_DIR}/cdap-site.xml
+    substitute_cdap_site_tokens ${CLIENT_CONF_DIR}/cdap-site.xml
     exit 0
   (*)
     echo "Unknown service specified: ${SERVICE}"
@@ -70,17 +90,10 @@ source ${COMPONENT_HOME}/bin/common-env.sh
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
 HOSTNAME=`hostname`
-sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" ${CONF_DIR}/cdap-site.xml
-# Zookeeper (ZK_QUORUM provided by CM)
-sed -i -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" ${CONF_DIR}/cdap-site.xml
-# Kafka
-generate_kafka_quorum
-sed -i -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" ${CONF_DIR}/cdap-site.xml
+substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 
 # Token replacement in aux-config logback.xml
-sed -i -e "s#{{LOGBACK_LOG_DIR}}#${LOGBACK_LOG_DIR}#" -e "s#{{LOGBACK_LOG_FILE}}#${LOGBACK_LOG_FILE}#" \
-  -e "s#{{LOGBACK_THRESHOLD}}#${LOGBACK_THRESHOLD}#" -e "s#{{LOGBACK_MAX_SIZE}}#${LOGBACK_MAX_SIZE}#" \
-  -e "s#{{LOGBACK_MAX_BACKUPS}}#${LOGBACK_MAX_BACKUPS}#" ${CONF_DIR}/logback.xml
+substitute_logback_tokens ${CONF_DIR}/logback.xml
 
 # Source CDAP Component config
 source ${COMPONENT_CONF_SCRIPT}
@@ -96,18 +109,10 @@ echo "CONF_DIR: ${CONF_DIR}"
 echo "ENV: `env`"
 
 source $COMMON_SCRIPT
-if [ "$cdap_principal" != "" ]; then
-  # Kerberos is enabled
-  # Update cdap-site.xml keytab and principal settings
-  sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}#${cdap_principal}#" ${CONF_DIR}/cdap-site.xml
-  sed -i -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}#${CONF_DIR}/cdap.keytab#" ${CONF_DIR}/cdap-site.xml
+if [ "${cdap_principal}" != "" ]; then
   # Runs kinit
-  export SCM_KERBEROS_PRINCIPAL=$cdap_principal
+  export SCM_KERBEROS_PRINCIPAL=${cdap_principal}
   acquire_kerberos_tgt cdap.keytab
-else
-  # Remove cdap-site.xml keytab and principal settings
-  sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}##" ${CONF_DIR}/cdap-site.xml
-  sed -i -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}##" ${CONF_DIR}/cdap-site.xml
 fi
 
 # Launch a cmd or a java app
