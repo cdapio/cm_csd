@@ -65,21 +65,7 @@
       "generators": [
         {
           "filename": "cdap-conf/cdap-site.xml",
-          "configFormat": "hadoop_xml",
-          "additionalConfigs": [
-            {
-              "key": "zookeeper.quorum",
-              "value": "{{ZK_QUORUM}}/${root_namespace}"
-            },
-            {
-              "key": "kafka.seed.brokers",
-              "value": "{{KAFKA_SEED_BROKERS}}"
-            },
-            {
-              "key": "kafka.log.dir",
-              "value": "{{LOCAL_DIR}}/kafka-logs"
-            }
-          ]
+          "configFormat": "hadoop_xml"
         }
       ],
       "peerConfigGenerators": [
