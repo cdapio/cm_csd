@@ -54,6 +54,35 @@
       { "commandName" : "CreateCdapUserHdfsDirCommand" }
     ]
   },
+  "gateway": {
+    "alternatives": {
+      "name": "cdap-conf",
+      "linkRoot": "/etc/cdap",
+      "priority": 60
+    },
+    "parameters": [],
+    "configWriter": {
+      "generators": [
+        {
+          "filename": "cdap-conf/cdap-site.xml",
+          "configFormat": "hadoop_xml"
+        }
+      ],
+      "peerConfigGenerators": [
+        {
+          "filename": "kafka.properties",
+          "params": [ "kafka_bind_port" ]
+        }
+      ]
+    },
+    "scriptRunner": {
+      "program": "scripts/cdap-control.sh",
+      "args": ["client"],
+      "environmentVariables": {
+        "KAFKA_PROPERTIES" : "kafka.properties"
+      }
+    }
+  },
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
