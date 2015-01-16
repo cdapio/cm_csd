@@ -93,95 +93,14 @@
       "type": "string"
     },
     {
-      "name": "root_namespace",
-      "label": "Root Namespace",
-      "description": "Specifies the root namespace",
-      "configName": "root.namespace",
+      "name": "app_bind_address",
+      "label": "App Bind Address",
+      "description": "Host address on which the app fabric server is started",
+      "configName": "app.bind.address",
       "required": true,
       "configurableInWizard": false,
-      "default": "cdap",
+      "default": "{{HOSTNAME}}",
       "type": "string"
-    },
-    {
-      "name": "hdfs_namespace",
-      "label": "HDFS Namespace",
-      "description": "Specifies the hdfs namespace",
-      "configName": "hdfs.namespace",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "/${root.namespace}",
-      "type": "string"
-    },
-    {
-      "name": "hdfs_user",
-      "label": "HDFS User",
-      "description": "Specifies the hdfs user",
-      "configName": "hdfs.user",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "cdap",
-      "type": "string"
-    },
-    {
-      "name": "explore_enabled",
-      "label": "Explore Enabled",
-      "description": "Specifies whether the CDAP Explore capability is enabled (requires Hive)",
-      "configName": "explore.enabled",
-      "required": true,
-      "configurableInWizard": true,
-      "default": false,
-      "type": "boolean"
-    },
-    {
-      "name": "kafka_default_replication_factor",
-      "label": "Kafka Default Replication Factor",
-      "description": "Kafka replication factor",
-      "configName": "kafka.default.replication.factor",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 1,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "kafka_bind_address",
-      "label": "Kafka Bind Address",
-      "description": "Kafka server hostname to bind to",
-      "configName": "kafka.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "0.0.0.0",
-      "type": "string"
-    },
-    {
-      "name": "kafka_bind_port",
-      "label": "Kafka Bind Port",
-      "description": "Kafka server port",
-      "configName": "kafka.bind.port",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 9092,
-      "type": "port"
-    },
-    {
-      "name": "security_enabled",
-      "label": "Security Enabled",
-      "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
-      "configName": "security.enabled",
-      "required": true,
-      "configurableInWizard": false,
-      "default": false,
-      "type": "boolean"
-    },
-    {
-      "name": "kerberos_auth_enabled",
-      "label": "Kerberos Auth Enabled",
-      "description": "Enables Kerberos Authentication",
-      "configName": "kerberos.auth.enabled",
-      "required": true,
-      "configurableInWizard": true,
-      "default": false,
-      "type": "boolean"
     },
     {
       "name": "cdap_master_kerberos_keytab",
@@ -204,110 +123,126 @@
       "type": "string"
     },
     {
-      "name": "security_auth_server_address",
-      "label": "Security Auth Server Address",
-      "description": "IP address that the CDAP Authentication Server should bind to",
-      "configName": "security.auth.server.address",
+      "name": "dashboard_bind_port",
+      "label": "Dashboard Bind Port",
+      "description": "Specifies the CDAP Dashboard Bind Port",
+      "configName": "dashboard.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 9999,
+      "type": "port"
+    },
+    {
+      "name": "dataset_service_bind_address",
+      "label": "Dataset Service Bind Address",
+      "description": "DataSet service hostname",
+      "configName": "dataset.service.bind.address",
       "required": true,
       "configurableInWizard": false,
       "default": "{{HOSTNAME}}",
       "type": "string"
     },
     {
-      "name": "security_authentication_handlerClassName",
-      "label": "Security Authentication Handler Class Name",
-      "description": "Name of the authentication implementation to use to validate user credentials",
-      "configName": "security.authentication.handlerClassName",
+      "name": "explore_enabled",
+      "label": "Explore Enabled",
+      "description": "Specifies whether the CDAP Explore capability is enabled (requires Hive)",
+      "configName": "explore.enabled",
       "required": true,
-      "configurableInWizard": false,
-      "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
-      "type": "string_enum",
-      "validValues": [
-        "co.cask.cdap.security.server.BasicAuthenticationHandler",
-        "co.cask.cdap.security.server.LDAPAuthenticationHandler",
-        "co.cask.cdap.security.server.JASPIAuthenticationHandler"
-      ]
-    },
-    {
-      "name": "security_authentication_basic_realmfile",
-      "label": "Security Authentication Basic Realm File",
-      "description": "Username / password file to use when basic authentication is configured",
-      "configName": "security.authentication.basic.realmfile",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "path",
-      "pathType": "localDataFile"
-    },
-    {
-      "name": "security_authentication_loginmodule_className",
-      "label": "Security Authentication Login Module Class Name",
-      "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
-      "configName": "security.authentication.loginmodule.className",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_authentication_handler_debug",
-      "label": "Security Authentication Handler Debug",
-      "description": "debug",
-      "configName": "security.authentication.handler.debug",
-      "required": true,
-      "configurableInWizard": false,
-      "default": true,
+      "configurableInWizard": true,
+      "default": false,
       "type": "boolean"
     },
     {
-      "name": "security_authentication_handler_hostname",
-      "label": "Security Authentication Handler Hostname",
-      "description": "hostname",
-      "configName": "security.authentication.handler.hostname",
+      "name": "gateway_memory_mb",
+      "label": "Gateway Memory MB",
+      "description": "Memory in MB for Gateway process in YARN",
+      "configName": "gateway.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2048,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "hdfs_namespace",
+      "label": "HDFS Namespace",
+      "description": "Specifies the hdfs namespace",
+      "configName": "hdfs.namespace",
       "required": true,
       "configurableInWizard": false,
-      "default": "",
+      "default": "/${root.namespace}",
       "type": "string"
     },
-
     {
-      "name": "security_authentication_handler_port",
-      "label": "Security Authentication Handler Port",
-      "description": "port",
-      "configName": "security.authentication.handler.port",
+      "name": "hdfs_user",
+      "label": "HDFS User",
+      "description": "Specifies the hdfs user",
+      "configName": "hdfs.user",
       "required": true,
       "configurableInWizard": false,
-      "default": "389",
+      "default": "cdap",
+      "type": "string"
+    },
+    {
+      "name": "kafka_bind_address",
+      "label": "Kafka Bind Address",
+      "description": "Kafka server hostname to bind to",
+      "configName": "kafka.bind.address",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "0.0.0.0",
+      "type": "string"
+    },
+    {
+      "name": "kafka_bind_port",
+      "label": "Kafka Bind Port",
+      "description": "Kafka server port",
+      "configName": "kafka.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 9092,
       "type": "port"
     },
     {
-      "name": "security_authentication_handler_userBaseDn",
-      "label": "Security Authentication Handler userBaseDn",
-      "description": "userBaseDn",
-      "configName": "security.authentication.handler.userBaseDn",
+      "name": "kafka_default_replication_factor",
+      "label": "Kafka Default Replication Factor",
+      "description": "Kafka replication factor",
+      "configName": "kafka.default.replication.factor",
       "required": true,
       "configurableInWizard": false,
-      "default": "",
-      "type": "string"
+      "default": 1,
+      "type": "long",
+      "min": 1
     },
     {
-      "name": "security_authentication_handler_userRdnAttribute",
-      "label": "Security Authentication Handler userRdnAttribute",
-      "description": "userRdnAttribute",
-      "configName": "security.authentication.handler.userRdnAttribute",
+      "name": "kerberos_auth_enabled",
+      "label": "Kerberos Auth Enabled",
+      "description": "Enables Kerberos Authentication",
+      "configName": "kerberos.auth.enabled",
       "required": true,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
+      "configurableInWizard": true,
+      "default": false,
+      "type": "boolean"
     },
     {
-      "name": "security_authentication_handler_userObjectClass",
-      "label": "Security Authentication Handler userObjectClass",
-      "description": "userObjectClass",
-      "configName": "security.authentication.handler.userObjectClass",
+      "name": "log_saver_run_memory_megs",
+      "label": "Log Saver Run Memory Megs",
+      "description": "Memory in MB allocated to the Log Saver process",
+      "configName": "log.saver.run.memory.megs",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1024,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "root_namespace",
+      "label": "Root Namespace",
+      "description": "Specifies the root namespace",
+      "configName": "root.namespace",
       "required": true,
       "configurableInWizard": false,
-      "default": "",
+      "default": "cdap",
       "type": "string"
     },
     {
@@ -331,48 +266,6 @@
       "type": "port"
     },
     {
-      "name": "gateway_memory_mb",
-      "label": "Gateway Memory MB",
-      "description": "Memory in MB for Gateway process in YARN",
-      "configName": "gateway.memory.mb",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 2048,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "app_bind_address",
-      "label": "App Bind Address",
-      "description": "Host address on which the app fabric server is started",
-      "configName": "app.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{HOSTNAME}}",
-      "type": "string"
-    },
-    {
-      "name": "dataset_service_bind_address",
-      "label": "Dataset Service Bind Address",
-      "description": "DataSet service hostname",
-      "configName": "dataset.service.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{HOSTNAME}}",
-      "type": "string"
-    },
-    {
-      "name": "log_saver_run_memory_megs",
-      "label": "Log Saver Run Memory Megs",
-      "description": "Memory in MB allocated to the Log Saver process",
-      "configName": "log.saver.run.memory.megs",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 1024,
-      "type": "long",
-      "min": 1
-    },
-    {
       "name": "router_server_address",
       "label": "Router Server Address",
       "description": "Specifies the destination IP where the Router service is running",
@@ -393,14 +286,120 @@
       "type": "port"
     },
     {
-      "name": "dashboard_bind_port",
-      "label": "Dashboard Bind Port",
-      "description": "Specifies the CDAP Dashboard Bind Port",
-      "configName": "dashboard.bind.port",
+      "name": "security_auth_server_address",
+      "label": "Security Auth Server Address",
+      "description": "IP address that the CDAP Authentication Server should bind to",
+      "configName": "security.auth.server.address",
       "required": true,
-      "configurableInWizard": true,
-      "default": 9999,
+      "configurableInWizard": false,
+      "default": "{{HOSTNAME}}",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_basic_realmfile",
+      "label": "Security Authentication Basic Realm File",
+      "description": "Username / password file to use when basic authentication is configured",
+      "configName": "security.authentication.basic.realmfile",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "path",
+      "pathType": "localDataFile"
+    },
+    {
+      "name": "security_authentication_handler_debug",
+      "label": "Security Authentication Handler Debug",
+      "description": "debug",
+      "configName": "security.authentication.handler.debug",
+      "required": true,
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "security_authentication_handler_hostname",
+      "label": "Security Authentication Handler Hostname",
+      "description": "hostname",
+      "configName": "security.authentication.handler.hostname",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handler_port",
+      "label": "Security Authentication Handler Port",
+      "description": "port",
+      "configName": "security.authentication.handler.port",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "389",
       "type": "port"
+    },
+    {
+      "name": "security_authentication_handler_userBaseDn",
+      "label": "Security Authentication Handler userBaseDn",
+      "description": "userBaseDn",
+      "configName": "security.authentication.handler.userBaseDn",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handler_userObjectClass",
+      "label": "Security Authentication Handler userObjectClass",
+      "description": "userObjectClass",
+      "configName": "security.authentication.handler.userObjectClass",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handler_userRdnAttribute",
+      "label": "Security Authentication Handler userRdnAttribute",
+      "description": "userRdnAttribute",
+      "configName": "security.authentication.handler.userRdnAttribute",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_authentication_handlerClassName",
+      "label": "Security Authentication Handler Class Name",
+      "description": "Name of the authentication implementation to use to validate user credentials",
+      "configName": "security.authentication.handlerClassName",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
+      "type": "string_enum",
+      "validValues": [
+        "co.cask.cdap.security.server.BasicAuthenticationHandler",
+        "co.cask.cdap.security.server.LDAPAuthenticationHandler",
+        "co.cask.cdap.security.server.JASPIAuthenticationHandler"
+      ]
+    },
+    {
+      "name": "security_authentication_loginmodule_className",
+      "label": "Security Authentication Login Module Class Name",
+      "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
+      "configName": "security.authentication.loginmodule.className",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
+    },
+    {
+      "name": "security_enabled",
+      "label": "Security Enabled",
+      "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
+      "configName": "security.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
     }
 
   ],
