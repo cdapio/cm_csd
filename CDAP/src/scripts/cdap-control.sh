@@ -83,6 +83,9 @@ case ${SERVICE} in
     ;;
 esac
 
+# Source Cloudera common functions (for Kerberos)
+source $COMMON_SCRIPT
+
 # Source the CDAP common init functions
 source ${COMPONENT_HOME}/bin/common.sh
 source ${COMPONENT_HOME}/bin/common-env.sh
@@ -108,7 +111,6 @@ echo "COMPONENT_CONF_SCRIPT: ${COMPONENT_CONF_SCRIPT}"
 echo "CONF_DIR: ${CONF_DIR}"
 echo "ENV: `env`"
 
-source $COMMON_SCRIPT
 if [ "${cdap_principal}" != "" ]; then
   # Runs kinit
   export SCM_KERBEROS_PRINCIPAL=${cdap_principal}
