@@ -83,6 +83,9 @@ case ${SERVICE} in
     ;;
 esac
 
+# Source Cloudera common functions (for Kerberos)
+source $COMMON_SCRIPT
+
 # Source the CDAP common init functions
 source ${COMPONENT_HOME}/bin/common.sh
 source ${COMPONENT_HOME}/bin/common-env.sh
@@ -101,19 +104,18 @@ source ${COMPONENT_CONF_SCRIPT}
 # CDAP_CONF is used by Web-App to find cdap-site.xml
 export CDAP_CONF=${CONF_DIR}
 
+if [ "${cdap_principal}" != "" ]; then
+  # Runs kinit
+  export SCM_KERBEROS_PRINCIPAL=${cdap_principal}
+  acquire_kerberos_tgt cdap.keytab
+fi
+
 # Debug info
 echo "CDAP_HOME: ${CDAP_HOME}"
 echo "COMPONENT_HOME: ${COMPONENT_HOME}"
 echo "COMPONENT_CONF_SCRIPT: ${COMPONENT_CONF_SCRIPT}"
 echo "CONF_DIR: ${CONF_DIR}"
 echo "ENV: `env`"
-
-source $COMMON_SCRIPT
-if [ "${cdap_principal}" != "" ]; then
-  # Runs kinit
-  export SCM_KERBEROS_PRINCIPAL=${cdap_principal}
-  acquire_kerberos_tgt cdap.keytab
-fi
 
 # Launch a cmd or a java app
 if [ ${MAIN_CLASS} ]; then
@@ -138,7 +140,13 @@ if [ ${MAIN_CLASS} ]; then
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
   echo "`ulimit -a`"
+  echo "Using java_heapmax: ${JAVA_HEAPMAX}"
+  echo "Using explore.conf.files: ${EXPLORE_CONF_FILES}"
+  echo "Using explore.classpath: ${EXPLORE_CLASSPATH}"
+  echo "Using user.dir: ${LOCAL_DIR}"
   echo "Using classpath: ${CLASSPATH}"
+  echo "Using main_class: ${MAIN_CLASS}"
+  echo "Using args: ${MAIN_CLASS_ARGS}"
 
   exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
