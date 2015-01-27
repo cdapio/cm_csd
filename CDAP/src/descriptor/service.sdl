@@ -729,7 +729,7 @@
           "label": "CDAP Gateway/Router Service Logging Threshold",
           "description": "The minimum log level for CDAP Gateway/Router Service logs (via logback)",
           "required": true,
-          "default": "INFO",
+          "default": "WARN",
           "type": "string_enum",
           "validValues": [
             "TRACE",
@@ -842,7 +842,7 @@
           "label": "CDAP Kafka Service Logging Threshold",
           "description": "The minimum log level for CDAP Kafka Service logs (via logback)",
           "required": true,
-          "default": "INFO",
+          "default": "WARN",
           "type": "string_enum",
           "validValues": [
             "TRACE",
@@ -948,7 +948,7 @@
           "label": "CDAP Master Service Logging Threshold",
           "description": "The minimum log level for CDAP Master Service logs (via logback)",
           "required": true,
-          "default": "INFO",
+          "default": "WARN",
           "type": "string_enum",
           "validValues": [
             "TRACE",
@@ -1111,7 +1111,7 @@
           "label": "CDAP Auth Service Logging Threshold",
           "description": "The minimum log level for CDAP Auth Service logs (via logback)",
           "required": true,
-          "default": "INFO",
+          "default": "WARN",
           "type": "string_enum",
           "validValues": [
             "TRACE",
