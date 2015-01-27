@@ -1046,7 +1046,7 @@
       "pluralLabel": "CDAP Web-App Services",
       "externalLink": {
         "name": "cdap_web_app_ui",
-        "label": "CDAP UI",
+        "label": "CDAP Console",
         "url": "http://${host}:${dashboard_bind_port}"
       },
       "parameters": [ ],
