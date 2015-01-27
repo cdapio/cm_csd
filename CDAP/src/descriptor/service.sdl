@@ -11,7 +11,7 @@
   "compatibility": {
     "generation": 1,
     "cdhVersion": {
-      "min": 4,
+      "min": 5,
       "max": 5
     }
   },
