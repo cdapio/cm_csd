@@ -71,7 +71,8 @@
       "peerConfigGenerators": [
         {
           "filename": "kafka.properties",
-          "params": [ "kafka_bind_port" ]
+          "params": [ "kafka_bind_port" ],
+          "roleName": "CDAP_KAFKA"
         }
       ]
     },
@@ -419,7 +420,7 @@
 	  "configurableInWizard": false,
 	  "default": "JKS",
 	  "type": "string"
-	},
+	}
       ],
       "configWriter": {
         "generators": [
@@ -450,7 +451,8 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ]
+            "params": [ "kafka_bind_port" ],
+            "roleName": "CDAP_KAFKA"
           }
         ],
         "auxConfigGenerators": [
@@ -577,8 +579,7 @@
 	  "configurableInWizard": false,
 	  "default": "kafka",
 	  "type": "string"
-	},
-
+	}
       ],
       "configWriter": {
         "generators": [
@@ -605,7 +606,8 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ]
+            "params": [ "kafka_bind_port" ],
+            "roleName": "CDAP_KAFKA"
           }
         ],
         "auxConfigGenerators": [
@@ -727,7 +729,8 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ]
+            "params": [ "kafka_bind_port" ],
+            "roleName": "CDAP_KAFKA"
           }
         ],
         "auxConfigGenerators": [
@@ -875,7 +878,8 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ]
+            "params": [ "kafka_bind_port" ],
+            "roleName": "CDAP_KAFKA"
           }
         ]
       },
@@ -1125,7 +1129,8 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ]
+            "params": [ "kafka_bind_port" ],
+            "roleName": "CDAP_KAFKA"
           }
         ],
         "auxConfigGenerators": [
