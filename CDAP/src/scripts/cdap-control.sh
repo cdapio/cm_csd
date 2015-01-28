@@ -21,7 +21,7 @@ function generate_kafka_quorum {
   done
   # Join array
   KAFKA_SEED_BROKERS=${__seed_brokers[@]}
-  KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS/ /,}
+  KAFKA_SEED_BROKERS=${KAFKA_SEED_BROKERS// /,}
 }
 
 function substitute_cdap_site_tokens {
