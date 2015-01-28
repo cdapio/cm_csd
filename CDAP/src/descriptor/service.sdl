@@ -444,6 +444,14 @@
               {
                 "key": "router.bind.address",
                 "value": "{{HOSTNAME}}"
+              },
+              {
+                "key": "cdap.master.kerberos.keytab",
+                "value": "{{CDAP_MASTER_KERBEROS_KEYTAB}}"
+              },
+              {
+                "key": "cdap.master.kerberos.principal",
+                "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
               }
             ]
           }
@@ -1122,6 +1130,14 @@
               {
                 "key": "security.auth.server.address",
                 "value": "{{HOSTNAME}}"
+              },
+              {
+                "key": "cdap.master.kerberos.keytab",
+                "value": "{{CDAP_MASTER_KERBEROS_KEYTAB}}"
+              },
+              {
+                "key": "cdap.master.kerberos.principal",
+                "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
               }
             ]
           }
