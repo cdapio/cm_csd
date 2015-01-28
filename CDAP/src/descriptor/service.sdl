@@ -93,16 +93,6 @@
       "type": "string"
     },
     {
-      "name": "app_bind_address",
-      "label": "App Bind Address",
-      "description": "Host address on which the app fabric server is started",
-      "configName": "app.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{HOSTNAME}}",
-      "type": "string"
-    },
-    {
       "name": "app_temp_dir",
       "label": "App Temp Dir",
       "description": "Directory temp",
@@ -110,26 +100,6 @@
       "required": true,
       "configurableInWizard": false,
       "default": "/tmp",
-      "type": "string"
-    },
-    {
-      "name": "cdap_master_kerberos_keytab",
-      "label": "CDAP Master Kerberos Keytab",
-      "description": "Kerberos keytab file location",
-      "configName": "cdap.master.kerberos.keytab",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{CDAP_MASTER_KERBEROS_KEYTAB}}",
-      "type": "string"
-    },
-    {
-      "name": "cdap_master_kerberos_principal",
-      "label": "CDAP Master Kerberos Principal",
-      "description": "Kerberos principal associated with the keytab",
-      "configName": "cdap.master.kerberos.principal",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}",
       "type": "string"
     },
     {
@@ -190,16 +160,6 @@
       "required": false,
       "configurableInWizard": false,
       "default": "",
-      "type": "string"
-    },
-    {
-      "name": "dataset_service_bind_address",
-      "label": "Dataset Service Bind Address",
-      "description": "DataSet service hostname",
-      "configName": "dataset.service.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{HOSTNAME}}",
       "type": "string"
     },
     {
@@ -381,16 +341,6 @@
       "type": "string"
     },
     {
-      "name": "router_bind_address",
-      "label": "Router Bind Address",
-      "description": "Specifies the Router Bind Address",
-      "configName": "router.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{HOSTNAME}}",
-      "type": "string"
-    },
-    {
       "name": "router_bind_port",
       "label": "Router Bind Port",
       "description": "Port number that the CDAP router should bind to for HTTP Connections",
@@ -468,16 +418,6 @@
       "required": false,
       "configurableInWizard": false,
       "default": "JKS",
-      "type": "string"
-    },
-    {
-      "name": "security_auth_server_address",
-      "label": "Security Auth Server Address",
-      "description": "IP address that the CDAP Authentication Server should bind to",
-      "configName": "security.auth.server.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "{{HOSTNAME}}",
       "type": "string"
     },
     {
@@ -776,6 +716,10 @@
               {
                 "key": "kafka.log.dir",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
+              },
+              {
+                "key": "router.bind.address",
+                "value": "{{HOSTNAME}}"
               }
             ]
           }
@@ -995,6 +939,22 @@
               {
                 "key": "kafka.log.dir",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
+              },
+              {
+                "key": "app.bind.address",
+                "value": "{{HOSTNAME}}"
+              },
+              {
+                "key": "cdap.master.kerberos.keytab",
+                "value": "{{CDAP_MASTER_KERBEROS_KEYTAB}}"
+              },
+              {
+                "key": "cdap.master.kerberos.principal",
+                "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
+              },
+              {
+                "key": "dataset.service.bind.address",
+                "value": "{{HOSTNAME}}"
               }
             ]
           }
@@ -1158,6 +1118,10 @@
               {
                 "key": "kafka.log.dir",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
+              },
+              {
+                "key": "security.auth.server.address",
+                "value": "{{HOSTNAME}}"
               }
             ]
           }
