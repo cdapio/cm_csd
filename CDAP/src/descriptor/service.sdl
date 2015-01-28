@@ -252,7 +252,7 @@
     },
     {
       "name": "ssl_enabled",
-      "label": "Ssl Enabled",
+      "label": "SSL Enabled",
       "description": "True to enable SSL",
       "configName": "ssl.enabled",
       "required": true,
@@ -292,8 +292,8 @@
     },
     {
       "name": "twill_zookeeper_namespace",
-      "label": "Twill Zookeeper Namespace",
-      "description": "Zookeeper namespace prefix for Apache Twill",
+      "label": "Twill ZooKeeper Namespace",
+      "description": "ZooKeeper namespace prefix for Apache Twill",
       "configName": "twill.zookeeper.namespace",
       "required": true,
       "configurableInWizard": false,
@@ -302,8 +302,8 @@
     },
     {
       "name": "zookeeper_session_timeout_millis",
-      "label": "Zookeeper Session Timeout Millis",
-      "description": "Specifies the zookeeper session time out; time unit milliseconds",
+      "label": "ZooKeeper Session Timeout Millis",
+      "description": "Specifies the ZooKeeper session time out; time unit milliseconds",
       "configName": "zookeeper.session.timeout.millis",
       "required": true,
       "configurableInWizard": false,
@@ -373,7 +373,7 @@
 	},
 	{
 	  "name": "router_ssl_bind_port",
-	  "label": "Router Ssl Bind Port",
+	  "label": "Router SSL Bind Port",
 	  "description": "Secure router listening port for gateway",
 	  "configName": "router.ssl.bind.port",
 	  "required": true,
@@ -383,7 +383,7 @@
 	},
 	{
 	  "name": "router_ssl_keystore_keypassword",
-	  "label": "Router Ssl Keystore Key Password",
+	  "label": "Router SSL Keystore Key Password",
 	  "description": "Keystore key password",
 	  "configName": "router.ssl.keystore.keypassword",
 	  "required": false,
@@ -393,7 +393,7 @@
 	},
 	{
 	  "name": "router_ssl_keystore_password",
-	  "label": "Router Ssl Keystore Password",
+	  "label": "Router SSL Keystore Password",
 	  "description": "Keystore password",
 	  "configName": "router.ssl.keystore.password",
 	  "required": false,
@@ -403,7 +403,7 @@
 	},
 	{
 	  "name": "router_ssl_keystore_path",
-	  "label": "Router Ssl Keystore Path",
+	  "label": "Router SSL Keystore Path",
 	  "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
 	  "configName": "router.ssl.keystore.path",
 	  "required": false,
@@ -413,7 +413,7 @@
 	},
 	{
 	  "name": "router_ssl_keystore_type",
-	  "label": "Router Ssl Keystore Type",
+	  "label": "Router SSL Keystore Type",
 	  "description": "Keystore file type",
 	  "configName": "router.ssl.keystore.type",
 	  "required": false,
@@ -581,7 +581,7 @@
 	{
 	  "name": "kafka_zookeeper_namespace",
 	  "label": "Kafka Zookeeper Namespace",
-	  "description": "ZK namespace for Kafka",
+	  "description": "ZooKeeper namespace for Kafka",
 	  "configName": "kafka.zookeeper.namespace",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -808,8 +808,8 @@
 	},
 	{
 	  "name": "dashboard_ssl_bind_port",
-	  "label": "Dashboard Ssl Bind Port",
-	  "description": "Dashboard Ssl Bind Port",
+	  "label": "Dashboard SSL Bind Port",
+	  "description": "Dashboard SSL Bind Port",
 	  "configName": "dashboard.ssl.bind.port",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -818,7 +818,7 @@
 	},
 	{
 	  "name": "dashboard_ssl_cert",
-	  "label": "Dashboard Ssl Cert",
+	  "label": "Dashboard SSL Cert",
 	  "description": "SSL cert file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
 	  "configName": "dashboard.ssl.cert",
 	  "required": false,
@@ -828,8 +828,8 @@
 	},
 	{
 	  "name": "dashboard_ssl_disable_cert_check",
-	  "label": "Dashboard Ssl Disable Cert Check",
-	  "description": "Dashboard Ssl Disable Cert Check",
+	  "label": "Dashboard SSL Disable Cert Check",
+	  "description": "Dashboard SSL Disable Cert Check",
 	  "configName": "dashboard.ssl.disable.cert.check",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -838,7 +838,7 @@
 	},
 	{
 	  "name": "dashboard_ssl_key",
-	  "label": "Dashboard Ssl Key",
+	  "label": "Dashboard SSL Key",
 	  "description": "SSL key file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
 	  "configName": "dashboard.ssl.key",
 	  "required": false,
@@ -963,7 +963,7 @@
 	},
 	{
 	  "name": "security_auth_server_ssl_bind_port",
-	  "label": "Security Auth Server Ssl Bind Port",
+	  "label": "Security Auth Server SSL Bind Port",
 	  "description": "Port to bind to for HTTPS on the CDAP Authentication Server",
 	  "configName": "security.auth.server.ssl.bind.port",
 	  "required": true,
@@ -973,7 +973,7 @@
 	},
 	{
 	  "name": "security_auth_server_ssl_keystore_keypassword",
-	  "label": "Security Auth Server Ssl Keystore Key Password",
+	  "label": "Security Auth Server SSL Keystore Key Password",
 	  "description": "Keystore key password",
 	  "configName": "security.auth.server.ssl.keystore.keypassword",
 	  "required": false,
@@ -983,7 +983,7 @@
 	},
 	{
 	  "name": "security_auth_server_ssl_keystore_password",
-	  "label": "Security Auth Server Ssl Keystore Password",
+	  "label": "Security Auth Server SSL Keystore Password",
 	  "description": "Keystore password",
 	  "configName": "security.auth.server.ssl.keystore.password",
 	  "required": false,
@@ -993,7 +993,7 @@
 	},
 	{
 	  "name": "security_auth_server_ssl_keystore_path",
-	  "label": "Security Auth Server Ssl Keystore Path",
+	  "label": "Security Auth Server SSL Keystore Path",
 	  "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
 	  "configName": "security.auth.server.ssl.keystore.path",
 	  "required": false,
@@ -1003,7 +1003,7 @@
 	},
 	{
 	  "name": "security_auth_server_ssl_keystore_type",
-	  "label": "Security Auth Server Ssl Keystore Type",
+	  "label": "Security Auth Server SSL Keystore Type",
 	  "description": "Keystore file type",
 	  "configName": "security.auth.server.ssl.keystore.type",
 	  "required": false,
