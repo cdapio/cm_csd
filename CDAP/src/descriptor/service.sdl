@@ -580,7 +580,7 @@
 	},
 	{
 	  "name": "kafka_zookeeper_namespace",
-	  "label": "Kafka Zookeeper Namespace",
+	  "label": "Kafka ZooKeeper Namespace",
 	  "description": "ZooKeeper namespace for Kafka",
 	  "configName": "kafka.zookeeper.namespace",
 	  "required": true,
