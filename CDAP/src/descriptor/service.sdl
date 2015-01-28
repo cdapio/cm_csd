@@ -417,7 +417,7 @@
       "configName": "router.server.port",
       "required": true,
       "configurableInWizard": true,
-      "default": 10000,
+      "default": 11015,
       "type": "port"
     },
     {
