@@ -103,66 +103,6 @@
       "type": "string"
     },
     {
-      "name": "dashboard_bind_address",
-      "label": "Dashboard Bind Address",
-      "description": "Dashboard Bind Address",
-      "configName": "dashboard.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "0.0.0.0",
-      "type": "string"
-    },
-    {
-      "name": "dashboard_bind_port",
-      "label": "Dashboard Bind Port",
-      "description": "Specifies the CDAP Dashboard Bind Port",
-      "configName": "dashboard.bind.port",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 9999,
-      "type": "port"
-    },
-    {
-      "name": "dashboard_ssl_bind_port",
-      "label": "Dashboard Ssl Bind Port",
-      "description": "Dashboard Ssl Bind Port",
-      "configName": "dashboard.ssl.bind.port",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 9443,
-      "type": "port"
-    },
-    {
-      "name": "dashboard_ssl_cert",
-      "label": "Dashboard Ssl Cert",
-      "description": "SSL cert file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-      "configName": "dashboard.ssl.cert",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "dashboard_ssl_disable_cert_check",
-      "label": "Dashboard Ssl Disable Cert Check",
-      "description": "Dashboard Ssl Disable Cert Check",
-      "configName": "dashboard.ssl.disable.cert.check",
-      "required": true,
-      "configurableInWizard": false,
-      "default": false,
-      "type": "boolean"
-    },
-    {
-      "name": "dashboard_ssl_key",
-      "label": "Dashboard Ssl Key",
-      "description": "SSL key file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-      "configName": "dashboard.ssl.key",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
       "name": "enable_unrecoverable_reset",
       "label": "Enable Unrecoverable Reset",
       "description": "WARNING! - Enabling this option enables the deletion of all applications and data;NO RECOVERY IS POSSIBLE!",
@@ -236,47 +176,6 @@
       "type": "string"
     },
     {
-      "name": "kafka_bind_address",
-      "label": "Kafka Bind Address",
-      "description": "Kafka server hostname to bind to",
-      "configName": "kafka.bind.address",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "0.0.0.0",
-      "type": "string"
-    },
-    {
-      "name": "kafka_bind_port",
-      "label": "Kafka Bind Port",
-      "description": "Kafka server port",
-      "configName": "kafka.bind.port",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 9092,
-      "type": "port"
-    },
-    {
-      "name": "kafka_default_replication_factor",
-      "label": "Kafka Default Replication Factor",
-      "description": "Kafka replication factor",
-      "configName": "kafka.default.replication.factor",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 1,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "kafka_zookeeper_namespace",
-      "label": "Kafka Zookeeper Namespace",
-      "description": "ZK namespace for Kafka",
-      "configName": "kafka.zookeeper.namespace",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "kafka",
-      "type": "string"
-    },
-    {
       "name": "kerberos_auth_enabled",
       "label": "Kerberos Auth Enabled",
       "description": "Enables Kerberos Authentication",
@@ -338,232 +237,6 @@
       "required": true,
       "configurableInWizard": false,
       "default": "cdap",
-      "type": "string"
-    },
-    {
-      "name": "router_bind_port",
-      "label": "Router Bind Port",
-      "description": "Port number that the CDAP router should bind to for HTTP Connections",
-      "configName": "router.bind.port",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 10000,
-      "type": "port"
-    },
-    {
-      "name": "router_server_port",
-      "label": "Router Server Port",
-      "description": "Router port to which Console connects",
-      "configName": "router.server.port",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 10000,
-      "type": "port"
-    },
-    {
-      "name": "router_ssl_bind_port",
-      "label": "Router Ssl Bind Port",
-      "description": "Secure router listening port for gateway",
-      "configName": "router.ssl.bind.port",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 10443,
-      "type": "port"
-    },
-    {
-      "name": "router_ssl_keystore_keypassword",
-      "label": "Router Ssl Keystore Key Password",
-      "description": "Keystore key password",
-      "configName": "router.ssl.keystore.keypassword",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "router_ssl_keystore_password",
-      "label": "Router Ssl Keystore Password",
-      "description": "Keystore password",
-      "configName": "router.ssl.keystore.password",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "router_ssl_keystore_path",
-      "label": "Router Ssl Keystore Path",
-      "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-      "configName": "router.ssl.keystore.path",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "router_ssl_keystore_type",
-      "label": "Router Ssl Keystore Type",
-      "description": "Keystore file type",
-      "configName": "router.ssl.keystore.type",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "JKS",
-      "type": "string"
-    },
-    {
-      "name": "security_auth_server_bind_port",
-      "label": "Security Auth Server Bind Port",
-      "description": "Port number that the CDAP Authentication Server should bind to for HTTP",
-      "configName": "security.auth.server.bind.port",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 10009,
-      "type": "port"
-    },
-    {
-      "name": "security_auth_server_ssl_bind_port",
-      "label": "Security Auth Server Ssl Bind Port",
-      "description": "Port to bind to for HTTPS on the CDAP Authentication Server",
-      "configName": "security.auth.server.ssl.bind.port",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 10010,
-      "type": "port"
-    },
-    {
-      "name": "security_auth_server_ssl_keystore_keypassword",
-      "label": "Security Auth Server Ssl Keystore Key Password",
-      "description": "Keystore key password",
-      "configName": "security.auth.server.ssl.keystore.keypassword",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_auth_server_ssl_keystore_password",
-      "label": "Security Auth Server Ssl Keystore Password",
-      "description": "Keystore password",
-      "configName": "security.auth.server.ssl.keystore.password",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_auth_server_ssl_keystore_path",
-      "label": "Security Auth Server Ssl Keystore Path",
-      "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-      "configName": "security.auth.server.ssl.keystore.path",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_auth_server_ssl_keystore_type",
-      "label": "Security Auth Server Ssl Keystore Type",
-      "description": "Keystore file type",
-      "configName": "security.auth.server.ssl.keystore.type",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "JKS",
-      "type": "string"
-    },
-    {
-      "name": "security_authentication_basic_realmfile",
-      "label": "Security Authentication Basic Realm File",
-      "description": "Username / password file to use when basic authentication is configured",
-      "configName": "security.authentication.basic.realmfile",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "path",
-      "pathType": "localDataFile"
-    },
-    {
-      "name": "security_authentication_handler_debug",
-      "label": "Security Authentication Handler Debug",
-      "description": "debug",
-      "configName": "security.authentication.handler.debug",
-      "required": true,
-      "configurableInWizard": false,
-      "default": true,
-      "type": "boolean"
-    },
-    {
-      "name": "security_authentication_handler_hostname",
-      "label": "Security Authentication Handler Hostname",
-      "description": "hostname",
-      "configName": "security.authentication.handler.hostname",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_authentication_handler_port",
-      "label": "Security Authentication Handler Port",
-      "description": "port",
-      "configName": "security.authentication.handler.port",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "389",
-      "type": "port"
-    },
-    {
-      "name": "security_authentication_handler_userBaseDn",
-      "label": "Security Authentication Handler userBaseDn",
-      "description": "userBaseDn",
-      "configName": "security.authentication.handler.userBaseDn",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_authentication_handler_userObjectClass",
-      "label": "Security Authentication Handler userObjectClass",
-      "description": "userObjectClass",
-      "configName": "security.authentication.handler.userObjectClass",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_authentication_handler_userRdnAttribute",
-      "label": "Security Authentication Handler userRdnAttribute",
-      "description": "userRdnAttribute",
-      "configName": "security.authentication.handler.userRdnAttribute",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "",
-      "type": "string"
-    },
-    {
-      "name": "security_authentication_handlerClassName",
-      "label": "Security Authentication Handler Class Name",
-      "description": "Name of the authentication implementation to use to validate user credentials",
-      "configName": "security.authentication.handlerClassName",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
-      "type": "string_enum",
-      "validValues": [
-        "co.cask.cdap.security.server.BasicAuthenticationHandler",
-        "co.cask.cdap.security.server.LDAPAuthenticationHandler",
-        "co.cask.cdap.security.server.JASPIAuthenticationHandler"
-      ]
-    },
-    {
-      "name": "security_authentication_loginmodule_className",
-      "label": "Security Authentication Login Module Class Name",
-      "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
-      "configName": "security.authentication.loginmodule.className",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "",
       "type": "string"
     },
     {
@@ -686,7 +359,67 @@
           "required": true,
           "type": "long",
           "default": 10
-        }
+        },
+	{
+	  "name": "router_bind_port",
+	  "label": "Router Bind Port",
+	  "description": "Port number that the CDAP router should bind to for HTTP Connections",
+	  "configName": "router.bind.port",
+	  "required": true,
+	  "configurableInWizard": true,
+	  "default": 10000,
+	  "type": "port"
+	},
+	{
+	  "name": "router_ssl_bind_port",
+	  "label": "Router Ssl Bind Port",
+	  "description": "Secure router listening port for gateway",
+	  "configName": "router.ssl.bind.port",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": 10443,
+	  "type": "port"
+	},
+	{
+	  "name": "router_ssl_keystore_keypassword",
+	  "label": "Router Ssl Keystore Key Password",
+	  "description": "Keystore key password",
+	  "configName": "router.ssl.keystore.keypassword",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "router_ssl_keystore_password",
+	  "label": "Router Ssl Keystore Password",
+	  "description": "Keystore password",
+	  "configName": "router.ssl.keystore.password",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "router_ssl_keystore_path",
+	  "label": "Router Ssl Keystore Path",
+	  "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+	  "configName": "router.ssl.keystore.path",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "router_ssl_keystore_type",
+	  "label": "Router Ssl Keystore Type",
+	  "description": "Keystore file type",
+	  "configName": "router.ssl.keystore.type",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "JKS",
+	  "type": "string"
+	},
       ],
       "configWriter": {
         "generators": [
@@ -803,7 +536,49 @@
           "required": true,
           "type": "long",
           "default": 10
-        }
+        },
+	{
+	  "name": "kafka_bind_address",
+	  "label": "Kafka Bind Address",
+	  "description": "Kafka server hostname to bind to",
+	  "configName": "kafka.bind.address",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "0.0.0.0",
+	  "type": "string"
+	},
+	{
+	  "name": "kafka_bind_port",
+	  "label": "Kafka Bind Port",
+	  "description": "Kafka server port",
+	  "configName": "kafka.bind.port",
+	  "required": true,
+	  "configurableInWizard": true,
+	  "default": 9092,
+	  "type": "port"
+	},
+	{
+	  "name": "kafka_default_replication_factor",
+	  "label": "Kafka Default Replication Factor",
+	  "description": "Kafka replication factor",
+	  "configName": "kafka.default.replication.factor",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": 1,
+	  "type": "long",
+	  "min": 1
+	},
+	{
+	  "name": "kafka_zookeeper_namespace",
+	  "label": "Kafka Zookeeper Namespace",
+	  "description": "ZK namespace for Kafka",
+	  "configName": "kafka.zookeeper.namespace",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "kafka",
+	  "type": "string"
+	},
+
       ],
       "configWriter": {
         "generators": [
@@ -999,7 +774,78 @@
         "label": "CDAP Console",
         "url": "http://${host}:${dashboard_bind_port}"
       },
-      "parameters": [ ],
+      "parameters": [
+	{
+	  "name": "dashboard_bind_address",
+	  "label": "Dashboard Bind Address",
+	  "description": "Dashboard Bind Address",
+	  "configName": "dashboard.bind.address",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "0.0.0.0",
+	  "type": "string"
+	},
+	{
+	  "name": "dashboard_bind_port",
+	  "label": "Dashboard Bind Port",
+	  "description": "Specifies the CDAP Dashboard Bind Port",
+	  "configName": "dashboard.bind.port",
+	  "required": true,
+	  "configurableInWizard": true,
+	  "default": 9999,
+	  "type": "port"
+	},
+	{
+	  "name": "dashboard_ssl_bind_port",
+	  "label": "Dashboard Ssl Bind Port",
+	  "description": "Dashboard Ssl Bind Port",
+	  "configName": "dashboard.ssl.bind.port",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": 9443,
+	  "type": "port"
+	},
+	{
+	  "name": "dashboard_ssl_cert",
+	  "label": "Dashboard Ssl Cert",
+	  "description": "SSL cert file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+	  "configName": "dashboard.ssl.cert",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "dashboard_ssl_disable_cert_check",
+	  "label": "Dashboard Ssl Disable Cert Check",
+	  "description": "Dashboard Ssl Disable Cert Check",
+	  "configName": "dashboard.ssl.disable.cert.check",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": false,
+	  "type": "boolean"
+	},
+	{
+	  "name": "dashboard_ssl_key",
+	  "label": "Dashboard Ssl Key",
+	  "description": "SSL key file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+	  "configName": "dashboard.ssl.key",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "router_server_port",
+	  "label": "Router Server Port",
+	  "description": "Router port to which Console connects",
+	  "configName": "router.server.port",
+	  "required": true,
+	  "configurableInWizard": true,
+	  "default": 10000,
+	  "type": "port"
+	}
+      ],
       "configWriter": {
         "generators": [
           {
@@ -1092,7 +938,163 @@
           "required": true,
           "type": "long",
           "default": 10
-        }
+        },
+	{
+	  "name": "security_auth_server_bind_port",
+	  "label": "Security Auth Server Bind Port",
+	  "description": "Port number that the CDAP Authentication Server should bind to for HTTP",
+	  "configName": "security.auth.server.bind.port",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": 10009,
+	  "type": "port"
+	},
+	{
+	  "name": "security_auth_server_ssl_bind_port",
+	  "label": "Security Auth Server Ssl Bind Port",
+	  "description": "Port to bind to for HTTPS on the CDAP Authentication Server",
+	  "configName": "security.auth.server.ssl.bind.port",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": 10010,
+	  "type": "port"
+	},
+	{
+	  "name": "security_auth_server_ssl_keystore_keypassword",
+	  "label": "Security Auth Server Ssl Keystore Key Password",
+	  "description": "Keystore key password",
+	  "configName": "security.auth.server.ssl.keystore.keypassword",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_auth_server_ssl_keystore_password",
+	  "label": "Security Auth Server Ssl Keystore Password",
+	  "description": "Keystore password",
+	  "configName": "security.auth.server.ssl.keystore.password",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_auth_server_ssl_keystore_path",
+	  "label": "Security Auth Server Ssl Keystore Path",
+	  "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+	  "configName": "security.auth.server.ssl.keystore.path",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_auth_server_ssl_keystore_type",
+	  "label": "Security Auth Server Ssl Keystore Type",
+	  "description": "Keystore file type",
+	  "configName": "security.auth.server.ssl.keystore.type",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "JKS",
+	  "type": "string"
+	},
+	{
+	  "name": "security_authentication_basic_realmfile",
+	  "label": "Security Authentication Basic Realm File",
+	  "description": "Username / password file to use when basic authentication is configured",
+	  "configName": "security.authentication.basic.realmfile",
+	  "required": false,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "path",
+	  "pathType": "localDataFile"
+	},
+	{
+	  "name": "security_authentication_handler_debug",
+	  "label": "Security Authentication Handler Debug",
+	  "description": "debug",
+	  "configName": "security.authentication.handler.debug",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": true,
+	  "type": "boolean"
+	},
+	{
+	  "name": "security_authentication_handler_hostname",
+	  "label": "Security Authentication Handler Hostname",
+	  "description": "hostname",
+	  "configName": "security.authentication.handler.hostname",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_authentication_handler_port",
+	  "label": "Security Authentication Handler Port",
+	  "description": "port",
+	  "configName": "security.authentication.handler.port",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "389",
+	  "type": "port"
+	},
+	{
+	  "name": "security_authentication_handler_userBaseDn",
+	  "label": "Security Authentication Handler userBaseDn",
+	  "description": "userBaseDn",
+	  "configName": "security.authentication.handler.userBaseDn",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_authentication_handler_userObjectClass",
+	  "label": "Security Authentication Handler userObjectClass",
+	  "description": "userObjectClass",
+	  "configName": "security.authentication.handler.userObjectClass",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_authentication_handler_userRdnAttribute",
+	  "label": "Security Authentication Handler userRdnAttribute",
+	  "description": "userRdnAttribute",
+	  "configName": "security.authentication.handler.userRdnAttribute",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	},
+	{
+	  "name": "security_authentication_handlerClassName",
+	  "label": "Security Authentication Handler Class Name",
+	  "description": "Name of the authentication implementation to use to validate user credentials",
+	  "configName": "security.authentication.handlerClassName",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
+	  "type": "string_enum",
+	  "validValues": [
+	    "co.cask.cdap.security.server.BasicAuthenticationHandler",
+	    "co.cask.cdap.security.server.LDAPAuthenticationHandler",
+	    "co.cask.cdap.security.server.JASPIAuthenticationHandler"
+	  ]
+	},
+	{
+	  "name": "security_authentication_loginmodule_className",
+	  "label": "Security Authentication Login Module Class Name",
+	  "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
+	  "configName": "security.authentication.loginmodule.className",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "",
+	  "type": "string"
+	}
       ],
       "configWriter": {
         "generators": [
