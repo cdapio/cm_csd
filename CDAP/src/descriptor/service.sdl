@@ -241,6 +241,26 @@
       "type": "string"
     },
     {
+      "name": "router_bind_port",
+      "label": "Router Bind Port",
+      "description": "Port number that the CDAP router should bind to for HTTP Connections",
+      "configName": "router.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 11015,
+      "type": "port"
+    },
+    {
+      "name": "router_ssl_bind_port",
+      "label": "Router SSL Bind Port",
+      "description": "Secure router listening port for gateway",
+      "configName": "router.ssl.bind.port",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 10443,
+      "type": "port"
+    },
+    {
       "name": "security_enabled",
       "label": "Security Enabled",
       "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
@@ -361,26 +381,6 @@
           "type": "long",
           "default": 10
         },
-	{
-	  "name": "router_bind_port",
-	  "label": "Router Bind Port",
-	  "description": "Port number that the CDAP router should bind to for HTTP Connections",
-	  "configName": "router.bind.port",
-	  "required": true,
-	  "configurableInWizard": true,
-	  "default": 11015,
-	  "type": "port"
-	},
-	{
-	  "name": "router_ssl_bind_port",
-	  "label": "Router SSL Bind Port",
-	  "description": "Secure router listening port for gateway",
-	  "configName": "router.ssl.bind.port",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": 10443,
-	  "type": "port"
-	},
 	{
 	  "name": "router_ssl_keystore_keypassword",
 	  "label": "Router SSL Keystore Key Password",
