@@ -42,6 +42,10 @@ REPO_HOME=`pwd -P`
 TARGET_DIR=${DISTRIBUTIONS_HOME}/target
 STAGE_DIR=${TARGET_DIR}/parcel
 
+echo "REPO_HOME: ${REPO_HOME}"
+
+CDAP_HOME=${CDAP_HOME:-${REPO_HOME}/../cdap}
+
 # Source additional settings if configured
 if [ -n "${PARCEL_DELIVERY_OPTIONS_FILE}" ]; then
   source ${PARCEL_DELIVERY_OPTIONS_FILE}
@@ -70,7 +74,7 @@ function validate_env {
 # and ensuring that all component versions match
 function set_and_check_version {
   local __component=$1
-  local __component_home="${REPO_HOME}/cdap-${__component}"
+  local __component_home="${CDAP_HOME}/cdap-${__component}"
   local __version_file="${__component_home}/target/stage-packaging/opt/cdap/${__component}/VERSION"
   if [ -f ${__version_file} ]; then
     local __component_version=`cat ${__version_file}`
@@ -99,7 +103,7 @@ function stage_artifacts {
   # Copy each built component
   local __component
   for __component in ${COMPONENTS}; do
-    local __component_home="${REPO_HOME}/cdap-${__component}"
+    local __component_home="${CDAP_HOME}/cdap-${__component}"
     cp -fpPR ${__component_home}/target/stage-packaging/opt/cdap/* ${STAGE_DIR}/${PARCEL_ROOT_DIR}/.
   done
 }
