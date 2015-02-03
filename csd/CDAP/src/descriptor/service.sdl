@@ -730,6 +730,10 @@
               {
                 "key": "dataset.service.bind.address",
                 "value": "{{HOSTNAME}}"
+              },
+              {
+                "key": "app.adapter.dir",
+                "value": "{{COMPONENT_HOME}}/plugins"
               }
             ]
           }

@@ -29,7 +29,7 @@ function substitute_cdap_site_tokens {
   generate_kafka_quorum
   sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" \
     -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" \
-    ${__cdap_site}
+    -e "s#{{COMPONENT_HOME}}#${COMPONENT_HOME}#" ${__cdap_site}
 
   if [ "${cdap_principal}" != "" ]; then
     # Kerberos is enabled, update cdap-site.xml keytab and principal settings
