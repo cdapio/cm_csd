@@ -19,7 +19,7 @@ PARCEL_BASE=${PARCEL_BASE:-CDAP}
 PARCEL_SUFFIX=${PARCEL_SUFFIX:-el6}
 
 # Components should map to top-level directories: "cdap-${COMPONENT}"
-COMPONENTS="gateway hbase-compat-0.94 hbase-compat-0.96 hbase-compat-0.98 kafka master security web-app"
+COMPONENTS="cli gateway hbase-compat-0.94 hbase-compat-0.96 hbase-compat-0.98 kafka master security web-app"
 
 # Find our location and base repo directory
 # Resolve links: $0 may be a link
