@@ -63,11 +63,17 @@ function validate_env {
     die "Staging directory ${STAGE_DIR} already exists."
   fi
 
-  # Check that all components have been built by maven with the same version
-  local __component
-  for __component in ${COMPONENTS}; do
-    set_and_check_version ${__component}
-  done
+  # use PARCEL_VERSION from environment if set, else determine it from components
+  if [ -z $PARCEL_VERSION ]; then
+
+    # Check that all components have been built by maven with the same version
+    local __component
+    for __component in ${COMPONENTS}; do
+      set_and_check_version ${__component}
+    done
+
+    PARCEL_VERSION=${VERSION}
+  fi
 }
 
 # Determine version by looking at $COMPONENT_HOME/target/stage-packaging/opt/cdap/$COMPONENT/VERSION
@@ -120,7 +126,7 @@ function stage_parcel_bits {
   cp -fpPR ${__meta_dir} ${STAGE_DIR}/${PARCEL_ROOT_DIR}/.
 
   # Substitute our version
-  sed -i -e "s#{{VERSION}}#${VERSION}#" ${STAGE_DIR}/${PARCEL_ROOT_DIR}/meta/parcel.json
+  sed -i -e "s#{{VERSION}}#${PARCEL_VERSION}#" ${STAGE_DIR}/${PARCEL_ROOT_DIR}/meta/parcel.json
 }
 
 # Create the parcel via tar
@@ -140,9 +146,9 @@ function scp_parcel {
     die "The following vars must be defined to enable parcel SCP: PARCEL_SCP_USER, PARCEL_SCP_HOST, PARCEL_SCP_BASE_PATH"
   fi
   echo "Creating remote directory"
-  ssh ${PARCEL_SCP_OPTIONS} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST} mkdir -p ${PARCEL_SCP_BASE_PATH}/cdap/${VERSION}
+  ssh ${PARCEL_SCP_OPTIONS} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST} mkdir -p ${PARCEL_SCP_BASE_PATH}/cdap/${PARCEL_VERSION}
   echo "Copying ${TARGET_DIR}/${PARCEL_NAME} to remote host"
-  scp ${PARCEL_SCP_OPTIONS} ${TARGET_DIR}/${PARCEL_NAME} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST}:${PARCEL_SCP_BASE_PATH}/cdap/${VERSION}
+  scp ${PARCEL_SCP_OPTIONS} ${TARGET_DIR}/${PARCEL_NAME} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST}:${PARCEL_SCP_BASE_PATH}/cdap/${PARCEL_VERSION}
   local __ret=$?
   if [ $__ret -ne 0 ]; then
     die "SCP unsuccessful"
@@ -157,9 +163,9 @@ echo "Starting Parcel Build"
 
 validate_env
 
-echo "Using version: ${VERSION}"
-PARCEL_ROOT_DIR="${PARCEL_BASE}-${VERSION}"
-PARCEL_NAME="${PARCEL_BASE}-${VERSION}-${PARCEL_SUFFIX}.parcel"
+echo "Using version: ${PARCEL_VERSION}"
+PARCEL_ROOT_DIR="${PARCEL_BASE}-${PARCEL_VERSION}"
+PARCEL_NAME="${PARCEL_BASE}-${PARCEL_VERSION}-${PARCEL_SUFFIX}.parcel"
 
 stage_artifacts
 
