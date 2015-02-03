@@ -1029,7 +1029,7 @@
 	{
 	  "name": "security_authentication_handler_debug",
 	  "label": "Security Authentication Handler Debug",
-	  "description": "debug",
+	  "description": "Set to true to enable debugging",
 	  "configName": "security.authentication.handler.debug",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -1039,7 +1039,7 @@
 	{
 	  "name": "security_authentication_handler_hostname",
 	  "label": "Security Authentication Handler Hostname",
-	  "description": "hostname",
+	  "description": "LDAP server host",
 	  "configName": "security.authentication.handler.hostname",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -1049,7 +1049,7 @@
 	{
 	  "name": "security_authentication_handler_port",
 	  "label": "Security Authentication Handler Port",
-	  "description": "port",
+	  "description": "LDAP server port",
 	  "configName": "security.authentication.handler.port",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -1059,7 +1059,7 @@
 	{
 	  "name": "security_authentication_handler_userBaseDn",
 	  "label": "Security Authentication Handler userBaseDn",
-	  "description": "userBaseDn",
+	  "description": "Distinguished Name of the root for user account entries in the LDAP directory",
 	  "configName": "security.authentication.handler.userBaseDn",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -1069,7 +1069,7 @@
 	{
 	  "name": "security_authentication_handler_userObjectClass",
 	  "label": "Security Authentication Handler userObjectClass",
-	  "description": "userObjectClass",
+	  "description": "LDAP Object class used to store user entries",
 	  "configName": "security.authentication.handler.userObjectClass",
 	  "required": true,
 	  "configurableInWizard": false,
@@ -1079,7 +1079,7 @@
 	{
 	  "name": "security_authentication_handler_userRdnAttribute",
 	  "label": "Security Authentication Handler userRdnAttribute",
-	  "description": "userRdnAttribute",
+	  "description": "LDAP Object attribute for username when search by role DN",
 	  "configName": "security.authentication.handler.userRdnAttribute",
 	  "required": true,
 	  "configurableInWizard": false,
