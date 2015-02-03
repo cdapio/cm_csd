@@ -4,5 +4,11 @@
     "source": "etc/cdap/conf.dist",
     "priority": 10,
     "isDirectory": true
+  },
+  "cdap-cli": {
+    "destination": "/usr/bin/cdap-cli",
+    "source": "cli/bin/cdap-cli.sh",
+    "priority": 10,
+    "isDirectory": false
   }
 }
