@@ -141,9 +141,9 @@ function scp_parcel {
     die "The following vars must be defined to enable parcel SCP: PARCEL_SCP_USER, PARCEL_SCP_HOST, PARCEL_SCP_BASE_PATH"
   fi
   echo "Creating remote directory"
-  ssh ${PARCEL_SCP_OPTIONS} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST} mkdir -p ${PARCEL_SCP_BASE_PATH}/cdap/${PARCEL_VERSION}
+  ssh ${PARCEL_SCP_OPTIONS} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST} mkdir -p ${PARCEL_SCP_BASE_PATH}/cdap/${VERSION}
   echo "Copying ${TARGET_DIR}/${PARCEL_NAME} to remote host"
-  scp ${PARCEL_SCP_OPTIONS} ${TARGET_DIR}/${PARCEL_NAME} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST}:${PARCEL_SCP_BASE_PATH}/cdap/${PARCEL_VERSION}
+  scp ${PARCEL_SCP_OPTIONS} ${TARGET_DIR}/${PARCEL_NAME} ${PARCEL_SCP_USER}@${PARCEL_SCP_HOST}:${PARCEL_SCP_BASE_PATH}/cdap/${VERSION}
   local __ret=$?
   if [ $__ret -ne 0 ]; then
     die "SCP unsuccessful"
