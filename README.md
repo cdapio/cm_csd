@@ -25,8 +25,8 @@ Then restart Cloudera Manager.
 
 ## Parcel Build
 
-The Parcel packaging format is the preferred format for Cloudera Manager.  This build script works in conjuntion
-with the CDAP repo to package CDAP as a parcel.
+The Parcel packaging format is the preferred format for Cloudera Manager.  This build script works in
+conjunction with the CDAP repo to package CDAP as a parcel.
 
 This is used by the CDAP Parcel build [here](https://builds.cask.co/browse/CDAP-RPA)
 
@@ -60,6 +60,5 @@ The build_parcel.sh script will optionally SCP the resultant parcel to a configu
 deploy the resultant parcel into the parcel repo pipeline.
 
 ### Installing
-After the Parcel is in a CDAP Parcel Repo, it can be installed vi Cloudera Manager's UI.  The CSD above configures
-a parcel repo url for CDAP, which can be further modified by the user.
-
+After the Parcel is in a CDAP Parcel Repo, it can be installed vi Cloudera Manager's UI.  The CSD above
+configures a parcel repo url for CDAP, which can be further modified by the user.
