@@ -11,7 +11,7 @@
 
   <groupId>com.cloudera.csd</groupId>
   <artifactId>CDAP</artifactId>
-  <version>2.7.0-1</version>
+  <version>1.0.0</version>
   <name>The CDAP CSD for Cloudera Manager</name>
   <packaging>pom</packaging>
 
