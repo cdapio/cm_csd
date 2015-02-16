@@ -44,7 +44,7 @@
       </encoder>
       <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
         <maxIndex>{{LOGBACK_MAX_BACKUPS}}</maxIndex>
-        <FileNamePattern>/var/log/cdap/router.log.%i</FileNamePattern>
+        <FileNamePattern>{{LOGBACK_LOG_DIR}}/{{LOGBACK_LOG_FILE}}.%i</FileNamePattern>
       </rollingPolicy>
       <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
         <MaxFileSize>{{LOGBACK_MAX_SIZE}}</MaxFileSize>
