@@ -3,12 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.cloudera</groupId>
-    <artifactId>csd</artifactId>
-    <version>5.2.0</version>
-  </parent>
-
   <groupId>com.cloudera.csd</groupId>
   <artifactId>CDAP</artifactId>
   <version>1.0.1</version>
@@ -23,7 +17,7 @@
         <configuration>
           <appendAssemblyId>false</appendAssemblyId>
           <descriptors>
-            <descriptor>../assembly.xml</descriptor>
+            <descriptor>assembly.xml</descriptor>
           </descriptors>
         </configuration>
         <executions>
