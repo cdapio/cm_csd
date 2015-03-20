@@ -1,7 +1,6 @@
-<?xml version="1.0"?>
-<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright © 2014 Cask Data, Inc.
+  Copyright © 2014-2015 Cask Data, Inc.
 
   Licensed under the Apache License, Version 2.0 (the "License"); you may not
   use this file except in compliance with the License. You may obtain a copy of
@@ -15,10 +14,16 @@
   License for the specific language governing permissions and limitations under
   the License.
   -->
-<configuration>
-  <!-- 
-    Your site level configuration goes here 
-  -->
-
-</configuration>
-
+<assembly>
+    <id>assemble</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+      <fileSet>
+        <directory>${project.basedir}/src</directory>
+        <outputDirectory>/</outputDirectory>
+        </fileSet>
+     </fileSets>
+</assembly>
