@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
