@@ -91,6 +91,7 @@ case ${SERVICE} in
     HOSTNAME=`hostname`
     substitute_cdap_site_tokens ${CLIENT_CONF_DIR}/cdap-site.xml
     exit 0
+    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
