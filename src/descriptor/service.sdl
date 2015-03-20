@@ -749,6 +749,10 @@
           {
             "filename": "logback.xml",
             "sourceFilename": "aux/logback.xml"
+          },
+          {
+            "filename": "logback-container.xml",
+            "sourceFilename": "aux/logback-container.xml"
           }
         ]
       },
