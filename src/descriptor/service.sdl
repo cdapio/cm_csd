@@ -54,6 +54,16 @@
       { "commandName" : "CreateCdapUserHdfsDirCommand" }
     ]
   },
+  "commands" : [
+    {
+      "name" : "cdap_upgrade_tool",
+      "label" : "Run CDAP Upgrade Tool",
+      "description" : "Run CDAP Upgrade Tool",
+      "roleCommand" : "master_upgrade_tool",
+      "roleName" : "CDAP_MASTER",
+      "runMode" : "single"
+    }
+  ],
   "gateway": {
     "alternatives": {
       "name": "cdap-conf",
@@ -765,6 +775,29 @@
         "isModifiable": false,
         "loggingType": "other"
       },
+      "commands" : [
+        {
+          "name" : "master_upgrade_tool",
+          "label" : "Run CDAP Upgrade Tool",
+          "description" : "Run CDAP Upgrade Tool",
+          "expectedExitCodes" : [0],
+          "requiredRoleState" : "stopped",
+          "commandRunner" : {
+            "program" : "scripts/cdap-control.sh",
+            "args" : ["upgrade"],
+            "environmentVariables": {
+              "KAFKA_PROPERTIES" : "kafka.properties",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "LOGBACK_LOG_DIR": "/var/log/cdap",
+              "LOGBACK_LOG_FILE": "master.log",
+              "LOGBACK_THRESHOLD": "${master_log_threshold}",
+              "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
+              "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+            }
+          }
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "master" ],
