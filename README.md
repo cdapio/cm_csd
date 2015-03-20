@@ -11,12 +11,9 @@ Cloudera's documentation for CSDs can be found [here](https://github.com/clouder
 ### Building
 ```
   git clone git@github.com:caskdata/cm_csd.git
-  cd cm_csd/csd
+  cd cm_csd
   mvn clean package
 ```
-
-### Deploying
-The resultant CSD jar is currently manually added to the resource/downloads pipeline.
 
 ### Installing
 
