@@ -28,7 +28,7 @@
     {"name" : "HIVE", "required" : "false"}
   ],
   "rolesWithExternalLinks": [
-    "CDAP_WEB_APP"
+    "CDAP_UI"
   ],
   "hdfsDirs" : [
     {
@@ -814,11 +814,11 @@
       }
     },
     {
-      "name": "CDAP_WEB_APP",
-      "label": "CDAP Web-App Service",
-      "pluralLabel": "CDAP Web-App Services",
+      "name": "CDAP_UI",
+      "label": "CDAP UI Service",
+      "pluralLabel": "CDAP UI Services",
       "externalLink": {
-        "name": "cdap_web_app_ui",
+        "name": "cdap_ui",
         "label": "CDAP Console",
         "url": "http://${host}:${dashboard_bind_port}"
       },
@@ -930,7 +930,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "web-app" ],
+        "args": [ "ui" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
