@@ -91,6 +91,7 @@ case ${SERVICE} in
     HOSTNAME=`hostname`
     substitute_cdap_site_tokens ${CLIENT_CONF_DIR}/cdap-site.xml
     exit 0
+    ;;
   (upgrade)
     # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
