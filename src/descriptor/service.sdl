@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -759,6 +759,10 @@
           {
             "filename": "logback.xml",
             "sourceFilename": "aux/logback.xml"
+          },
+          {
+            "filename": "logback-container.xml",
+            "sourceFilename": "aux/logback-container.xml"
           }
         ]
       },
