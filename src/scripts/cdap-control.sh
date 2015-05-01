@@ -91,6 +91,12 @@ case ${SERVICE} in
     HOSTNAME=`hostname`
     substitute_cdap_site_tokens ${CLIENT_CONF_DIR}/cdap-site.xml
     exit 0
+  (upgrade)
+    # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
+    COMPONENT_HOME=${CDAP_MASTER_HOME}
+    MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
+    MAIN_CLASS_ARGS=upgrade
+    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
@@ -112,8 +118,10 @@ substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 # Token replacement in aux-config logback.xml
 substitute_logback_tokens ${CONF_DIR}/logback.xml
 
-# Source CDAP Component config
-source ${COMPONENT_CONF_SCRIPT}
+# Source CDAP Component config if defined
+if [ -n "${COMPONENT_HOME}" ]; then
+  source ${COMPONENT_CONF_SCRIPT}
+fi
 
 # CDAP_CONF is used by Web-App to find cdap-site.xml
 export CDAP_CONF=${CONF_DIR}
