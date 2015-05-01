@@ -96,7 +96,7 @@ case ${SERVICE} in
     # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
-    MAIN_CLASS_ARGS=upgrade
+    MAIN_CLASS_ARGS="upgrade force"
     ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
