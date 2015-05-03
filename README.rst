@@ -16,7 +16,8 @@ Full documentation for installing the CDAP services via Cloudera Manager can be 
 Building the CSD
 ----------------
 
-::
+You can build the latest version of the CSD by cloning the repo and running maven as follows::
+
   git clone git@github.com:caskdata/cm_csd.git
   cd cm_csd
   mvn clean package
