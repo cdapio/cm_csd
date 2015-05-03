@@ -16,7 +16,7 @@
     }
   },
   "parcel" : {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/latest/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.0/",
     "requiredTags" : [ "cdh", "cdap" ]
   },
   "icon" : "images/icon.png",
