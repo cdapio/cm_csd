@@ -62,6 +62,14 @@
       "roleCommand" : "master_upgrade_tool",
       "roleName" : "CDAP_MASTER",
       "runMode" : "single"
+    },
+    {
+      "name" : "cdap_correct_pending_queue_metrics",
+      "label" : "Correct Pending Queue Metrics Post-Upgrade",
+      "description" : "Correct Pending Queue Metrics Post-Upgrade",
+      "roleCommand" : "master_correct_pending_queue_metrics",
+      "roleName" : "CDAP_MASTER",
+      "runMode" : "single"
     }
   ],
   "gateway": {
@@ -789,6 +797,27 @@
           "commandRunner" : {
             "program" : "scripts/cdap-control.sh",
             "args" : ["upgrade"],
+            "environmentVariables": {
+              "KAFKA_PROPERTIES" : "kafka.properties",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "LOGBACK_LOG_DIR": "/var/log/cdap",
+              "LOGBACK_LOG_FILE": "master.log",
+              "LOGBACK_THRESHOLD": "${master_log_threshold}",
+              "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
+              "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+            }
+          }
+        },
+        {
+          "name" : "master_correct_pending_queue_metrics",
+          "label" : "Correct Pending Queue Metrics Post-Upgrade",
+          "description" : "Correct Pending Queue Metrics Post-Upgrade",
+          "expectedExitCodes" : [0],
+          "requiredRoleState" : "running",
+          "commandRunner" : {
+            "program" : "scripts/cdap-control.sh",
+            "args" : ["flowqueuependingcorrector"],
             "environmentVariables": {
               "KAFKA_PROPERTIES" : "kafka.properties",
               "OPTS": "${cdap_java_opts}",
