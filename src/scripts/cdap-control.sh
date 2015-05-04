@@ -98,6 +98,12 @@ case ${SERVICE} in
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade force"
     ;;
+  (postupgrade)
+    # A post-upgrade step to correct any pending flow metrics. Kafka server must be running
+    COMPONENT_HOME=${CDAP_MASTER_HOME}
+    MAIN_CLASS=co.cask.cdap.data.tools.flow.FlowQueuePendingCorrector
+    MAIN_CLASS_ARGS=""
+    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
@@ -120,7 +126,7 @@ substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 substitute_logback_tokens ${CONF_DIR}/logback.xml
 
 # Source CDAP Component config if defined
-if [ -n "${COMPONENT_HOME}" ]; then
+if [ -n "${COMPONENT_CONF_SCRIPT}" ]; then
   source ${COMPONENT_CONF_SCRIPT}
 fi
 
