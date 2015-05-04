@@ -98,7 +98,7 @@ case ${SERVICE} in
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade force"
     ;;
-  (flowqueuependingcorrector)
+  (postupgrade)
     # A post-upgrade step to correct any pending flow metrics. Kafka server must be running
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.FlowQueuePendingCorrector

@@ -64,10 +64,10 @@
       "runMode" : "single"
     },
     {
-      "name" : "cdap_correct_pending_queue_metrics",
-      "label" : "Correct Pending Queue Metrics Post-Upgrade",
-      "description" : "Correct Pending Queue Metrics Post-Upgrade",
-      "roleCommand" : "master_correct_pending_queue_metrics",
+      "name" : "cdap_post_upgrade_tasks",
+      "label" : "Run CDAP Post-Upgrade Tasks",
+      "description" : "Run CDAP Post-Upgrade Tasks",
+      "roleCommand" : "master_post_upgrade_tasks",
       "roleName" : "CDAP_MASTER",
       "runMode" : "single"
     }
@@ -810,14 +810,14 @@
           }
         },
         {
-          "name" : "master_correct_pending_queue_metrics",
-          "label" : "Correct Pending Queue Metrics Post-Upgrade",
-          "description" : "Correct Pending Queue Metrics Post-Upgrade",
+          "name" : "master_post_upgrade_tasks",
+          "label" : "Run CDAP Post-Upgrade Tasks",
+          "description" : "Run CDAP Post-Upgrade Tasks",
           "expectedExitCodes" : [0],
           "requiredRoleState" : "running",
           "commandRunner" : {
             "program" : "scripts/cdap-control.sh",
-            "args" : ["flowqueuependingcorrector"],
+            "args" : ["postupgrade"],
             "environmentVariables": {
               "KAFKA_PROPERTIES" : "kafka.properties",
               "OPTS": "${cdap_java_opts}",
