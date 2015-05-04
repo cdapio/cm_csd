@@ -5,7 +5,7 @@ v3.0.0 (May 5, 2015)
 --------------------
 - CDAP 3.0 compatability: new CDAP_UI role, removed CDAP_WEB_APP role, added upgrade command ( Issue: #31 )
 - Embedded remote parcel repo updated to point to CDAP 3.0.x parcels
-- New versioning scheme to reflect CDAP major/minor version compatibility: CSD 3.0.x compatable with CDAP 3.0.y
+- New versioning scheme to reflect CDAP major/minor version compatibility: CSD 3.0.* compatable with CDAP 3.0.*
 
 v1.0.2 (Mar 20, 2015)
 ---------------------
