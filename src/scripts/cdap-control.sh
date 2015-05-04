@@ -126,7 +126,7 @@ substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 substitute_logback_tokens ${CONF_DIR}/logback.xml
 
 # Source CDAP Component config if defined
-if [ -n "${COMPONENT_HOME}" ]; then
+if [ -n "${COMPONENT_CONF_SCRIPT}" ]; then
   source ${COMPONENT_CONF_SCRIPT}
 fi
 
