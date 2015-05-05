@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "1.0.2",
+  "version": "3.0.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel" : {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/latest/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.0/",
     "requiredTags" : [ "cdh", "cdap" ]
   },
   "icon" : "images/icon.png",
@@ -28,7 +28,7 @@
     {"name" : "HIVE", "required" : "false"}
   ],
   "rolesWithExternalLinks": [
-    "CDAP_WEB_APP"
+    "CDAP_UI"
   ],
   "hdfsDirs" : [
     {
@@ -54,6 +54,24 @@
       { "commandName" : "CreateCdapUserHdfsDirCommand" }
     ]
   },
+  "commands" : [
+    {
+      "name" : "cdap_upgrade_tool",
+      "label" : "Run CDAP Upgrade Tool",
+      "description" : "Run CDAP Upgrade Tool",
+      "roleCommand" : "master_upgrade_tool",
+      "roleName" : "CDAP_MASTER",
+      "runMode" : "single"
+    },
+    {
+      "name" : "cdap_post_upgrade_tasks",
+      "label" : "Run CDAP Post-Upgrade Tasks",
+      "description" : "Run CDAP Post-Upgrade Tasks",
+      "roleCommand" : "master_post_upgrade_tasks",
+      "roleName" : "CDAP_MASTER",
+      "runMode" : "single"
+    }
+  ],
   "gateway": {
     "alternatives": {
       "name": "cdap-conf",
@@ -769,6 +787,50 @@
         "isModifiable": false,
         "loggingType": "other"
       },
+      "commands" : [
+        {
+          "name" : "master_upgrade_tool",
+          "label" : "Run CDAP Upgrade Tool",
+          "description" : "Run CDAP Upgrade Tool",
+          "expectedExitCodes" : [0],
+          "requiredRoleState" : "stopped",
+          "commandRunner" : {
+            "program" : "scripts/cdap-control.sh",
+            "args" : ["upgrade"],
+            "environmentVariables": {
+              "KAFKA_PROPERTIES" : "kafka.properties",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "LOGBACK_LOG_DIR": "/var/log/cdap",
+              "LOGBACK_LOG_FILE": "master.log",
+              "LOGBACK_THRESHOLD": "${master_log_threshold}",
+              "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
+              "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+            }
+          }
+        },
+        {
+          "name" : "master_post_upgrade_tasks",
+          "label" : "Run CDAP Post-Upgrade Tasks",
+          "description" : "Run CDAP Post-Upgrade Tasks",
+          "expectedExitCodes" : [0],
+          "requiredRoleState" : "running",
+          "commandRunner" : {
+            "program" : "scripts/cdap-control.sh",
+            "args" : ["postupgrade"],
+            "environmentVariables": {
+              "KAFKA_PROPERTIES" : "kafka.properties",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "LOGBACK_LOG_DIR": "/var/log/cdap",
+              "LOGBACK_LOG_FILE": "master.log",
+              "LOGBACK_THRESHOLD": "${master_log_threshold}",
+              "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
+              "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+            }
+          }
+        }
+      ],
       "startRunner": {
         "program": "scripts/cdap-control.sh",
         "args": [ "master" ],
@@ -785,12 +847,12 @@
       }
     },
     {
-      "name": "CDAP_WEB_APP",
-      "label": "CDAP Web-App Service",
-      "pluralLabel": "CDAP Web-App Services",
+      "name": "CDAP_UI",
+      "label": "CDAP UI Service",
+      "pluralLabel": "CDAP UI Services",
       "externalLink": {
-        "name": "cdap_web_app_ui",
-        "label": "CDAP Console",
+        "name": "cdap_ui",
+        "label": "CDAP UI",
         "url": "http://${host}:${dashboard_bind_port}"
       },
       "parameters": [
@@ -901,7 +963,7 @@
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
-        "args": [ "web-app" ],
+        "args": [ "ui" ],
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties"
         }
