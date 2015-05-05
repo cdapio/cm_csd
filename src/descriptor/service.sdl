@@ -852,7 +852,7 @@
       "pluralLabel": "CDAP UI Services",
       "externalLink": {
         "name": "cdap_ui",
-        "label": "CDAP Console",
+        "label": "CDAP UI",
         "url": "http://${host}:${dashboard_bind_port}"
       },
       "parameters": [
