@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -119,6 +119,16 @@
       "required": true,
       "configurableInWizard": false,
       "default": "/tmp",
+      "type": "string"
+    },
+    {
+      "name": "app_template_dir",
+      "label": "App Template Dir",
+      "description": "Directory where all archives for application templates are stored",
+      "configName": "app.template.dir",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "/opt/cloudera/parcels/CDAP/master/templates",
       "type": "string"
     },
     {
