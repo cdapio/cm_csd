@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel" : {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/3.0/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.1/",
     "requiredTags" : [ "cdh", "cdap" ]
   },
   "icon" : "images/icon.png",

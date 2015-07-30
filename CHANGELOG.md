@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.1.0 (Jul 31, 2015)
+- Embedded remote parcel repo updated to point to CDAP 3.1.x parcels
+- Added app.template.dir configuration
+
 v3.0.0 (May 5, 2015)
 --------------------
 - CDAP 3.0 compatability: new CDAP_UI role, removed CDAP_WEB_APP role, added upgrade command ( Issue: #31 )
