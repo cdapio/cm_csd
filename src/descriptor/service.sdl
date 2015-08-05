@@ -490,12 +490,6 @@
             "params": [ "kafka_bind_port" ],
             "roleName": "CDAP_KAFKA"
           }
-        ],
-        "auxConfigGenerators": [
-          {
-            "filename": "logback.xml",
-            "sourceFilename": "aux/logback.xml"
-          }
         ]
       },
       "kerberosPrincipals" : [
@@ -507,7 +501,7 @@
       ],
       "logging": {
         "dir": "/var/log/cdap",
-        "filename": "router-lb.log",
+        "filename": "router.log",
         "isModifiable": true,
         "loggingType": "logback",
         "additionalConfigs": [
@@ -679,19 +673,47 @@
             "params": [ "kafka_bind_port" ],
             "roleName": "CDAP_KAFKA"
           }
-        ],
-        "auxConfigGenerators": [
-          {
-            "filename": "logback.xml",
-            "sourceFilename": "aux/logback.xml"
-          }
         ]
       },
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "kafka.log",
-        "isModifiable": false,
-        "loggingType": "other"
+        "isModifiable": true,
+        "loggingType": "logback",
+        "additionalConfigs": [
+          {
+            "key": "disableChattyLoggerBeanutils",
+            "value": "<logger name=\"org.apache.commons.beanutils\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerZookeeperServer",
+            "value": "<logger name=\"org.apache.zookeeper.server\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerZookeeper",
+            "value": "<logger name=\"org.apache.zookeeper\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerNing",
+            "value": "<logger name=\"com.ning\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHadoop",
+            "value": "<logger name=\"org.apache.hadoop\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHive",
+            "value": "<logger name=\"org.apache.hive\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerQuartz",
+            "value": "<logger name=\"org.quartz.core\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerCDAP",
+            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+          }
+        ]
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
@@ -809,10 +831,6 @@
         ],
         "auxConfigGenerators": [
           {
-            "filename": "logback.xml",
-            "sourceFilename": "aux/logback.xml"
-          },
-          {
             "filename": "logback-container.xml",
             "sourceFilename": "aux/logback-container.xml"
           }
@@ -828,8 +846,42 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "master.log",
-        "isModifiable": false,
-        "loggingType": "other"
+        "isModifiable": true,
+        "loggingType": "logback",
+        "additionalConfigs": [
+          {
+            "key": "disableChattyLoggerBeanutils",
+            "value": "<logger name=\"org.apache.commons.beanutils\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerZookeeperServer",
+            "value": "<logger name=\"org.apache.zookeeper.server\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerZookeeper",
+            "value": "<logger name=\"org.apache.zookeeper\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerNing",
+            "value": "<logger name=\"com.ning\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHadoop",
+            "value": "<logger name=\"org.apache.hadoop\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHive",
+            "value": "<logger name=\"org.apache.hive\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerQuartz",
+            "value": "<logger name=\"org.quartz.core\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerCDAP",
+            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+          }
+        ]
       },
       "commands" : [
         {
@@ -1262,12 +1314,6 @@
             "params": [ "kafka_bind_port" ],
             "roleName": "CDAP_KAFKA"
           }
-        ],
-        "auxConfigGenerators": [
-          {
-            "filename": "logback.xml",
-            "sourceFilename": "aux/logback.xml"
-          }
         ]
       },
       "kerberosPrincipals" : [
@@ -1280,8 +1326,42 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "auth-server.log",
-        "isModifiable": false,
-        "loggingType": "other"
+        "isModifiable": true,
+        "loggingType": "logback",
+        "additionalConfigs": [
+          {
+            "key": "disableChattyLoggerBeanutils",
+            "value": "<logger name=\"org.apache.commons.beanutils\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerZookeeperServer",
+            "value": "<logger name=\"org.apache.zookeeper.server\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerZookeeper",
+            "value": "<logger name=\"org.apache.zookeeper\" level=\"ERROR\"/>"
+          },
+          {
+            "key": "disableChattyLoggerNing",
+            "value": "<logger name=\"com.ning\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHadoop",
+            "value": "<logger name=\"org.apache.hadoop\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHive",
+            "value": "<logger name=\"org.apache.hive\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerQuartz",
+            "value": "<logger name=\"org.quartz.core\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerCDAP",
+            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+          }
+        ]
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
