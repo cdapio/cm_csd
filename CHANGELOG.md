@@ -1,6 +1,9 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.1.1 (Aug 5, 2015)
+- app.template.dir now configurable in wizard
+
 v3.1.0 (Jul 31, 2015)
 - Embedded remote parcel repo updated to point to CDAP 3.1.x parcels
 - Added app.template.dir configuration
