@@ -376,39 +376,6 @@
           "default" : 4294967296,
           "scaleFactor" : 1.3
         },
-        {
-          "name": "router_log_threshold",
-          "label": "CDAP Gateway/Router Service Logging Threshold",
-          "description": "The minimum log level for CDAP Gateway/Router Service logs (via logback)",
-          "required": true,
-          "default": "WARN",
-          "type": "string_enum",
-          "validValues": [
-            "TRACE",
-            "DEBUG",
-            "INFO",
-            "WARN",
-            "ERROR",
-            "FATAL"
-          ]
-        },
-        {
-          "name": "router_log_max_size",
-          "label": "CDAP Gateway/Router Service Max Log Size",
-          "description": "The maximum size, in megabytes, per log file for CDAP Gateway/Router Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "unit": "megabytes",
-          "default": 200
-        },
-        {
-          "name": "router_log_max_backups",
-          "label": "CDAP Gateway/Router Service Max Log File Backups",
-          "description": "The maximum number of rolled log files to keep for CDAP Gateway/Router Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "default": 10
-        },
 	{
 	  "name": "router_ssl_keystore_keypassword",
 	  "label": "Router SSL Keystore Key Password",
@@ -455,7 +422,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "router_log_threshold", "router_log_max_size", "router_log_max_backups" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -545,12 +512,7 @@
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
           "OPTS": "${cdap_java_opts}",
-          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}",
-          "LOGBACK_LOG_DIR": "/var/log/cdap",
-          "LOGBACK_LOG_FILE": "router.log",
-          "LOGBACK_THRESHOLD": "${router_log_threshold}",
-          "LOGBACK_MAX_SIZE": "${router_log_max_size}MB",
-          "LOGBACK_MAX_BACKUPS": "${router_log_max_backups}"
+          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
         }
       }
     },
@@ -569,39 +531,6 @@
           "min" : 1073741824,
           "default" : 2147483648,
           "scaleFactor" : 1.3
-        },
-        {
-          "name": "kafka_log_threshold",
-          "label": "CDAP Kafka Service Logging Threshold",
-          "description": "The minimum log level for CDAP Kafka Service logs (via logback)",
-          "required": true,
-          "default": "WARN",
-          "type": "string_enum",
-          "validValues": [
-            "TRACE",
-            "DEBUG",
-            "INFO",
-            "WARN",
-            "ERROR",
-            "FATAL"
-          ]
-        },
-        {
-          "name": "kafka_log_max_size",
-          "label": "CDAP Kafka Service Max Log Size",
-          "description": "The maximum size, in megabytes, per log file for CDAP Kafka Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "unit": "megabytes",
-          "default": 200
-        },
-        {
-          "name": "kafka_log_max_backups",
-          "label": "CDAP Kafka Service Max Log File Backups",
-          "description": "The maximum number of rolled log files to keep for CDAP Kafka Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "default": 10
         },
 	{
 	  "name": "kafka_bind_address",
@@ -650,7 +579,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax", "kafka_log_threshold", "kafka_log_max_size", "kafka_log_max_backups" ],
+            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -721,12 +650,7 @@
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
           "OPTS": "${cdap_java_opts}",
-          "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}",
-          "LOGBACK_LOG_DIR": "/var/log/cdap",
-          "LOGBACK_LOG_FILE": "kafka.log",
-          "LOGBACK_THRESHOLD": "${kafka_log_threshold}",
-          "LOGBACK_MAX_SIZE": "${kafka_log_max_size}MB",
-          "LOGBACK_MAX_BACKUPS": "${kafka_log_max_backups}"
+          "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}"
         }
       }
     },
@@ -745,39 +669,6 @@
           "min" : 2147483648,
           "default" : 4294967296,
           "scaleFactor" : 1.3
-        },
-        {
-          "name": "master_log_threshold",
-          "label": "CDAP Master Service Logging Threshold",
-          "description": "The minimum log level for CDAP Master Service logs (via logback)",
-          "required": true,
-          "default": "WARN",
-          "type": "string_enum",
-          "validValues": [
-            "TRACE",
-            "DEBUG",
-            "INFO",
-            "WARN",
-            "ERROR",
-            "FATAL"
-          ]
-        },
-        {
-          "name": "master_log_max_size",
-          "label": "CDAP Master Service Max Log Size",
-          "description": "The maximum size, in megabytes, per log file for CDAP Master Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "unit": "megabytes",
-          "default": 200
-        },
-        {
-          "name": "master_log_max_backups",
-          "label": "CDAP Master Service Max Log File Backups",
-          "description": "The maximum number of rolled log files to keep for CDAP Master Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "default": 10
         }
       ],
       "configWriter": {
@@ -785,7 +676,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "master_java_heapmax", "master_log_threshold", "master_log_max_size", "master_log_max_backups" ],
+            "excludedParams": [ "cdap_java_opts", "master_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -896,12 +787,7 @@
             "environmentVariables": {
               "KAFKA_PROPERTIES" : "kafka.properties",
               "OPTS": "${cdap_java_opts}",
-              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
-              "LOGBACK_LOG_DIR": "/var/log/cdap",
-              "LOGBACK_LOG_FILE": "master.log",
-              "LOGBACK_THRESHOLD": "${master_log_threshold}",
-              "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
-              "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
         },
@@ -917,12 +803,7 @@
             "environmentVariables": {
               "KAFKA_PROPERTIES" : "kafka.properties",
               "OPTS": "${cdap_java_opts}",
-              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
-              "LOGBACK_LOG_DIR": "/var/log/cdap",
-              "LOGBACK_LOG_FILE": "master.log",
-              "LOGBACK_THRESHOLD": "${master_log_threshold}",
-              "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
-              "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
         }
@@ -933,12 +814,7 @@
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
           "OPTS": "${cdap_java_opts}",
-          "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
-          "LOGBACK_LOG_DIR": "/var/log/cdap",
-          "LOGBACK_LOG_FILE": "master.log",
-          "LOGBACK_THRESHOLD": "${master_log_threshold}",
-          "LOGBACK_MAX_SIZE": "${master_log_max_size}MB",
-          "LOGBACK_MAX_BACKUPS": "${master_log_max_backups}"
+          "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
         }
       }
     },
@@ -1083,39 +959,6 @@
           "min" : 1073741824,
           "default" : 2147483648,
           "scaleFactor" : 1.3
-        },
-        {
-          "name": "auth_log_threshold",
-          "label": "CDAP Auth Service Logging Threshold",
-          "description": "The minimum log level for CDAP Auth Service logs (via logback)",
-          "required": true,
-          "default": "WARN",
-          "type": "string_enum",
-          "validValues": [
-            "TRACE",
-            "DEBUG",
-            "INFO",
-            "WARN",
-            "ERROR",
-            "FATAL"
-          ]
-        },
-        {
-          "name": "auth_log_max_size",
-          "label": "CDAP Auth Service Max Log Size",
-          "description": "The maximum size, in megabytes, per log file for CDAP Auth Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "unit": "megabytes",
-          "default": 200
-        },
-        {
-          "name": "auth_log_max_backups",
-          "label": "CDAP Auth Service Max Log File Backups",
-          "description": "The maximum number of rolled log files to keep for CDAP Auth Service logs (via logback)",
-          "required": true,
-          "type": "long",
-          "default": 10
         },
 	{
 	  "name": "security_auth_server_bind_port",
@@ -1279,7 +1122,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "auth_log_threshold", "auth_log_max_size", "auth_log_max_backups" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1369,12 +1212,7 @@
         "environmentVariables": {
           "KAFKA_PROPERTIES" : "kafka.properties",
           "OPTS": "${cdap_java_opts}",
-          "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}",
-          "LOGBACK_LOG_DIR": "/var/log/cdap",
-          "LOGBACK_LOG_FILE": "auth-server.log",
-          "LOGBACK_THRESHOLD": "${auth_log_threshold}",
-          "LOGBACK_MAX_SIZE": "${auth_log_max_size}MB",
-          "LOGBACK_MAX_BACKUPS": "${auth_log_max_backups}"
+          "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}"
         }
       }
     }

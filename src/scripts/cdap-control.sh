@@ -56,14 +56,6 @@ function substitute_cdap_site_tokens {
   fi
 }
 
-function substitute_logback_tokens {
-  local __logback=$1
-  # Token replacement in aux-config logback.xml
-  sed -i -e "s#{{LOGBACK_LOG_DIR}}#${LOGBACK_LOG_DIR}#" -e "s#{{LOGBACK_LOG_FILE}}#${LOGBACK_LOG_FILE}#" \
-    -e "s#{{LOGBACK_THRESHOLD}}#${LOGBACK_THRESHOLD}#" -e "s#{{LOGBACK_MAX_SIZE}}#${LOGBACK_MAX_SIZE}#" \
-    -e "s#{{LOGBACK_MAX_BACKUPS}}#${LOGBACK_MAX_BACKUPS}#" ${__logback}
-}
-
 # Determine relevant CDAP component paths from sourced parcel variables
 case ${SERVICE} in
   (auth-server)
@@ -121,9 +113,6 @@ source ${COMPONENT_HOME}/bin/common-env.sh
 # Hostname
 HOSTNAME=`hostname`
 substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
-
-# Token replacement in aux-config logback.xml
-substitute_logback_tokens ${CONF_DIR}/logback.xml
 
 # Source CDAP Component config if defined
 if [ -n "${COMPONENT_CONF_SCRIPT}" ]; then
