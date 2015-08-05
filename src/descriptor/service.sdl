@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -507,9 +507,43 @@
       ],
       "logging": {
         "dir": "/var/log/cdap",
-        "filename": "router.log",
-        "isModifiable": false,
-        "loggingType": "other"
+        "filename": "router-lb.log",
+        "isModifiable": true,
+        "loggingType": "logback",
+        "additionalConfigs": [
+          {  
+            "key": "disableChattyLoggerBeanutils",
+            "value": "<logger name=\"org.apache.commons.beanutils\" level=\"ERROR\"/>"
+          },
+          {  
+            "key": "disableChattyLoggerZookeeperServer",
+            "value": "<logger name=\"org.apache.zookeeper.server\" level=\"ERROR\"/>"
+          },
+          {  
+            "key": "disableChattyLoggerZookeeper",
+            "value": "<logger name=\"org.apache.zookeeper\" level=\"ERROR\"/>"
+          },
+          {  
+            "key": "disableChattyLoggerNing",
+            "value": "<logger name=\"com.ning\" level=\"WARN\"/>"
+          },
+          {  
+            "key": "disableChattyLoggerHadoop",
+            "value": "<logger name=\"org.apache.hadoop\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerHive",
+            "value": "<logger name=\"org.apache.hive\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerQuartz",
+            "value": "<logger name=\"org.quartz.core\" level=\"WARN\"/>"
+          },
+          {
+            "key": "disableChattyLoggerCDAP",
+            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+          }
+        ]
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
