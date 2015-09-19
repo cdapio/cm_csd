@@ -1,7 +1,7 @@
 CDAP CSD CHANGELOG
 ==================
 
-v3.2.0 (Sep 18, 2015)
+v3.2.0
 ---------------------
 - Use CM logback integration (requires CM 5.4)
 - Embedded remote parcel repo updated to point to CDAP 3.2.x parcels
