@@ -11,7 +11,7 @@
   "compatibility": {
     "generation": 1,
     "cdhVersion": {
-      "min": "5.4.0",
+      "min": "5",
       "max": 5
     }
   },
@@ -122,13 +122,13 @@
       "type": "string"
     },
     {
-      "name": "app_template_dir",
-      "label": "App Template Dir",
-      "description": "Directory where all archives for application templates are stored",
-      "configName": "app.template.dir",
+      "name": "app_artifact_dir",
+      "label": "App Artifact Dir",
+      "description": "Directory where all system artifacts and their corresponding config files are stored",
+      "configName": "app.artifact.dir",
       "required": true,
       "configurableInWizard": true,
-      "default": "/opt/cloudera/parcels/CDAP/master/templates",
+      "default": "/opt/cloudera/parcels/CDAP/master/artifacts",
       "type": "string"
     },
     {
@@ -233,17 +233,6 @@
       "required": true,
       "configurableInWizard": true,
       "default": 1024,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "metadata_program_run_history_keepdays",
-      "label": "Metadata Program Run History Keepdays",
-      "description": "Specifies the number of days to keepprogram run run-history in metadata",
-      "configName": "metadata.program.run.history.keepdays",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 30,
       "type": "long",
       "min": 1
     },
@@ -669,6 +658,46 @@
           "min" : 2147483648,
           "default" : 4294967296,
           "scaleFactor" : 1.3
+        },
+        {
+          "name": "metadata_service_bind_address",
+          "label": "Metadata Service Bind Address",
+          "description": "Default inet address for binding metadata HTTP service",
+          "configName": "metadata.service.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "metadata_updates_kafka_broker_list",
+          "label": "Metadata Updates Kafka Broker List",
+          "description": "Kafka broker list to which metadata update notifications are published",
+          "configName": "metadata.updates.kafka.broker.list",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "127.0.0.1:${kafka.bind.port}",
+          "type": "string"
+        },
+        {
+          "name": "metadata_updates_kafka_topic",
+          "label": "Metadata Updates Kafka Topic",
+          "description": "Kafka topic to which metadata update notifications are published",
+          "configName": "metadata.updates.kafka.topic",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "cdap-metadata-updates",
+          "type": "string"
+        },
+        {
+          "name": "metadata_updates_publish_enabled",
+          "label": "Metadata Updates Publish Enabled",
+          "description": "Determines if metadata updates will be published to Apache Kafka. External systems can subscribe to the Kafka topic determined by ${metadata.updates.kafka.topic} to receive notifications of metadata updates.",
+          "configName": "metadata.updates.publish.enabled",
+          "required": true,
+          "configurableInWizard": false,
+          "default": false,
+          "type": "boolean"
         }
       ],
       "configWriter": {

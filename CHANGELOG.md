@@ -5,6 +5,7 @@ v3.2.0
 ---------------------
 - Use CM logback integration (requires CM 5.4)
 - Embedded remote parcel repo updated to point to CDAP 3.2.x parcels
+- app.artifact.dir and metadata.service.* configurations
 
 v3.1.0 (Jul 31, 2015)
 ---------------------
