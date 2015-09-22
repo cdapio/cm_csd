@@ -122,13 +122,13 @@
       "type": "string"
     },
     {
-      "name": "app_template_dir",
-      "label": "App Template Dir",
-      "description": "Directory where all archives for application templates are stored",
-      "configName": "app.template.dir",
+      "name": "app_artifact_dir",
+      "label": "App Artifact Dir",
+      "description": "Directory where all system artifacts and their corresponding config files are stored",
+      "configName": "app.artifact.dir",
       "required": true,
       "configurableInWizard": true,
-      "default": "/opt/cloudera/parcels/CDAP/master/templates",
+      "default": "/opt/cloudera/parcels/CDAP/master/artifacts",
       "type": "string"
     },
     {
@@ -233,17 +233,6 @@
       "required": true,
       "configurableInWizard": true,
       "default": 1024,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "metadata_program_run_history_keepdays",
-      "label": "Metadata Program Run History Keepdays",
-      "description": "Specifies the number of days to keepprogram run run-history in metadata",
-      "configName": "metadata.program.run.history.keepdays",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 30,
       "type": "long",
       "min": 1
     },
