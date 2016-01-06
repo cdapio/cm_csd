@@ -155,6 +155,9 @@ if [ ${MAIN_CLASS} ]; then
   # Include appropriate hbase_compat module in classpath
   set_hbase
 
+  # Setup spark environment
+  cdap_set_spark_env
+
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
   echo "`ulimit -a`"
