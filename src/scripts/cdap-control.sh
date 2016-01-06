@@ -109,6 +109,8 @@ source $COMMON_SCRIPT
 source ${COMPONENT_HOME}/bin/common.sh
 source ${COMPONENT_HOME}/bin/common-env.sh
 
+fn_exists() { type -t ${1} | grep -q function; }
+
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
 HOSTNAME=`hostname`
@@ -156,7 +158,7 @@ if [ ${MAIN_CLASS} ]; then
   set_hbase
 
   # Setup spark environment
-  cdap_set_spark_env
+  fn_exists cdap_set_spark_env && cdap_set_spark_env
 
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
