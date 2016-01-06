@@ -106,8 +106,15 @@ esac
 source $COMMON_SCRIPT
 
 # Source the CDAP common init functions
-source ${COMPONENT_HOME}/bin/common.sh
 source ${COMPONENT_HOME}/bin/common-env.sh
+source ${COMPONENT_HOME}/bin/common.sh
+
+# Remap CDAP common init functions, if necessary
+fn_exists() { type -t ${1} | grep -q function; }
+
+fn_exists cdap_set_classpath || cdap_set_classpath() { set_classpath; }
+fn_exists cdap_set_hive_classpath || cdap_set_hive_classpath() { set_hive_classpath; }
+fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase; }
 
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
@@ -145,15 +152,15 @@ if [ ${MAIN_CLASS} ]; then
   # Set HBASE_HOME to CM-provided active location
   export HBASE_HOME=${CDH_HBASE_HOME}
   # Set base classpath to include component and conf directory (CM provided)
-  set_classpath ${COMPONENT_HOME} ${CONF_DIR}
+  cdap_set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
   # Set HIVE_HOME to CM-provided active location
   export HIVE_HOME=${CDH_HIVE_HOME}
   # Setup hive classpath if hive is installed, this has to be run after HBASE_CP is setup by set_classpath.
-  set_hive_classpath
+  cdap_set_hive_classpath
 
   # Include appropriate hbase_compat module in classpath
-  set_hbase
+  cdap_set_hbase
 
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
