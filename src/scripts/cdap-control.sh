@@ -112,9 +112,9 @@ source ${COMPONENT_HOME}/bin/common.sh
 # Remap CDAP common init functions, if necessary
 fn_exists() { type -t ${1} | grep -q function; }
 
-fn_exists cdap_set_classpath || cdap_set_classpath() { set_classpath; }
-fn_exists cdap_set_hive_classpath || cdap_set_hive_classpath() { set_hive_classpath; }
-fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase; }
+fn_exists cdap_set_classpath || cdap_set_classpath() { set_classpath ${*}; }
+fn_exists cdap_set_hive_classpath || cdap_set_hive_classpath() { set_hive_classpath ${*}; }
+fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase ${*}; }
 
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
