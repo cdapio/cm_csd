@@ -150,7 +150,7 @@
       "configName": "explore.enabled",
       "required": true,
       "configurableInWizard": true,
-      "default": false,
+      "default": true,
       "type": "boolean"
     },
     {
