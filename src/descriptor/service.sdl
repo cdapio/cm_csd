@@ -44,7 +44,7 @@
       "label" : "Create CDAP User Dir",
       "description" : "Creates the /user/cdap HDFS directory needed for mapreduce",
       "directoryDescription" : "CDAP HDFS user directory",
-      "path" : "/user/${root_namespace}",
+      "path" : "/user/${hdfs_user}",
       "permissions" : "0755"
     }
   ],
