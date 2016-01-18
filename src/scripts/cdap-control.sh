@@ -121,6 +121,15 @@ fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase; }
 HOSTNAME=`hostname`
 substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 
+# Copy logback-container.xml into place unless user has populated safety valve
+[[ -s logback-container.xml ]] || cp aux/logback-container.xml.default logback-container.xml
+if [ -s logback-container.xml ]; then
+  echo "Populating logback-container.xml from safety valve content. Ensure the contents of the safety valve represent the entire file!"
+else
+  # No safety valve content, copy the packaged default into place
+  cp aux/logback-container.xml.default logback-container.xml
+fi
+
 # Source CDAP Component config if defined
 if [ -n "${COMPONENT_CONF_SCRIPT}" ]; then
   source ${COMPONENT_CONF_SCRIPT}
