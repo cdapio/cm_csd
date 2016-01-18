@@ -122,7 +122,6 @@ HOSTNAME=`hostname`
 substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 
 # Copy logback-container.xml into place unless user has populated safety valve
-[[ -s logback-container.xml ]] || cp aux/logback-container.xml.default logback-container.xml
 if [ -s logback-container.xml ]; then
   echo "Populating logback-container.xml from safety valve content. Ensure the contents of the safety valve represent the entire file!"
 else
