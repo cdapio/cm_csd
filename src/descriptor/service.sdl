@@ -666,6 +666,47 @@
           "scaleFactor" : 1.3
         },
         {
+          "name": "master_startup_checks_enabled",
+          "label": "Master Startup Checks Enabled",
+          "description": "Whether checks should be run before start up to determine if the master can be correctly run. Which checks are run are determined by the master.startup.checks.packages and master.startup.checks.classes settings. If any check fails, the CDAP master will fail to start instead of waiting for the problem to be fixed. This setting only affects distributed CDAP. It does not apply to CDAP standalone.",
+          "configName": "master.startup.checks.enabled",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "master_startup_checks_packages",
+          "label": "Master Startup Checks Packages",
+          "description": "Comma separated list of packages containing checks that will be run before the master starts up. If any of the checks fails, the master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
+          "configName": "master.startup.checks.packages",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "co.cask.cdap.master.startup",
+          "type": "string"
+        },
+        {
+          "name": "master_startup_checks_classes",
+          "label": "Master Startup Checks Classes",
+          "description": "Comma separated list of classnames for checks that will be run before the master starts up. If any of the checks fails, the master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
+          "configName": "master.startup.checks.classes",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "master_startup_service_timeout_seconds",
+          "label": "Master Startup Service Timeout Seconds",
+          "description": "Timeout in seconds for master services to wait for their dependent services to be available. For example, the dataset executor master service requires the transaction service, and will wait for the transaction service to become available while it is starting up. If the timeout is hit, the service will fail to start and the master will shut itself down. If set to 0 or below, master services will not wait for their dependent services to start before starting themselves.",
+          "configName": "master.startup.service.timeout.seconds",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 600,
+          "type": "long",
+          "unit": "seconds"
+        },
+        {
           "name": "metadata_service_bind_address",
           "label": "Metadata Service Bind Address",
           "description": "Default inet address for binding metadata HTTP service",
