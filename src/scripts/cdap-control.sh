@@ -184,6 +184,7 @@ if [ ${MAIN_CLASS} ]; then
   # Run Master Startup Checks
   if [ "${SERVICE}" == "master" ]; then
     echo "Running startup checks -- this may take a few minutes"
+    echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
     "${JAVA}" "${JAVA_HEAPMAX}" \
       -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
       -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
