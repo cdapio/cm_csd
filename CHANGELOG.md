@@ -10,6 +10,7 @@ v3.3.0 (Jan 19, 2016)
 - Ability to specify entire logback-container.xml in the safety valve ( Issues: #51 [CDAP-3360](https://issues.cask.co/browse/CDAP-3360) )
 - Enable CDAP Master Startup checks ( Issues: #52 [CDAP-4585](https://issues.cask.co/browse/CDAP-4585) )
 - Add dashboard.router.check.timeout.secs configuration to expose UI misconfiguration in CM UI ( Issues: #54 [CDAP-4699](https://issues.cask.co/browse/CDAP-4699) )
+- Add configurations for streaming container logs back to master process log ( Issue: #55 )
 
 v3.2.0 (Sep 22, 2015)
 ---------------------
