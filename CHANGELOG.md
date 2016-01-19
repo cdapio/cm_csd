@@ -1,7 +1,16 @@
 CDAP CSD CHANGELOG
 ==================
 
-v3.2.0
+v3.3.0 (Jan 19, 2016)
+---------------------
+- Namespace start script functions ( Issues: #45 #48 [CDAP-1174](https://issues.cask.co/browse/CDAP-1174) )
+- Remove dependency on xmllint ( Issues: #47 [CDAP-4442](https://issues.cask.co/browse/CDAP-4442) )
+- Explore functionality enabled by default ( Issues: #49 [CDAP-4355](https://issues.cask.co/browse/CDAP-4355) )
+- Bugfix in /user/cdap ownership ( Issue: #50 )
+- Ability to specify entire logback-container.xml in the safety valve ( Issues: #51 [CDAP-3360](https://issues.cask.co/browse/CDAP-3360) )
+- Enable CDAP Master Startup checks ( Issues: #52 [CDAP-4585](https://issues.cask.co/browse/CDAP-4585) )
+
+v3.2.0 (Sep 22, 2015)
 ---------------------
 - Use CM logback integration (requires CM 5.4)
 - Embedded remote parcel repo updated to point to CDAP 3.2.x parcels
