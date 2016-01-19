@@ -896,7 +896,8 @@
           "KAFKA_PROPERTIES" : "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
-          "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+          "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+          "STARTUP_CHECKS_ENABLED": "${master_startup_checks_enabled}"
         }
       }
     },

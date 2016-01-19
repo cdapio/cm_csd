@@ -183,16 +183,18 @@ if [ ${MAIN_CLASS} ]; then
 
   # Run Master Startup Checks
   if [ "${SERVICE}" == "master" ]; then
-    echo "Running startup checks -- this may take a few minutes"
-    echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
-    "${JAVA}" "${JAVA_HEAPMAX}" \
-      -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-      -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
-      -cp ${CLASSPATH} \
-      co.cask.cdap.master.startup.MasterStartupTool 2>&1
-    if [ $? -ne 0 ]; then
-      echo "Master startup checks failed. Please check the CDAP Master Role logs to address issues."
-      exit 1
+    if [[ "${STARTUP_CHECKS_ENABLED}" == "true" ]]; then
+      echo "Running startup checks -- this may take a few minutes"
+      echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
+      "${JAVA}" "${JAVA_HEAPMAX}" \
+        -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
+        -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+        -cp ${CLASSPATH} \
+        co.cask.cdap.master.startup.MasterStartupTool 2>&1
+      if [ $? -ne 0 ]; then
+        echo "Master startup checks failed. Please check the CDAP Master Role logs to address issues."
+        exit 1
+      fi
     fi
   fi
 
