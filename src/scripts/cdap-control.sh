@@ -181,6 +181,21 @@ if [ ${MAIN_CLASS} ]; then
   echo "Using main_class: ${MAIN_CLASS}"
   echo "Using args: ${MAIN_CLASS_ARGS}"
 
+  # Run Master Startup Checks
+  if [ "${SERVICE}" == "master" ]; then
+    echo "Running startup checks -- this may take a few minutes"
+    "${JAVA}" "${JAVA_HEAPMAX}" \
+      -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
+      -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+      -cp ${CLASSPATH} \
+      co.cask.cdap.master.startup.MasterStartupTool 2>&1
+    if [ $? -ne 0 ]; then
+      echo "Master startup checks failed. Please check the CDAP Master Role logs to address issues."
+      exit 1
+    fi
+  fi
+
+  # Exec into Master Service
   exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
     -Dexplore.classpath=${EXPLORE_CLASSPATH} "${OPTS}" \
