@@ -667,7 +667,7 @@
         {
           "name": "master_collect_app_containers_log_level",
           "label": "Master Collect Application Container Logs Level",
-          "description": "The log level of application container logs that get streamed back to the CDAP master process log. The levels supported are [ ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF ].",
+          "description": "The log level of application container logs that get streamed back to the CDAP Master process log. The levels supported are [ ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF ].",
           "configName": "master.collect.app.containers.log.level",
           "required": true,
           "configurableInWizard": false,
@@ -686,7 +686,7 @@
         {
           "name" : "master_java_heapmax",
           "label" : "Master Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "description" : "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
           "required" : "true",
           "type" : "memory",
           "unit" : "bytes",
