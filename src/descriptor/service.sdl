@@ -931,6 +931,17 @@
 	  "default": 9999,
 	  "type": "port"
 	},
+        {
+          "name": "dashboard_router_check_timeout_secs",
+          "label": "Dashboard Router Check Timeout Seconds",
+          "description": "Amount of time, in seconds, CDAP UI waits before exiting when not able to connect to CDAP Router on startup. Use timeout as 0 to wait indefinitely.",
+          "configName": "dashboard.router.check.timeout.secs",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 60,
+          "type": "long",
+          "unit": "seconds"
+        },
 	{
 	  "name": "dashboard_ssl_bind_port",
 	  "label": "Dashboard SSL Bind Port",
