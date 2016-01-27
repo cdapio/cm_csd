@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel" : {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/3.2/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.3/",
     "requiredTags" : [ "cdh", "cdap" ]
   },
   "icon" : "images/icon.png",
@@ -655,9 +655,38 @@
       "pluralLabel": "CDAP Master Services",
       "parameters": [
         {
+          "name": "master_collect_containers_log",
+          "label": "Master Collect Container Logs",
+          "description": "Determines if master service container logs are streamed back to the CDAP Master process log",
+          "configName": "master.collect.containers.log",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "master_collect_app_containers_log_level",
+          "label": "Master Collect Application Container Logs Level",
+          "description": "The log level of application container logs that get streamed back to the CDAP Master process log. The levels supported are [ ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF ].",
+          "configName": "master.collect.app.containers.log.level",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "ERROR",
+          "type": "string_enum",
+          "validValues": [
+            "ALL",
+            "TRACE",
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR",
+            "OFF"
+          ]
+        },
+        {
           "name" : "master_java_heapmax",
           "label" : "Master Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
+          "description" : "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
           "required" : "true",
           "type" : "memory",
           "unit" : "bytes",
@@ -931,6 +960,17 @@
 	  "default": 9999,
 	  "type": "port"
 	},
+        {
+          "name": "dashboard_router_check_timeout_secs",
+          "label": "Dashboard Router Check Timeout Seconds",
+          "description": "Amount of time, in seconds, CDAP UI waits before exiting when not able to connect to CDAP Router on startup. Use timeout as 0 to wait indefinitely.",
+          "configName": "dashboard.router.check.timeout.secs",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 60,
+          "type": "long",
+          "unit": "seconds"
+        },
 	{
 	  "name": "dashboard_ssl_bind_port",
 	  "label": "Dashboard SSL Bind Port",
