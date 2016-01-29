@@ -130,7 +130,7 @@
       "configName": "app.artifact.dir",
       "required": true,
       "configurableInWizard": true,
-      "default": "/opt/cloudera/parcels/CDAP/master/artifacts",
+      "default": "${cdap.home}/master/artifacts",
       "type": "string"
     },
     {

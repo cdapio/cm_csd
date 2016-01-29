@@ -189,6 +189,7 @@ if [ ${MAIN_CLASS} ]; then
       "${JAVA}" "${JAVA_HEAPMAX}" \
         -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
         -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+        -Dcdap.home=${CDAP_HOME} \
         -cp ${CLASSPATH} \
         co.cask.cdap.master.startup.MasterStartupTool 2>&1
       if [ $? -ne 0 ]; then
@@ -203,6 +204,7 @@ if [ ${MAIN_CLASS} ]; then
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
     -Dexplore.classpath=${EXPLORE_CLASSPATH} "${OPTS}" \
     -Duser.dir=${LOCAL_DIR} \
+    -Dcdap.home=${CDAP_HOME} \
     -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}
 
 elif [ ${MAIN_CMD} ]; then
