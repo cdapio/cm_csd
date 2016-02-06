@@ -57,24 +57,24 @@
   "commands" : [
     {
       "name" : "cdap_upgrade_tool",
-      "label" : "Run CDAP Upgrade Tool",
-      "description" : "Run CDAP Upgrade Tool",
+      "label" : "Run CDAP Upgrade",
+      "description" : "Run after upgrading the CDAP Parcel, and before starting CDAP",
       "roleCommand" : "master_upgrade_tool",
       "roleName" : "CDAP_MASTER",
       "runMode" : "single"
     },
     {
       "name" : "cdap_upgrade_hbase_tool",
-      "label" : "Run Post-HBase-upgrade CDAP Table corrector",
-      "description" : "Run Post-HBase-upgrade CDAP Table corrector",
+      "label" : "Run Post-CDH Upgrade Tasks",
+      "description" : "Run after upgrading CDH, and before starting CDAP",
       "roleCommand" : "master_upgrade_hbase_tool",
       "roleName" : "CDAP_MASTER",
       "runMode" : "single"
     },
     {
       "name" : "cdap_post_upgrade_tasks",
-      "label" : "Run CDAP Post-Upgrade Tasks",
-      "description" : "Run CDAP Post-Upgrade Tasks",
+      "label" : "Run Post-CDAP Upgrade Tasks",
+      "description" : "Run after upgrading CDAP, and after starting CDAP the first time",
       "roleCommand" : "master_post_upgrade_tasks",
       "roleName" : "CDAP_MASTER",
       "runMode" : "single"
@@ -893,8 +893,8 @@
       "commands" : [
         {
           "name" : "master_upgrade_tool",
-          "label" : "Run CDAP Upgrade Tool",
-          "description" : "Run CDAP Upgrade Tool",
+          "label" : "Run CDAP Upgrade",
+          "description" : "Run after upgrading the CDAP Parcel, and before starting CDAP",
           "expectedExitCodes" : [0],
           "requiredRoleState" : "stopped",
           "commandRunner" : {
@@ -911,8 +911,8 @@
         },
         {
           "name" : "master_upgrade_hbase_tool",
-          "label" : "Run Post-HBase-upgrade CDAP Table corrector",
-          "description" : "Run Post-HBase-upgrade CDAP Table corrector",
+          "label" : "Run Post-CDH Upgrade Tasks",
+          "description" : "Run after upgrading CDH, and before starting CDAP",
           "expectedExitCodes" : [0],
           "requiredRoleState" : "stopped",
           "commandRunner" : {
@@ -929,8 +929,8 @@
         },
         {
           "name" : "master_post_upgrade_tasks",
-          "label" : "Run CDAP Post-Upgrade Tasks",
-          "description" : "Run CDAP Post-Upgrade Tasks",
+          "label" : "Run Post-CDAP Upgrade Tasks",
+          "description" : "Run after upgrading CDAP, and after starting CDAP the first time",
           "expectedExitCodes" : [0],
           "requiredRoleState" : "running",
           "commandRunner" : {
