@@ -64,6 +64,14 @@
       "runMode" : "single"
     },
     {
+      "name" : "cdap_upgrade_hbase_tool",
+      "label" : "Run Post-HBase-upgrade CDAP Table corrector",
+      "description" : "Run Post-HBase-upgrade CDAP Table corrector",
+      "roleCommand" : "master_upgrade_hbase_tool",
+      "roleName" : "CDAP_MASTER",
+      "runMode" : "single"
+    },
+    {
       "name" : "cdap_post_upgrade_tasks",
       "label" : "Run CDAP Post-Upgrade Tasks",
       "description" : "Run CDAP Post-Upgrade Tasks",
@@ -892,6 +900,24 @@
           "commandRunner" : {
             "program" : "scripts/cdap-control.sh",
             "args" : ["upgrade"],
+            "environmentVariables": {
+              "EXPLORE_ENABLED": "${explore_enabled}",
+              "KAFKA_PROPERTIES" : "kafka.properties",
+              "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+            }
+          }
+        },
+        {
+          "name" : "master_upgrade_hbase_tool",
+          "label" : "Run Post-HBase-upgrade CDAP Table corrector",
+          "description" : "Run Post-HBase-upgrade CDAP Table corrector",
+          "expectedExitCodes" : [0],
+          "requiredRoleState" : "stopped",
+          "commandRunner" : {
+            "program" : "scripts/cdap-control.sh",
+            "args" : ["upgrade_hbase"],
             "environmentVariables": {
               "EXPLORE_ENABLED": "${explore_enabled}",
               "KAFKA_PROPERTIES" : "kafka.properties",
