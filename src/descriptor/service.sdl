@@ -66,7 +66,7 @@
     {
       "name" : "cdap_upgrade_hbase_tool",
       "label" : "Run Post-CDH Upgrade Tasks",
-      "description" : "Run after upgrading CDH, and before starting CDAP",
+      "description" : "Run after upgrading CDH, after disabling CDAP HBase Tables, and before starting CDAP",
       "roleCommand" : "master_upgrade_hbase_tool",
       "roleName" : "CDAP_MASTER",
       "runMode" : "single"
@@ -912,7 +912,7 @@
         {
           "name" : "master_upgrade_hbase_tool",
           "label" : "Run Post-CDH Upgrade Tasks",
-          "description" : "Run after upgrading CDH, and before starting CDAP",
+          "description" : "Run after upgrading CDH, after disabling CDAP HBase Tables, and before starting CDAP",
           "expectedExitCodes" : [0],
           "requiredRoleState" : "stopped",
           "commandRunner" : {
