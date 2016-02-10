@@ -15,61 +15,61 @@
       "max": 5
     }
   },
-  "parcel" : {
+  "parcel": {
     "repoUrl": "http://repository.cask.co/parcels/cdap/3.3/",
-    "requiredTags" : [ "cdh", "cdap" ]
+    "requiredTags": [ "cdh", "cdap" ]
   },
-  "icon" : "images/icon.png",
-  "serviceDependencies" : [
-    {"name" : "ZOOKEEPER", "required" : "true" },
-    {"name" : "HDFS", "required" : "true"},
-    {"name" : "YARN", "required" : "true"},
-    {"name" : "HBASE", "required" : "true"},
-    {"name" : "HIVE", "required" : "false"}
+  "icon": "images/icon.png",
+  "serviceDependencies": [
+    {"name": "ZOOKEEPER", "required": "true" },
+    {"name": "HDFS", "required": "true"},
+    {"name": "YARN", "required": "true"},
+    {"name": "HBASE", "required": "true"},
+    {"name": "HIVE", "required": "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_UI"
   ],
-  "hdfsDirs" : [
+  "hdfsDirs": [
     {
-      "name" : "CreateCdapHdfsDirCommand",
-      "label" : "Create CDAP Namespace Dir",
-      "description" : "Creates the top-level CDAP namespace directory in HDFS",
-      "directoryDescription" : "CDAP HDFS namespace directory",
-      "path" : "/${root_namespace}",
-      "permissions" : "0755"
+      "name": "CreateCdapHdfsDirCommand",
+      "label": "Create CDAP Namespace Dir",
+      "description": "Creates the top-level CDAP namespace directory in HDFS",
+      "directoryDescription": "CDAP HDFS namespace directory",
+      "path": "/${root_namespace}",
+      "permissions": "0755"
     },
     {
-      "name" : "CreateCdapUserHdfsDirCommand",
-      "label" : "Create CDAP User Dir",
-      "description" : "Creates the /user/cdap HDFS directory needed for mapreduce",
-      "directoryDescription" : "CDAP HDFS user directory",
-      "path" : "/user/${hdfs_user}",
-      "permissions" : "0755"
+      "name": "CreateCdapUserHdfsDirCommand",
+      "label": "Create CDAP User Dir",
+      "description": "Creates the /user/cdap HDFS directory needed for mapreduce",
+      "directoryDescription": "CDAP HDFS user directory",
+      "path": "/user/${hdfs_user}",
+      "permissions": "0755"
     }
   ],
-  "serviceInit" : {
-    "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" },
-      { "commandName" : "CreateCdapUserHdfsDirCommand" }
+  "serviceInit": {
+    "preStartSteps": [
+      { "commandName": "CreateCdapHdfsDirCommand" },
+      { "commandName": "CreateCdapUserHdfsDirCommand" }
     ]
   },
-  "commands" : [
+  "commands": [
     {
-      "name" : "cdap_upgrade_tool",
-      "label" : "Run CDAP Upgrade Tool",
-      "description" : "Run CDAP Upgrade Tool",
-      "roleCommand" : "master_upgrade_tool",
-      "roleName" : "CDAP_MASTER",
-      "runMode" : "single"
+      "name": "cdap_upgrade_tool",
+      "label": "Run CDAP Upgrade Tool",
+      "description": "Run CDAP Upgrade Tool",
+      "roleCommand": "master_upgrade_tool",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     },
     {
-      "name" : "cdap_post_upgrade_tasks",
-      "label" : "Run CDAP Post-Upgrade Tasks",
-      "description" : "Run CDAP Post-Upgrade Tasks",
-      "roleCommand" : "master_post_upgrade_tasks",
-      "roleName" : "CDAP_MASTER",
-      "runMode" : "single"
+      "name": "cdap_post_upgrade_tasks",
+      "label": "Run CDAP Post-Upgrade Tasks",
+      "description": "Run CDAP Post-Upgrade Tasks",
+      "roleCommand": "master_post_upgrade_tasks",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     }
   ],
   "gateway": {
@@ -99,7 +99,7 @@
       "args": ["client"],
       "environmentVariables": {
         "EXPLORE_ENABLED": "${explore_enabled}",
-        "KAFKA_PROPERTIES" : "kafka.properties",
+        "KAFKA_PROPERTIES": "kafka.properties",
         "KERBEROS_ENABLED": "${kerberos_auth_enabled}"
       }
     }
@@ -360,15 +360,15 @@
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
         {
-          "name" : "router_java_heapmax",
-          "label" : "Router Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 2147483648,
-          "default" : 4294967296,
-          "scaleFactor" : 1.3
+          "name": "router_java_heapmax",
+          "label": "Router Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 2147483648,
+          "default": 4294967296,
+          "scaleFactor": 1.3
         },
         {
           "name": "router_ssl_keystore_keypassword",
@@ -453,11 +453,11 @@
           }
         ]
       },
-      "kerberosPrincipals" : [
+      "kerberosPrincipals": [
         {
-          "name" : "cdap_principal",
-          "primary" : "cdap",
-          "instance" : "${host}"
+          "name": "cdap_principal",
+          "primary": "cdap",
+          "instance": "${host}"
         }
       ],
       "logging": {
@@ -505,7 +505,7 @@
         "args": [ "router" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
@@ -518,15 +518,15 @@
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [
         {
-          "name" : "kafka_java_heapmax",
-          "label" : "Kafka Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 1073741824,
-          "default" : 2147483648,
-          "scaleFactor" : 1.3
+          "name": "kafka_java_heapmax",
+          "label": "Kafka Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 1073741824,
+          "default": 2147483648,
+          "scaleFactor": 1.3
         },
         {
           "name": "kafka_bind_address",
@@ -645,7 +645,7 @@
         "args": [ "kafka-server" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}"
@@ -687,15 +687,15 @@
           ]
         },
         {
-          "name" : "master_java_heapmax",
-          "label" : "Master Max Heapsize",
-          "description" : "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 2147483648,
-          "default" : 4294967296,
-          "scaleFactor" : 1.3
+          "name": "master_java_heapmax",
+          "label": "Master Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 2147483648,
+          "default": 4294967296,
+          "scaleFactor": 1.3
         },
         {
           "name": "master_startup_checks_enabled",
@@ -751,7 +751,7 @@
         {
           "name": "metadata_updates_kafka_broker_list",
           "label": "Metadata Updates Kafka Broker List",
-          "description": "CDAP Kafka service broker list to which metadata update notifications are published",
+          "description": "Kafka service broker list to which metadata update notifications are published",
           "configName": "metadata.updates.kafka.broker.list",
           "required": true,
           "configurableInWizard": false,
@@ -761,7 +761,7 @@
         {
           "name": "metadata_updates_kafka_topic",
           "label": "Metadata Updates Kafka Topic",
-          "description": "CDAP Kafka service topic to which metadata update notifications are published",
+          "description": "Kafka service topic to which metadata update notifications are published",
           "configName": "metadata.updates.kafka.topic",
           "required": true,
           "configurableInWizard": false,
@@ -771,7 +771,7 @@
         {
           "name": "metadata_updates_publish_enabled",
           "label": "Metadata Updates Publish Enabled",
-          "description": "Determines if metadata updates will be published to Apache Kafka. External systems can subscribe to the Kafka topic determined by ${metadata.updates.kafka.topic} to receive notifications of metadata updates.",
+          "description": "Determines if metadata updates will be published to Kafka. External systems can subscribe to the Kafka topic determined by ${metadata.updates.kafka.topic} to receive notifications of metadata updates.",
           "configName": "metadata.updates.publish.enabled",
           "required": true,
           "configurableInWizard": false,
@@ -835,11 +835,11 @@
           }
         ]
       },
-      "kerberosPrincipals" : [
+      "kerberosPrincipals": [
         {
-          "name" : "cdap_principal",
-          "primary" : "cdap",
-          "instance" : "${host}"
+          "name": "cdap_principal",
+          "primary": "cdap",
+          "instance": "${host}"
         }
       ],
       "logging": {
@@ -882,19 +882,19 @@
           }
         ]
       },
-      "commands" : [
+      "commands": [
         {
-          "name" : "master_upgrade_tool",
-          "label" : "Run CDAP Upgrade Tool",
-          "description" : "Run CDAP Upgrade Tool",
-          "expectedExitCodes" : [0],
-          "requiredRoleState" : "stopped",
-          "commandRunner" : {
-            "program" : "scripts/cdap-control.sh",
-            "args" : ["upgrade"],
+          "name": "master_upgrade_tool",
+          "label": "Run CDAP Upgrade Tool",
+          "description": "Run CDAP Upgrade Tool",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "stopped",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["upgrade"],
             "environmentVariables": {
               "EXPLORE_ENABLED": "${explore_enabled}",
-              "KAFKA_PROPERTIES" : "kafka.properties",
+              "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
               "OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
@@ -902,17 +902,17 @@
           }
         },
         {
-          "name" : "master_post_upgrade_tasks",
-          "label" : "Run CDAP Post-Upgrade Tasks",
-          "description" : "Run CDAP Post-Upgrade Tasks",
-          "expectedExitCodes" : [0],
-          "requiredRoleState" : "running",
-          "commandRunner" : {
-            "program" : "scripts/cdap-control.sh",
-            "args" : ["postupgrade"],
+          "name": "master_post_upgrade_tasks",
+          "label": "Run CDAP Post-Upgrade Tasks",
+          "description": "Run CDAP Post-Upgrade Tasks",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "running",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["postupgrade"],
             "environmentVariables": {
               "EXPLORE_ENABLED": "${explore_enabled}",
-              "KAFKA_PROPERTIES" : "kafka.properties",
+              "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
               "OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
@@ -925,7 +925,7 @@
         "args": [ "master" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
@@ -1064,7 +1064,7 @@
         "args": [ "ui" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}"
         }
       }
@@ -1078,15 +1078,15 @@
       },
       "parameters": [
         {
-          "name" : "auth_java_heapmax",
-          "label" : "Auth Server Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 1073741824,
-          "default" : 2147483648,
-          "scaleFactor" : 1.3
+          "name": "auth_java_heapmax",
+          "label": "Auth Server Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 1073741824,
+          "default": 2147483648,
+          "scaleFactor": 1.3
         },
         {
           "name": "security_auth_server_bind_port",
@@ -1287,11 +1287,11 @@
           }
         ]
       },
-      "kerberosPrincipals" : [
+      "kerberosPrincipals": [
         {
-          "name" : "cdap_principal",
-          "primary" : "cdap",
-          "instance" : "${host}"
+          "name": "cdap_principal",
+          "primary": "cdap",
+          "instance": "${host}"
         }
       ],
       "logging": {
@@ -1339,7 +1339,7 @@
         "args": [ "auth-server" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}"
