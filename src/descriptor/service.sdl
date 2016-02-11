@@ -57,16 +57,24 @@
   "commands": [
     {
       "name": "cdap_upgrade_tool",
-      "label": "Run CDAP Upgrade Tool",
-      "description": "Run CDAP Upgrade Tool",
+      "label": "Run CDAP Upgrade",
+      "description": "Run after upgrading the CDAP Parcel, and before starting CDAP",
       "roleCommand": "master_upgrade_tool",
       "roleName": "CDAP_MASTER",
       "runMode": "single"
     },
     {
+      "name": "cdap_upgrade_hbase_tool",
+      "label": "Run Post-CDH Upgrade Tasks",
+      "description": "Run after upgrading CDH, after disabling CDAP HBase Tables, and before starting CDAP",
+      "roleCommand": "master_upgrade_hbase_tool",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
+    },
+    {
       "name": "cdap_post_upgrade_tasks",
-      "label": "Run CDAP Post-Upgrade Tasks",
-      "description": "Run CDAP Post-Upgrade Tasks",
+      "label": "Run Post-CDAP Upgrade Tasks",
+      "description": "Run after upgrading CDAP, and after starting CDAP the first time",
       "roleCommand": "master_post_upgrade_tasks",
       "roleName": "CDAP_MASTER",
       "runMode": "single"
@@ -885,8 +893,8 @@
       "commands": [
         {
           "name": "master_upgrade_tool",
-          "label": "Run CDAP Upgrade Tool",
-          "description": "Run CDAP Upgrade Tool",
+          "label": "Run CDAP Upgrade",
+          "description": "Run after upgrading the CDAP Parcel, and before starting CDAP",
           "expectedExitCodes": [0],
           "requiredRoleState": "stopped",
           "commandRunner": {
@@ -902,9 +910,27 @@
           }
         },
         {
+          "name": "master_upgrade_hbase_tool",
+          "label": "Run Post-CDH Upgrade Tasks",
+          "description": "Run after upgrading CDH, after disabling CDAP HBase Tables, and before starting CDAP",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "stopped",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["upgrade_hbase"],
+            "environmentVariables": {
+              "EXPLORE_ENABLED": "${explore_enabled}",
+              "KAFKA_PROPERTIES" : "kafka.properties",
+              "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+            }
+          }
+        },
+        {
           "name": "master_post_upgrade_tasks",
-          "label": "Run CDAP Post-Upgrade Tasks",
-          "description": "Run CDAP Post-Upgrade Tasks",
+          "label": "Run Post-CDAP Upgrade Tasks",
+          "description": "Run after upgrading CDAP, and after starting CDAP the first time",
           "expectedExitCodes": [0],
           "requiredRoleState": "running",
           "commandRunner": {
