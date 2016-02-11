@@ -290,17 +290,6 @@
       "min": 1
     },
     {
-      "name": "gateway_memory_mb",
-      "label": "Gateway Memory MB",
-      "description": "Memory in MB for Gateway process in YARN",
-      "configName": "gateway.memory.mb",
-      "required": true,
-      "configurableInWizard": true,
-      "default": 2048,
-      "type": "long",
-      "min": 1
-    },
-    {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
       "description": "Root directory for HDFS files written by CDAP",
