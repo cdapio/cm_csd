@@ -996,7 +996,7 @@
           "configName": "dashboard.router.check.timeout.secs",
           "required": true,
           "configurableInWizard": false,
-          "default": 60,
+          "default": 180,
           "type": "long",
           "unit": "seconds"
         },
