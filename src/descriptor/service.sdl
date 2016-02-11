@@ -263,7 +263,6 @@
       "configurableInWizard": false,
       "default": 1,
       "type": "long",
-      "min": 1,
       "max": 1
     },
     {
