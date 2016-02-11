@@ -145,6 +145,96 @@
       "separator": ";"
     },
     {
+      "name": "data_tx_max_instances",
+      "label": "Transaction Client Max Instances",
+      "description": "Maximum number of transaction client instances",
+      "configName": "data.tx.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "data_tx_memory_mb",
+      "label": "Transaction Client Container Memory MB",
+      "description": "Memory in megabytes of the transaction clients",
+      "configName": "data.tx.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "data_tx_num_cores",
+      "label": "Transaction Client Container Number of Virtual Cores",
+      "description": "Number of virtual cores for each transaction client instance",
+      "configName": "data.tx.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "data_tx_num_instances",
+      "label": "Transaction Client Number of Instances",
+      "description": "Number of transaction client instances",
+      "configName": "data.tx.num.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "dataset_executor_container_instances",
+      "label": "Dataset Executor Container Instances",
+      "description": "Number of dataset executor instances",
+      "configName": "dataset.executor.container.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "dataset_executor_container_memory_mb",
+      "label": "Dataset Executor Container Memory MB",
+      "description": "Size of Memory in megabytes for each dataset executor instance",
+      "configName": "dataset.executor.container.memory.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "dataset_executor_container_num_cores",
+      "label": "Dataset Executor Container Number of Virtual Cores",
+      "description": "Number of virtual cores for each dataset executor instance",
+      "configName": "dataset.executor.container.num.cores",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "dataset_executor_max_instances",
+      "label": "Dataset Executor Max Instances",
+      "description": "Maximum number of dataset executor instances",
+      "configName": "dataset.executor.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "enable_unrecoverable_reset",
       "label": "Enable Unrecoverable Reset",
       "description": "Determines if resetting CDAP should be enabled. **WARNING: Enabling this option makes it possible to delete all applications and data; NO RECOVERY IS POSSIBLE!**",
@@ -169,6 +259,29 @@
       "label": "Explore Executor Container Instances",
       "description": "Number of explore executor instances",
       "configName": "explore.executor.container.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "explore_executor_container_memory_mb",
+      "label": "Explore Executor Container Memory MB",
+      "description": "Size of Memory in megabytes for each explore executor instance",
+      "configName": "explore.executor.container.memory.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1024,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "explore_executor_container_num_cores",
+      "label": "Explore Executor Container Number of Virtual Cores",
+      "description": "Number of virtual cores for each explore executor",
+      "configName": "explore.executor.container.num.cores",
       "required": true,
       "configurableInWizard": false,
       "default": 1,
@@ -228,6 +341,17 @@
       "type": "boolean"
     },
     {
+      "name": "log_saver_max_instances",
+      "label": "Log Saver Max Instances",
+      "description": "Maximum number of log saver instances to run in YARN",
+      "configName": "log.saver.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "log_saver_num_instances",
       "label": "Log Saver Num Instances",
       "description": "Number of log saver instances to run in YARN",
@@ -246,6 +370,18 @@
       "required": true,
       "configurableInWizard": true,
       "default": 1024,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "log_saver_run_num_cores",
+      "label": "Log Saver Run Number of Virtual Cores",
+      "description": "Number of cores for each log saver instance in YARN",
+      "configName": "log.saver.run.num.cores",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 2,
       "type": "long",
       "min": 1
     },
@@ -257,6 +393,96 @@
       "required": true,
       "configurableInWizard": false,
       "default": 7200,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_max_instances",
+      "label": "Metrics Container Max Instances",
+      "description": "Maximum number of instances for the metrics service",
+      "configName": "metrics.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_memory_mb",
+      "label": "Metrics Container Memory MB",
+      "description": "Memory assigned to the metrics service in megabytes",
+      "configName": "metrics.memory.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "metrics_num_cores",
+      "label": "Metrics Container Number of Virtual Cores",
+      "description": "Number of virtual cores for the metrics service",
+      "configName": "metrics.num.cores",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 2,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_num_instances",
+      "label": "Metrics Container Instances",
+      "description": "Number of instances for the metrics service",
+      "configName": "metrics.num.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_processor_max_instances",
+      "label": "Metrics Processor Container Max Instances",
+      "description": "Maximum number of instances for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_processor_memory_mb",
+      "label": "Metrics Processor Container Memory MB",
+      "description": "Size of memory in megabytes for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.memory.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "metrics_processor_num_cores",
+      "label": "Metrics Processor Container Number of Virtual Cores",
+      "description": "Number of cores for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.num.cores",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_processor_num_instances",
+      "label": "Metrics Processor Container Instances",
+      "description": "Number of instances for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.num.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
       "type": "long",
       "min": 1
     },
@@ -309,6 +535,40 @@
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
+    },
+    {
+      "name": "stream_container_instances",
+      "label": "Stream Container Instances",
+      "description": "Number of YARN container instances for the stream handler; in standalone mode, it's always one",
+      "configName": "stream.container.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "stream_container_memory_mb",
+      "label": "Stream Container Memory MB",
+      "description": "Amount of memory in megabytes for the YARN container that runs the stream handler",
+      "configName": "stream.container.memory.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "stream_container_num_cores",
+      "label": "Stream Container Number of Virtual Cores",
+      "description": "Number of virtual core for the YARN container that runs the stream handler",
+      "configName": "stream.container.num.cores",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 2,
+      "type": "long",
+      "min": 1
     },
     {
       "name": "twill_java_reserved_memory_mb",
