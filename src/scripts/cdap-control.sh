@@ -122,6 +122,9 @@ fn_exists cdap_set_classpath || cdap_set_classpath() { set_classpath ${*}; }
 fn_exists cdap_set_hive_classpath || cdap_set_hive_classpath() { set_hive_classpath ${*}; }
 fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase ${*}; }
 
+# Parse CDAP version from CDAP_HOME (exported in CDAP parcel)
+CDAP_VERSION=${VERSION:-$(basename ${CDAP_HOME} | cut -d- -f2)}
+
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
 HOSTNAME=`hostname`
@@ -151,6 +154,7 @@ fi
 
 # Debug info
 echo "CDAP_HOME: ${CDAP_HOME}"
+echo "CDAP_VERSION: ${CDAP_VERSION}"
 echo "COMPONENT_HOME: ${COMPONENT_HOME}"
 echo "COMPONENT_CONF_SCRIPT: ${COMPONENT_CONF_SCRIPT}"
 echo "CONF_DIR: ${CONF_DIR}"
@@ -190,17 +194,24 @@ if [ ${MAIN_CLASS} ]; then
   # Run Master Startup Checks
   if [ "${SERVICE}" == "master" ]; then
     if [[ "${STARTUP_CHECKS_ENABLED}" == "true" ]]; then
-      echo "Running startup checks -- this may take a few minutes"
-      echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
-      "${JAVA}" "${JAVA_HEAPMAX}" \
-        -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-        -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
-        -Dcdap.home=${CDAP_HOME} \
-        -cp ${CLASSPATH} \
-        co.cask.cdap.master.startup.MasterStartupTool 2>&1
-      if [ $? -ne 0 ]; then
-        echo "Master startup checks failed. Please check the CDAP Master Role logs to address issues."
-        exit 1
+      # Run only if CDAP_VERSION >= 3.3
+      __maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
+      __min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
+      if [[ __maj_version -gt 3 ]] || [[ __maj_version -ge 3 && __min_version -ge 3 ]]; then
+        echo "Running startup checks -- this may take a few minutes"
+        echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
+        "${JAVA}" "${JAVA_HEAPMAX}" \
+          -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
+          -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+          -Dcdap.home=${CDAP_HOME} \
+          -cp ${CLASSPATH} \
+          co.cask.cdap.master.startup.MasterStartupTool 2>&1
+        if [ $? -ne 0 ]; then
+          echo "Master startup checks failed. Please check the CDAP Master Role logs to address issues"
+          exit 1
+        fi
+      else
+        echo "Skipping Master startup checks as CDAP version ${CDAP_VERSION} does not support them"
       fi
     fi
   fi
