@@ -203,7 +203,7 @@
     {
       "name": "dataset_executor_container_memory_mb",
       "label": "Dataset Executor Container Memory MB",
-      "description": "Size of Memory in megabytes for each dataset executor instance",
+      "description": "Size of memory in megabytes for each dataset executor instance",
       "configName": "dataset.executor.container.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -268,7 +268,7 @@
     {
       "name": "explore_executor_container_memory_mb",
       "label": "Explore Executor Container Memory MB",
-      "description": "Size of Memory in megabytes for each explore executor instance",
+      "description": "Size of memory in megabytes for each explore executor instance",
       "configName": "explore.executor.container.memory.mb",
       "required": true,
       "configurableInWizard": true,
