@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.2.0",
+  "version": "3.3.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -15,61 +15,69 @@
       "max": 5
     }
   },
-  "parcel" : {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/3.2/",
-    "requiredTags" : [ "cdh", "cdap" ]
+  "parcel": {
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.3/",
+    "requiredTags": [ "cdh", "cdap" ]
   },
-  "icon" : "images/icon.png",
-  "serviceDependencies" : [
-    {"name" : "ZOOKEEPER", "required" : "true" },
-    {"name" : "HDFS", "required" : "true"},
-    {"name" : "YARN", "required" : "true"},
-    {"name" : "HBASE", "required" : "true"},
-    {"name" : "HIVE", "required" : "false"}
+  "icon": "images/icon.png",
+  "serviceDependencies": [
+    {"name": "ZOOKEEPER", "required": "true" },
+    {"name": "HDFS", "required": "true"},
+    {"name": "YARN", "required": "true"},
+    {"name": "HBASE", "required": "true"},
+    {"name": "HIVE", "required": "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_UI"
   ],
-  "hdfsDirs" : [
+  "hdfsDirs": [
     {
-      "name" : "CreateCdapHdfsDirCommand",
-      "label" : "Create CDAP Namespace Dir",
-      "description" : "Creates the top-level CDAP namespace directory in HDFS",
-      "directoryDescription" : "CDAP HDFS namespace directory",
-      "path" : "/${root_namespace}",
-      "permissions" : "0755"
+      "name": "CreateCdapHdfsDirCommand",
+      "label": "Create CDAP Namespace Dir",
+      "description": "Creates the top-level CDAP namespace directory in HDFS",
+      "directoryDescription": "CDAP HDFS namespace directory",
+      "path": "/${root_namespace}",
+      "permissions": "0755"
     },
     {
-      "name" : "CreateCdapUserHdfsDirCommand",
-      "label" : "Create CDAP User Dir",
-      "description" : "Creates the /user/cdap HDFS directory needed for mapreduce",
-      "directoryDescription" : "CDAP HDFS user directory",
-      "path" : "/user/${hdfs_user}",
-      "permissions" : "0755"
+      "name": "CreateCdapUserHdfsDirCommand",
+      "label": "Create CDAP User Dir",
+      "description": "Creates the /user/cdap HDFS directory needed for mapreduce",
+      "directoryDescription": "CDAP HDFS user directory",
+      "path": "/user/${hdfs_user}",
+      "permissions": "0755"
     }
   ],
-  "serviceInit" : {
-    "preStartSteps" : [
-      { "commandName" : "CreateCdapHdfsDirCommand" },
-      { "commandName" : "CreateCdapUserHdfsDirCommand" }
+  "serviceInit": {
+    "preStartSteps": [
+      { "commandName": "CreateCdapHdfsDirCommand" },
+      { "commandName": "CreateCdapUserHdfsDirCommand" }
     ]
   },
-  "commands" : [
+  "commands": [
     {
-      "name" : "cdap_upgrade_tool",
-      "label" : "Run CDAP Upgrade Tool",
-      "description" : "Run CDAP Upgrade Tool",
-      "roleCommand" : "master_upgrade_tool",
-      "roleName" : "CDAP_MASTER",
-      "runMode" : "single"
+      "name": "cdap_upgrade_tool",
+      "label": "Run CDAP Upgrade",
+      "description": "Run after upgrading the CDAP Parcel, and before starting CDAP",
+      "roleCommand": "master_upgrade_tool",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     },
     {
-      "name" : "cdap_post_upgrade_tasks",
-      "label" : "Run CDAP Post-Upgrade Tasks",
-      "description" : "Run CDAP Post-Upgrade Tasks",
-      "roleCommand" : "master_post_upgrade_tasks",
-      "roleName" : "CDAP_MASTER",
-      "runMode" : "single"
+      "name": "cdap_upgrade_hbase_tool",
+      "label": "Run Post-CDH Upgrade Tasks",
+      "description": "Run after upgrading CDH, after disabling CDAP HBase Tables, and before starting CDAP",
+      "roleCommand": "master_upgrade_hbase_tool",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
+    },
+    {
+      "name": "cdap_post_upgrade_tasks",
+      "label": "Run Post-CDAP Upgrade Tasks",
+      "description": "Run after upgrading CDAP, and after starting CDAP the first time",
+      "roleCommand": "master_post_upgrade_tasks",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     }
   ],
   "gateway": {
@@ -99,7 +107,7 @@
       "args": ["client"],
       "environmentVariables": {
         "EXPLORE_ENABLED": "${explore_enabled}",
-        "KAFKA_PROPERTIES" : "kafka.properties",
+        "KAFKA_PROPERTIES": "kafka.properties",
         "KERBEROS_ENABLED": "${kerberos_auth_enabled}"
       }
     }
@@ -116,7 +124,7 @@
     {
       "name": "app_temp_dir",
       "label": "App Temp Dir",
-      "description": "Directory temp",
+      "description": "Temp directory",
       "configName": "app.temp.dir",
       "required": true,
       "configurableInWizard": false,
@@ -126,17 +134,110 @@
     {
       "name": "app_artifact_dir",
       "label": "App Artifact Dir",
-      "description": "Directory where all system artifacts and their corresponding config files are stored",
+      "description": "Semicolon-separated list of local directories scanned for system artifacts to add to the artifact repository",
       "configName": "app.artifact.dir",
       "required": true,
       "configurableInWizard": true,
-      "default": "/opt/cloudera/parcels/CDAP/master/artifacts",
-      "type": "string"
+      "type": "string_array",
+      "default": [
+        "${cdap.home}/master/artifacts"
+      ],
+      "separator": ";"
+    },
+    {
+      "name": "data_tx_max_instances",
+      "label": "Transaction Client Max Instances",
+      "description": "Maximum number of transaction client instances",
+      "configName": "data.tx.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "data_tx_memory_mb",
+      "label": "Transaction Client Container Memory MB",
+      "description": "Memory in megabytes of the transaction clients",
+      "configName": "data.tx.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "data_tx_num_cores",
+      "label": "Transaction Client Container Number of Virtual Cores",
+      "description": "Number of virtual cores for each transaction client instance",
+      "configName": "data.tx.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "data_tx_num_instances",
+      "label": "Transaction Client Number of Instances",
+      "description": "Number of transaction client instances",
+      "configName": "data.tx.num.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "dataset_executor_container_instances",
+      "label": "Dataset Executor Container Instances",
+      "description": "Number of dataset executor instances",
+      "configName": "dataset.executor.container.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "dataset_executor_container_memory_mb",
+      "label": "Dataset Executor Container Memory MB",
+      "description": "Size of memory in megabytes for each dataset executor instance",
+      "configName": "dataset.executor.container.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "dataset_executor_container_num_cores",
+      "label": "Dataset Executor Container Number of Virtual Cores",
+      "description": "Number of virtual cores for each dataset executor instance",
+      "configName": "dataset.executor.container.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "dataset_executor_max_instances",
+      "label": "Dataset Executor Max Instances",
+      "description": "Maximum number of dataset executor instances",
+      "configName": "dataset.executor.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
     },
     {
       "name": "enable_unrecoverable_reset",
       "label": "Enable Unrecoverable Reset",
-      "description": "WARNING! - Enabling this option enables the deletion of all applications and data;NO RECOVERY IS POSSIBLE!",
+      "description": "Determines if resetting CDAP should be enabled. **WARNING: Enabling this option makes it possible to delete all applications and data; NO RECOVERY IS POSSIBLE!**",
       "configName": "enable.unrecoverable.reset",
       "required": true,
       "configurableInWizard": false,
@@ -146,7 +247,7 @@
     {
       "name": "explore_enabled",
       "label": "Explore Enabled",
-      "description": "Specifies whether the CDAP Explore capability is enabled (requires Hive)",
+      "description": "Determines if the CDAP Explore Service (ad-hoc SQL queries) is enabled",
       "configName": "explore.enabled",
       "required": true,
       "configurableInWizard": true,
@@ -162,34 +263,35 @@
       "configurableInWizard": false,
       "default": 1,
       "type": "long",
-      "min": 1
+      "max": 1
     },
     {
-      "name": "explore_executor_max_instances",
-      "label": "Explore Executor Max Instances",
-      "description": "Maximum number of explore executor instances",
-      "configName": "explore.executor.max.instances",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 1,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "gateway_memory_mb",
-      "label": "Gateway Memory MB",
-      "description": "Memory in MB for Gateway process in YARN",
-      "configName": "gateway.memory.mb",
+      "name": "explore_executor_container_memory_mb",
+      "label": "Explore Executor Container Memory MB",
+      "description": "Size of memory in megabytes for each explore executor instance",
+      "configName": "explore.executor.container.memory.mb",
       "required": true,
       "configurableInWizard": true,
       "default": 2048,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "explore_executor_container_num_cores",
+      "label": "Explore Executor Container Number of Virtual Cores",
+      "description": "Number of virtual cores for each explore executor",
+      "configName": "explore.executor.container.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
       "type": "long",
       "min": 1
     },
     {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
-      "description": "Specifies the hdfs namespace",
+      "description": "Root directory for HDFS files written by CDAP",
       "configName": "hdfs.namespace",
       "required": true,
       "configurableInWizard": false,
@@ -199,7 +301,7 @@
     {
       "name": "hdfs_user",
       "label": "HDFS User",
-      "description": "Specifies the hdfs user",
+      "description": "User name for accessing HDFS",
       "configName": "hdfs.user",
       "required": true,
       "configurableInWizard": false,
@@ -209,7 +311,7 @@
     {
       "name": "kerberos_auth_enabled",
       "label": "Kerberos Auth Enabled",
-      "description": "Enables Kerberos Authentication",
+      "description": "Determines if Kerberos authentication is enabled",
       "configName": "kerberos.auth.enabled",
       "required": true,
       "configurableInWizard": true,
@@ -217,12 +319,23 @@
       "type": "boolean"
     },
     {
-      "name": "log_saver_num_instances",
-      "label": "Log Saver Num Instances",
-      "description": "Number of log saver instances to run in yarn",
-      "configName": "log.saver.num.instances",
+      "name": "log_saver_max_instances",
+      "label": "Log Saver Max Instances",
+      "description": "Maximum number of log saver instances to run in YARN",
+      "configName": "log.saver.max.instances",
       "required": true,
       "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "log_saver_num_instances",
+      "label": "Log Saver Num Instances",
+      "description": "Number of log saver instances to run in YARN",
+      "configName": "log.saver.num.instances",
+      "required": true,
+      "configurableInWizard": true,
       "default": 1,
       "type": "long",
       "min": 1
@@ -230,18 +343,30 @@
     {
       "name": "log_saver_run_memory_megs",
       "label": "Log Saver Run Memory Megs",
-      "description": "Memory in MB allocated to the Log Saver process",
+      "description": "Memory in megabytes allocated for log saver instances to run in YARN",
       "configName": "log.saver.run.memory.megs",
       "required": true,
       "configurableInWizard": true,
       "default": 1024,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "log_saver_run_num_cores",
+      "label": "Log Saver Run Number of Virtual Cores",
+      "description": "Number of cores for each log saver instance in YARN",
+      "configName": "log.saver.run.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2,
       "type": "long",
       "min": 1
     },
     {
       "name": "metrics_data_table_retention_resolution_1_seconds",
       "label": "Metrics Data Table Retention Resolution 1 Seconds",
-      "description": "Retention resolution 1 sec table in seconds",
+      "description": "Retention resolution of the 1-second resolution table in seconds; default retention period is 2 hours",
       "configName": "metrics.data.table.retention.resolution.1.seconds",
       "required": true,
       "configurableInWizard": false,
@@ -250,9 +375,99 @@
       "min": 1
     },
     {
+      "name": "metrics_max_instances",
+      "label": "Metrics Container Max Instances",
+      "description": "Maximum number of instances for the metrics service",
+      "configName": "metrics.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_memory_mb",
+      "label": "Metrics Container Memory MB",
+      "description": "Memory assigned to the metrics service in megabytes",
+      "configName": "metrics.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "metrics_num_cores",
+      "label": "Metrics Container Number of Virtual Cores",
+      "description": "Number of virtual cores for the metrics service",
+      "configName": "metrics.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_num_instances",
+      "label": "Metrics Container Instances",
+      "description": "Number of instances for the metrics service",
+      "configName": "metrics.num.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_processor_max_instances",
+      "label": "Metrics Processor Container Max Instances",
+      "description": "Maximum number of instances for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_processor_memory_mb",
+      "label": "Metrics Processor Container Memory MB",
+      "description": "Size of memory in megabytes for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "metrics_processor_num_cores",
+      "label": "Metrics Processor Container Number of Virtual Cores",
+      "description": "Number of cores for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.num.cores",
+      "required": true,
+      "configurableInWizard": 1,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_processor_num_instances",
+      "label": "Metrics Processor Container Instances",
+      "description": "Number of instances for metrics processor service Apache Twill runnable",
+      "configName": "metrics.processor.num.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "root_namespace",
       "label": "Root Namespace",
-      "description": "Specifies the root namespace",
+      "description": "Root for this CDAP instance; used as the parent (or root) node for ZooKeeper, as the directory under which all CDAP data and metadata is stored in HDFS, and as the prefix for all HBase tables created by CDAP; must be composed of alphanumeric characters",
       "configName": "root.namespace",
       "required": true,
       "configurableInWizard": false,
@@ -262,7 +477,7 @@
     {
       "name": "router_bind_port",
       "label": "Router Bind Port",
-      "description": "Port number that the CDAP router should bind to for HTTP Connections",
+      "description": "CDAP Router service bind port",
       "configName": "router.bind.port",
       "required": true,
       "configurableInWizard": true,
@@ -272,7 +487,7 @@
     {
       "name": "router_ssl_bind_port",
       "label": "Router SSL Bind Port",
-      "description": "Secure router listening port for gateway",
+      "description": "CDAP Router service bind port for HTTPS",
       "configName": "router.ssl.bind.port",
       "required": true,
       "configurableInWizard": false,
@@ -282,7 +497,7 @@
     {
       "name": "security_enabled",
       "label": "Security Enabled",
-      "description": "Enables authentication for CDAP. When set to true all requests to CDAP must provide a valid access token",
+      "description": "Determines if authentication is enabled for CDAP; if true, all requests to CDAP must provide a valid access token",
       "configName": "security.enabled",
       "required": true,
       "configurableInWizard": false,
@@ -292,7 +507,7 @@
     {
       "name": "ssl_enabled",
       "label": "SSL Enabled",
-      "description": "True to enable SSL",
+      "description": "Determines if SSL is enabled",
       "configName": "ssl.enabled",
       "required": true,
       "configurableInWizard": false,
@@ -300,9 +515,43 @@
       "type": "boolean"
     },
     {
+      "name": "stream_container_instances",
+      "label": "Stream Container Instances",
+      "description": "Number of YARN container instances for the stream handler; in standalone mode, it's always one",
+      "configName": "stream.container.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 1,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "stream_container_memory_mb",
+      "label": "Stream Container Memory MB",
+      "description": "Amount of memory in megabytes for the YARN container that runs the stream handler",
+      "configName": "stream.container.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
+      "name": "stream_container_num_cores",
+      "label": "Stream Container Number of Virtual Cores",
+      "description": "Number of virtual core for the YARN container that runs the stream handler",
+      "configName": "stream.container.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 2,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "twill_java_reserved_memory_mb",
       "label": "Twill Java Reserved Memory Mb",
-      "description": "Reserved non-heap memory in MB for Apache Twill container.",
+      "description": "Reserved non-heap memory in megabytes for Apache Twill container",
       "configName": "twill.java.reserved.memory.mb",
       "required": true,
       "configurableInWizard": false,
@@ -312,7 +561,7 @@
     {
       "name": "twill_jvm_gc_opts",
       "label": "Twill Jvm Gc Opts",
-      "description": "Java GC options for all Apache Twill containers",
+      "description": "Java garbage collection options for all Apache Twill containers; <LOG_DIR> is the location of the log directory in the container",
       "configName": "twill.jvm.gc.opts",
       "required": true,
       "configurableInWizard": false,
@@ -342,7 +591,7 @@
     {
       "name": "zookeeper_session_timeout_millis",
       "label": "ZooKeeper Session Timeout Millis",
-      "description": "Specifies the ZooKeeper session time out; time unit milliseconds",
+      "description": "ZooKeeper session timeout in milliseconds",
       "configName": "zookeeper.session.timeout.millis",
       "required": true,
       "configurableInWizard": false,
@@ -357,56 +606,56 @@
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
         {
-          "name" : "router_java_heapmax",
-          "label" : "Router Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 2147483648,
-          "default" : 4294967296,
-          "scaleFactor" : 1.3
+          "name": "router_java_heapmax",
+          "label": "Router Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 2147483648,
+          "default": 4294967296,
+          "scaleFactor": 1.3
         },
-	{
-	  "name": "router_ssl_keystore_keypassword",
-	  "label": "Router SSL Keystore Key Password",
-	  "description": "Keystore key password",
-	  "configName": "router.ssl.keystore.keypassword",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "router_ssl_keystore_password",
-	  "label": "Router SSL Keystore Password",
-	  "description": "Keystore password",
-	  "configName": "router.ssl.keystore.password",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "router_ssl_keystore_path",
-	  "label": "Router SSL Keystore Path",
-	  "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-	  "configName": "router.ssl.keystore.path",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "router_ssl_keystore_type",
-	  "label": "Router SSL Keystore Type",
-	  "description": "Keystore file type",
-	  "configName": "router.ssl.keystore.type",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "JKS",
-	  "type": "string"
-	}
+        {
+          "name": "router_ssl_keystore_keypassword",
+          "label": "Router SSL Keystore Key Password",
+          "description": "Keystore key password",
+          "configName": "router.ssl.keystore.keypassword",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "router_ssl_keystore_password",
+          "label": "Router SSL Keystore Password",
+          "description": "Keystore password",
+          "configName": "router.ssl.keystore.password",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "router_ssl_keystore_path",
+          "label": "Router SSL Keystore Path",
+          "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+          "configName": "router.ssl.keystore.path",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "router_ssl_keystore_type",
+          "label": "Router SSL Keystore Type",
+          "description": "Keystore file type",
+          "configName": "router.ssl.keystore.type",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "JKS",
+          "type": "string"
+        }
       ],
       "configWriter": {
         "generators": [
@@ -450,11 +699,11 @@
           }
         ]
       },
-      "kerberosPrincipals" : [
+      "kerberosPrincipals": [
         {
-          "name" : "cdap_principal",
-          "primary" : "cdap",
-          "instance" : "${host}"
+          "name": "cdap_principal",
+          "primary": "cdap",
+          "instance": "${host}"
         }
       ],
       "logging": {
@@ -502,7 +751,7 @@
         "args": [ "router" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
@@ -515,57 +764,57 @@
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [
         {
-          "name" : "kafka_java_heapmax",
-          "label" : "Kafka Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 1073741824,
-          "default" : 2147483648,
-          "scaleFactor" : 1.3
+          "name": "kafka_java_heapmax",
+          "label": "Kafka Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 1073741824,
+          "default": 2147483648,
+          "scaleFactor": 1.3
         },
-	{
-	  "name": "kafka_bind_address",
-	  "label": "Kafka Bind Address",
-	  "description": "Kafka server hostname to bind to",
-	  "configName": "kafka.bind.address",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "0.0.0.0",
-	  "type": "string"
-	},
-	{
-	  "name": "kafka_bind_port",
-	  "label": "Kafka Bind Port",
-	  "description": "Kafka server port",
-	  "configName": "kafka.bind.port",
-	  "required": true,
-	  "configurableInWizard": true,
-	  "default": 9092,
-	  "type": "port"
-	},
-	{
-	  "name": "kafka_default_replication_factor",
-	  "label": "Kafka Default Replication Factor",
-	  "description": "Kafka replication factor",
-	  "configName": "kafka.default.replication.factor",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": 1,
-	  "type": "long",
-	  "min": 1
-	},
-	{
-	  "name": "kafka_zookeeper_namespace",
-	  "label": "Kafka ZooKeeper Namespace",
-	  "description": "ZooKeeper namespace for Kafka",
-	  "configName": "kafka.zookeeper.namespace",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "kafka",
-	  "type": "string"
-	}
+        {
+          "name": "kafka_bind_address",
+          "label": "Kafka Bind Address",
+          "description": "CDAP Kafka service bind address",
+          "configName": "kafka.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "kafka_bind_port",
+          "label": "Kafka Bind Port",
+          "description": "CDAP Kafka service bind port",
+          "configName": "kafka.bind.port",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 9092,
+          "type": "port"
+        },
+        {
+          "name": "kafka_default_replication_factor",
+          "label": "Kafka Default Replication Factor",
+          "description": "CDAP Kafka service replication factor; used to replicate Kafka messages across multiple machines to prevent data loss in the event of a hardware failure. The recommended setting is to run at least two CDAP Kafka servers. If you are running two CDAP Kafka servers, set this value to 2; otherwise, set it to the number of CDAP Kafka servers.",
+          "configName": "kafka.default.replication.factor",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 1,
+          "type": "long",
+          "min": 1
+        },
+        {
+          "name": "kafka_zookeeper_namespace",
+          "label": "Kafka ZooKeeper Namespace",
+          "description": "CDAP Kafka service ZooKeeper namespace",
+          "configName": "kafka.zookeeper.namespace",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "kafka",
+          "type": "string"
+        }
       ],
       "configWriter": {
         "generators": [
@@ -642,7 +891,7 @@
         "args": [ "kafka-server" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}"
@@ -655,20 +904,49 @@
       "pluralLabel": "CDAP Master Services",
       "parameters": [
         {
-          "name" : "master_java_heapmax",
-          "label" : "Master Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 2147483648,
-          "default" : 4294967296,
-          "scaleFactor" : 1.3
+          "name": "master_collect_containers_log",
+          "label": "Master Collect Container Logs",
+          "description": "Determines if master service container logs are streamed back to the CDAP Master process log",
+          "configName": "master.collect.containers.log",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "master_collect_app_containers_log_level",
+          "label": "Master Collect Application Container Logs Level",
+          "description": "The log level of application container logs that are streamed back to the CDAP Master process log. The levels supported are [ ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF ].",
+          "configName": "master.collect.app.containers.log.level",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "ERROR",
+          "type": "string_enum",
+          "validValues": [
+            "ALL",
+            "TRACE",
+            "DEBUG",
+            "INFO",
+            "WARN",
+            "ERROR",
+            "OFF"
+          ]
+        },
+        {
+          "name": "master_java_heapmax",
+          "label": "Master Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 2147483648,
+          "default": 4294967296,
+          "scaleFactor": 1.3
         },
         {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
-          "description": "Whether checks should be run before start up to determine if the master can be correctly run. Which checks are run are determined by the master.startup.checks.packages and master.startup.checks.classes settings. If any check fails, the CDAP master will fail to start instead of waiting for the problem to be fixed. This setting only affects distributed CDAP. It does not apply to CDAP standalone.",
+          "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the master.startup.checks.packages and master.startup.checks.classes settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP. It does not apply to Standalone CDAP.",
           "configName": "master.startup.checks.enabled",
           "required": true,
           "configurableInWizard": false,
@@ -678,7 +956,7 @@
         {
           "name": "master_startup_checks_packages",
           "label": "Master Startup Checks Packages",
-          "description": "Comma separated list of packages containing checks that will be run before the master starts up. If any of the checks fails, the master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
+          "description": "Comma-separated list of packages containing checks that will be run before the CDAP Master starts up. If any of the checks fails, the CDAP Master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
           "configName": "master.startup.checks.packages",
           "required": true,
           "configurableInWizard": false,
@@ -688,7 +966,7 @@
         {
           "name": "master_startup_checks_classes",
           "label": "Master Startup Checks Classes",
-          "description": "Comma separated list of classnames for checks that will be run before the master starts up. If any of the checks fails, the master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
+          "description": "Comma-separated list of classnames for checks that will be run before the CDAP Master starts up. If any of the checks fails, the CDAP Master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
           "configName": "master.startup.checks.classes",
           "required": false,
           "configurableInWizard": false,
@@ -698,7 +976,7 @@
         {
           "name": "master_startup_service_timeout_seconds",
           "label": "Master Startup Service Timeout Seconds",
-          "description": "Timeout in seconds for master services to wait for their dependent services to be available. For example, the dataset executor master service requires the transaction service, and will wait for the transaction service to become available while it is starting up. If the timeout is hit, the service will fail to start and the master will shut itself down. If set to 0 or below, master services will not wait for their dependent services to start before starting themselves.",
+          "description": "Timeout in seconds for master services to wait for their dependent services to be available. For example, the dataset executor master service requires the transaction service, and will wait for the transaction service to become available while it is starting up. If the timeout is hit, the service will fail to start and the master service will shut itself down. If set to 0 or below, master services will not wait for their dependent services to start before starting themselves.",
           "configName": "master.startup.service.timeout.seconds",
           "required": true,
           "configurableInWizard": false,
@@ -709,7 +987,7 @@
         {
           "name": "metadata_service_bind_address",
           "label": "Metadata Service Bind Address",
-          "description": "Default inet address for binding metadata HTTP service",
+          "description": "Metadata HTTP service bind address",
           "configName": "metadata.service.bind.address",
           "required": true,
           "configurableInWizard": false,
@@ -719,7 +997,7 @@
         {
           "name": "metadata_updates_kafka_broker_list",
           "label": "Metadata Updates Kafka Broker List",
-          "description": "Kafka broker list to which metadata update notifications are published",
+          "description": "Apache Kafka broker list to which metadata update notifications are published",
           "configName": "metadata.updates.kafka.broker.list",
           "required": true,
           "configurableInWizard": false,
@@ -729,7 +1007,7 @@
         {
           "name": "metadata_updates_kafka_topic",
           "label": "Metadata Updates Kafka Topic",
-          "description": "Kafka topic to which metadata update notifications are published",
+          "description": "Apache Kafka topic to which metadata update notifications are published",
           "configName": "metadata.updates.kafka.topic",
           "required": true,
           "configurableInWizard": false,
@@ -803,11 +1081,11 @@
           }
         ]
       },
-      "kerberosPrincipals" : [
+      "kerberosPrincipals": [
         {
-          "name" : "cdap_principal",
-          "primary" : "cdap",
-          "instance" : "${host}"
+          "name": "cdap_principal",
+          "primary": "cdap",
+          "instance": "${host}"
         }
       ],
       "logging": {
@@ -850,16 +1128,34 @@
           }
         ]
       },
-      "commands" : [
+      "commands": [
         {
-          "name" : "master_upgrade_tool",
-          "label" : "Run CDAP Upgrade Tool",
-          "description" : "Run CDAP Upgrade Tool",
-          "expectedExitCodes" : [0],
-          "requiredRoleState" : "stopped",
-          "commandRunner" : {
-            "program" : "scripts/cdap-control.sh",
-            "args" : ["upgrade"],
+          "name": "master_upgrade_tool",
+          "label": "Run CDAP Upgrade",
+          "description": "Run after upgrading the CDAP Parcel, and before starting CDAP",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "stopped",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["upgrade"],
+            "environmentVariables": {
+              "EXPLORE_ENABLED": "${explore_enabled}",
+              "KAFKA_PROPERTIES": "kafka.properties",
+              "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
+              "OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+            }
+          }
+        },
+        {
+          "name": "master_upgrade_hbase_tool",
+          "label": "Run Post-CDH Upgrade Tasks",
+          "description": "Run after upgrading CDH, after disabling CDAP HBase Tables, and before starting CDAP",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "stopped",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["upgrade_hbase"],
             "environmentVariables": {
               "EXPLORE_ENABLED": "${explore_enabled}",
               "KAFKA_PROPERTIES" : "kafka.properties",
@@ -870,17 +1166,17 @@
           }
         },
         {
-          "name" : "master_post_upgrade_tasks",
-          "label" : "Run CDAP Post-Upgrade Tasks",
-          "description" : "Run CDAP Post-Upgrade Tasks",
-          "expectedExitCodes" : [0],
-          "requiredRoleState" : "running",
-          "commandRunner" : {
-            "program" : "scripts/cdap-control.sh",
-            "args" : ["postupgrade"],
+          "name": "master_post_upgrade_tasks",
+          "label": "Run Post-CDAP Upgrade Tasks",
+          "description": "Run after upgrading CDAP, and after starting CDAP the first time",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "running",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["postupgrade"],
             "environmentVariables": {
               "EXPLORE_ENABLED": "${explore_enabled}",
-              "KAFKA_PROPERTIES" : "kafka.properties",
+              "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
               "OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
@@ -893,7 +1189,7 @@
         "args": [ "master" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
@@ -911,76 +1207,87 @@
         "url": "http://${host}:${dashboard_bind_port}"
       },
       "parameters": [
-	{
-	  "name": "dashboard_bind_address",
-	  "label": "Dashboard Bind Address",
-	  "description": "Dashboard Bind Address",
-	  "configName": "dashboard.bind.address",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "0.0.0.0",
-	  "type": "string"
-	},
-	{
-	  "name": "dashboard_bind_port",
-	  "label": "Dashboard Bind Port",
-	  "description": "Specifies the CDAP Dashboard Bind Port",
-	  "configName": "dashboard.bind.port",
-	  "required": true,
-	  "configurableInWizard": true,
-	  "default": 9999,
-	  "type": "port"
-	},
-	{
-	  "name": "dashboard_ssl_bind_port",
-	  "label": "Dashboard SSL Bind Port",
-	  "description": "Dashboard SSL Bind Port",
-	  "configName": "dashboard.ssl.bind.port",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": 9443,
-	  "type": "port"
-	},
-	{
-	  "name": "dashboard_ssl_cert",
-	  "label": "Dashboard SSL Cert",
-	  "description": "SSL cert file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-	  "configName": "dashboard.ssl.cert",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "dashboard_ssl_disable_cert_check",
-	  "label": "Dashboard SSL Disable Cert Check",
-	  "description": "Dashboard SSL Disable Cert Check",
-	  "configName": "dashboard.ssl.disable.cert.check",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": false,
-	  "type": "boolean"
-	},
-	{
-	  "name": "dashboard_ssl_key",
-	  "label": "Dashboard SSL Key",
-	  "description": "SSL key file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-	  "configName": "dashboard.ssl.key",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "router_server_port",
-	  "label": "Router Server Port",
-	  "description": "Router port to which Console connects",
-	  "configName": "router.server.port",
-	  "required": true,
-	  "configurableInWizard": true,
-	  "default": 11015,
-	  "type": "port"
-	}
+        {
+          "name": "dashboard_bind_address",
+          "label": "CDAP UI Bind Address",
+          "description": "CDAP UI bind address",
+          "configName": "dashboard.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "dashboard_bind_port",
+          "label": "CDAP UI Bind Port",
+          "description": "CDAP UI bind port",
+          "configName": "dashboard.bind.port",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 9999,
+          "type": "port"
+        },
+        {
+          "name": "dashboard_router_check_timeout_secs",
+          "label": "Dashboard Router Check Timeout Seconds",
+          "description": "Amount of time, in seconds, CDAP UI waits before exiting when unable to connect to CDAP Router service on startup; use a timeout of 0 to wait indefinitely",
+          "configName": "dashboard.router.check.timeout.secs",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 180,
+          "type": "long",
+          "unit": "seconds"
+        },
+        {
+          "name": "dashboard_ssl_bind_port",
+          "label": "Dashboard SSL Bind Port",
+          "description": "CDAP UI bind port for HTTPS",
+          "configName": "dashboard.ssl.bind.port",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 9443,
+          "type": "port"
+        },
+        {
+          "name": "dashboard_ssl_cert",
+          "label": "Dashboard SSL Cert",
+          "description": "SSL cert file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+          "configName": "dashboard.ssl.cert",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "dashboard_ssl_disable_cert_check",
+          "label": "Dashboard SSL Disable Cert Check",
+          "description": "True to disable SSL certificate check from the CDAP UI",
+          "configName": "dashboard.ssl.disable.cert.check",
+          "required": true,
+          "configurableInWizard": false,
+          "default": false,
+          "type": "boolean"
+        },
+        {
+          "name": "dashboard_ssl_key",
+          "label": "Dashboard SSL Key",
+          "description": "SSL key file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+          "configName": "dashboard.ssl.key",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "router_server_port",
+          "label": "Router Server Port",
+          "description": "CDAP Router service port to which CDAP UI connects",
+          "configName": "router.server.port",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 11015,
+          "type": "port"
+        }
       ],
       "configWriter": {
         "generators": [
@@ -1021,7 +1328,7 @@
         "args": [ "ui" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}"
         }
       }
@@ -1035,172 +1342,172 @@
       },
       "parameters": [
         {
-          "name" : "auth_java_heapmax",
-          "label" : "Auth Server Max Heapsize",
-          "description" : "Maximum size for the Java Process heap.  Passed to Java -Xmx.  Measured in bytes.",
-          "required" : "true",
-          "type" : "memory",
-          "unit" : "bytes",
-          "min" : 1073741824,
-          "default" : 2147483648,
-          "scaleFactor" : 1.3
+          "name": "auth_java_heapmax",
+          "label": "Auth Server Max Heapsize",
+          "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
+          "required": "true",
+          "type": "memory",
+          "unit": "bytes",
+          "min": 1073741824,
+          "default": 2147483648,
+          "scaleFactor": 1.3
         },
-	{
-	  "name": "security_auth_server_bind_port",
-	  "label": "Security Auth Server Bind Port",
-	  "description": "Port number that the CDAP Authentication Server should bind to for HTTP",
-	  "configName": "security.auth.server.bind.port",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": 10009,
-	  "type": "port"
-	},
-	{
-	  "name": "security_auth_server_ssl_bind_port",
-	  "label": "Security Auth Server SSL Bind Port",
-	  "description": "Port to bind to for HTTPS on the CDAP Authentication Server",
-	  "configName": "security.auth.server.ssl.bind.port",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": 10010,
-	  "type": "port"
-	},
-	{
-	  "name": "security_auth_server_ssl_keystore_keypassword",
-	  "label": "Security Auth Server SSL Keystore Key Password",
-	  "description": "Keystore key password",
-	  "configName": "security.auth.server.ssl.keystore.keypassword",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_auth_server_ssl_keystore_password",
-	  "label": "Security Auth Server SSL Keystore Password",
-	  "description": "Keystore password",
-	  "configName": "security.auth.server.ssl.keystore.password",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_auth_server_ssl_keystore_path",
-	  "label": "Security Auth Server SSL Keystore Path",
-	  "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-	  "configName": "security.auth.server.ssl.keystore.path",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_auth_server_ssl_keystore_type",
-	  "label": "Security Auth Server SSL Keystore Type",
-	  "description": "Keystore file type",
-	  "configName": "security.auth.server.ssl.keystore.type",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "JKS",
-	  "type": "string"
-	},
-	{
-	  "name": "security_authentication_basic_realmfile",
-	  "label": "Security Authentication Basic Realm File",
-	  "description": "Username / password file to use when basic authentication is configured",
-	  "configName": "security.authentication.basic.realmfile",
-	  "required": false,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "path",
-	  "pathType": "localDataFile"
-	},
-	{
-	  "name": "security_authentication_handler_debug",
-	  "label": "Security Authentication Handler Debug",
-	  "description": "Set to true to enable debugging",
-	  "configName": "security.authentication.handler.debug",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": true,
-	  "type": "boolean"
-	},
-	{
-	  "name": "security_authentication_handler_hostname",
-	  "label": "Security Authentication Handler Hostname",
-	  "description": "LDAP server host",
-	  "configName": "security.authentication.handler.hostname",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_authentication_handler_port",
-	  "label": "Security Authentication Handler Port",
-	  "description": "LDAP server port",
-	  "configName": "security.authentication.handler.port",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "389",
-	  "type": "port"
-	},
-	{
-	  "name": "security_authentication_handler_userBaseDn",
-	  "label": "Security Authentication Handler userBaseDn",
-	  "description": "Distinguished Name of the root for user account entries in the LDAP directory",
-	  "configName": "security.authentication.handler.userBaseDn",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_authentication_handler_userObjectClass",
-	  "label": "Security Authentication Handler userObjectClass",
-	  "description": "LDAP Object class used to store user entries",
-	  "configName": "security.authentication.handler.userObjectClass",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_authentication_handler_userRdnAttribute",
-	  "label": "Security Authentication Handler userRdnAttribute",
-	  "description": "LDAP Object attribute for username when search by role DN",
-	  "configName": "security.authentication.handler.userRdnAttribute",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	},
-	{
-	  "name": "security_authentication_handlerClassName",
-	  "label": "Security Authentication Handler Class Name",
-	  "description": "Name of the authentication implementation to use to validate user credentials",
-	  "configName": "security.authentication.handlerClassName",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
-	  "type": "string_enum",
-	  "validValues": [
-	    "co.cask.cdap.security.server.BasicAuthenticationHandler",
-	    "co.cask.cdap.security.server.LDAPAuthenticationHandler",
-	    "co.cask.cdap.security.server.JASPIAuthenticationHandler"
-	  ]
-	},
-	{
-	  "name": "security_authentication_loginmodule_className",
-	  "label": "Security Authentication Login Module Class Name",
-	  "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
-	  "configName": "security.authentication.loginmodule.className",
-	  "required": true,
-	  "configurableInWizard": false,
-	  "default": "",
-	  "type": "string"
-	}
+        {
+          "name": "security_auth_server_bind_port",
+          "label": "Security Auth Server Bind Port",
+          "description": "CDAP Authentication service bind port",
+          "configName": "security.auth.server.bind.port",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 10009,
+          "type": "port"
+        },
+        {
+          "name": "security_auth_server_ssl_bind_port",
+          "label": "Security Auth Server SSL Bind Port",
+          "description": "CDAP Authentication service bind port for HTTPS",
+          "configName": "security.auth.server.ssl.bind.port",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 10010,
+          "type": "port"
+        },
+        {
+          "name": "security_auth_server_ssl_keystore_keypassword",
+          "label": "Security Auth Server SSL Keystore Key Password",
+          "description": "Keystore key password",
+          "configName": "security.auth.server.ssl.keystore.keypassword",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_auth_server_ssl_keystore_password",
+          "label": "Security Auth Server SSL Keystore Password",
+          "description": "Keystore password",
+          "configName": "security.auth.server.ssl.keystore.password",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_auth_server_ssl_keystore_path",
+          "label": "Security Auth Server SSL Keystore Path",
+          "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
+          "configName": "security.auth.server.ssl.keystore.path",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_auth_server_ssl_keystore_type",
+          "label": "Security Auth Server SSL Keystore Type",
+          "description": "Keystore file type",
+          "configName": "security.auth.server.ssl.keystore.type",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "JKS",
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_basic_realmfile",
+          "label": "Security Authentication Basic Realm File",
+          "description": "Username / password file to use when basic authentication is configured",
+          "configName": "security.authentication.basic.realmfile",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "path",
+          "pathType": "localDataFile"
+        },
+        {
+          "name": "security_authentication_handler_debug",
+          "label": "Security Authentication Handler Debug",
+          "description": "Set to true to enable debugging",
+          "configName": "security.authentication.handler.debug",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "security_authentication_handler_hostname",
+          "label": "Security Authentication Handler Hostname",
+          "description": "LDAP server host",
+          "configName": "security.authentication.handler.hostname",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_port",
+          "label": "Security Authentication Handler Port",
+          "description": "LDAP server port",
+          "configName": "security.authentication.handler.port",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "389",
+          "type": "port"
+        },
+        {
+          "name": "security_authentication_handler_userBaseDn",
+          "label": "Security Authentication Handler userBaseDn",
+          "description": "Distinguished Name of the root for user account entries in the LDAP directory",
+          "configName": "security.authentication.handler.userBaseDn",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_userObjectClass",
+          "label": "Security Authentication Handler userObjectClass",
+          "description": "LDAP Object class used to store user entries",
+          "configName": "security.authentication.handler.userObjectClass",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_userRdnAttribute",
+          "label": "Security Authentication Handler userRdnAttribute",
+          "description": "LDAP Object attribute for username when search by role DN",
+          "configName": "security.authentication.handler.userRdnAttribute",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handlerClassName",
+          "label": "Security Authentication Handler Class Name",
+          "description": "Name of the authentication implementation to use to validate user credentials",
+          "configName": "security.authentication.handlerClassName",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
+          "type": "string_enum",
+          "validValues": [
+            "co.cask.cdap.security.server.BasicAuthenticationHandler",
+            "co.cask.cdap.security.server.LDAPAuthenticationHandler",
+            "co.cask.cdap.security.server.JASPIAuthenticationHandler"
+          ]
+        },
+        {
+          "name": "security_authentication_loginmodule_className",
+          "label": "Security Authentication Login Module Class Name",
+          "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
+          "configName": "security.authentication.loginmodule.className",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "",
+          "type": "string"
+        }
       ],
       "configWriter": {
         "generators": [
@@ -1244,11 +1551,11 @@
           }
         ]
       },
-      "kerberosPrincipals" : [
+      "kerberosPrincipals": [
         {
-          "name" : "cdap_principal",
-          "primary" : "cdap",
-          "instance" : "${host}"
+          "name": "cdap_principal",
+          "primary": "cdap",
+          "instance": "${host}"
         }
       ],
       "logging": {
@@ -1296,7 +1603,7 @@
         "args": [ "auth-server" ],
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
-          "KAFKA_PROPERTIES" : "kafka.properties",
+          "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "OPTS": "${cdap_java_opts}",
           "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}"
