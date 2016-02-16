@@ -1,6 +1,15 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.3.1 (Feb 15, 2016)
+---------------------
+- Fixes issue where Hydrator plugins are not available ( Issues: #57 [CDAP-4746](https://issues.cask.co/browse/CDAP-4746) )
+- Updates to configuration descriptions ( Issues: #58 #62 )
+- Introduced Post-CDH Upgrade Tasks command to run after HBase upgrade ( Issues: #59 [CDAP-4852](https://issues.cask.co/browse/CDAP-4852) )
+- Increased the default dashboard.router.check.timeout.secs ( Issues: #60 )
+- Fixes backwards compatability issue to only run master startup checks on supported CDAP parcels ( Issues: #61 [CDAP-4922](https://issues.cask.co/browse/CDAP-4922) )
+- Adds container sizing configurations, and exposes them in the Add Service wizard ( Issues: #63 )
+
 v3.3.0 (Jan 19, 2016)
 ---------------------
 - Namespace start script functions ( Issues: #45 #48 [CDAP-1174](https://issues.cask.co/browse/CDAP-1174) )
