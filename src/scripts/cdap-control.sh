@@ -122,6 +122,9 @@ fn_exists cdap_set_classpath || cdap_set_classpath() { set_classpath ${*}; }
 fn_exists cdap_set_hive_classpath || cdap_set_hive_classpath() { set_hive_classpath ${*}; }
 fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase ${*}; }
 
+# Redefine cdap_kinit to be a no-op. CM handles kinit for us
+cdap_kinit() { return 0; }
+
 # Parse CDAP version from CDAP_HOME (exported in CDAP parcel)
 CDAP_VERSION=${VERSION:-$(basename ${CDAP_HOME} | cut -d- -f2)}
 
