@@ -118,7 +118,7 @@
       "name": "cdap_java_opts",
       "label": "Additional Java Options",
       "description": "Additional Java Options passed on the command line",
-      "default": "-XX:+UseConcMarkSweepGC",
+      "default": "-XX:+UseConcMarkSweepGC -XX:MaxPermSize=256m",
       "type": "string"
     },
     {
