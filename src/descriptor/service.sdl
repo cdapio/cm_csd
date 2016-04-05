@@ -190,6 +190,16 @@
       "min": 1
     },
     {
+      "name": "data_tx_timeout",
+      "label": "Transaction Client Timeout",
+      "description": "Timeout value in seconds for a transaction; if the transaction is not finished in that time, it is marked invalid",
+      "configName": "data.tx.timeout",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 30,
+      "type": "long"
+    },
+    {
       "name": "dataset_executor_container_instances",
       "label": "Dataset Executor Container Instances",
       "description": "Number of dataset executor instances",
