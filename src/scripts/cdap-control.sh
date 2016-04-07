@@ -222,7 +222,7 @@ if [ ${MAIN_CLASS} ]; then
   # Exec into Master Service
   exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-    -Dexplore.classpath=${EXPLORE_CLASSPATH} "${OPTS}" \
+    -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
     -Duser.dir=${LOCAL_DIR} \
     -Dcdap.home=${CDAP_HOME} \
     -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}
