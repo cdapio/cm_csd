@@ -115,13 +115,6 @@
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
-      "name": "cdap_java_opts",
-      "label": "Additional Java Options",
-      "description": "Additional Java Options passed on the command line",
-      "default": "-XX:+UseConcMarkSweepGC -XX:MaxPermSize=256m",
-      "type": "string"
-    },
-    {
       "name": "app_temp_dir",
       "label": "App Temp Dir",
       "description": "Temp directory",
@@ -143,6 +136,46 @@
         "${cdap.home}/master/artifacts"
       ],
       "separator": ";"
+    },
+    {
+      "name": "app_program_runtime_extensions_dir",
+      "label": "App Program Runtime Extensions Dir",
+      "description": "Semicolon-separated list of local directories that are scanned for program runtime extensions",
+      "configName": "app.program.runtime.extensions.dir",
+      "required": true,
+      "configurableInWizard": true,
+      "type": "string_array",
+      "default": [
+        "${cdap.home}/master/ext/runtimes"
+      ],
+      "separator": ";"
+    },
+    {
+      "name": "audit_enabled",
+      "label": "Audit Enabled",
+      "description": "Determines whether to publish audit messages to Apache Kafka",
+      "configName": "audit.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
+    },
+    {
+      "name": "audit_kafka_topic",
+      "label": "Audit Kafka Topic",
+      "description": "Apache Kafka topic name to which audit messages are published",
+      "configName": "audit.kafka.topic",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "audit",
+      "type": "string"
+    },
+    {
+      "name": "cdap_java_opts",
+      "label": "Additional Java Options",
+      "description": "Additional Java Options passed on the command line",
+      "default": "-XX:+UseConcMarkSweepGC -XX:MaxPermSize=256m",
+      "type": "string"
     },
     {
       "name": "data_tx_max_instances",
@@ -316,6 +349,16 @@
       "required": true,
       "configurableInWizard": false,
       "default": "cdap",
+      "type": "string"
+    },
+    {
+      "name": "instance_name",
+      "label": "Instance name",
+      "description": "Determines a unique identifier for a CDAP instance. It is used for providing authorization to a particular CDAP instance. Must be alphanumeric, and should not be changed after CDAP has been started. If it is changed, there is a risk of losing data (for example, authorization policies).",
+      "configName": "instance.name",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "${root.namespace}",
       "type": "string"
     },
     {
@@ -914,6 +957,26 @@
       "pluralLabel": "CDAP Master Services",
       "parameters": [
         {
+          "name": "app_program_spark_yarn_client_rewrite_enabled",
+          "label": "App Program Spark Yarn Client Rewrite Enabled",
+          "description": "Specify whether to rewrite the yarn.Client class in Spark to work around the issue SPARK-13441 in CDM clusters.",
+          "configName": "app.program.spark.yarn.client.rewrite.enabled",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "log_kafka_topic",
+          "label": "Log Kafka Topic",
+          "description": "Kafka topic name used to publish logs",
+          "configName": "log.kafka.topic",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "logs.user-v2",
+          "type": "string"
+        },
+        {
           "name": "master_collect_containers_log",
           "label": "Master Collect Container Logs",
           "description": "Determines if master service container logs are streamed back to the CDAP Master process log",
@@ -1017,7 +1080,7 @@
         {
           "name": "metadata_updates_kafka_topic",
           "label": "Metadata Updates Kafka Topic",
-          "description": "Apache Kafka topic to which metadata update notifications are published",
+          "description": "Apache Kafka topic name to which metadata update notifications are published",
           "configName": "metadata.updates.kafka.topic",
           "required": true,
           "configurableInWizard": false,
@@ -1033,6 +1096,16 @@
           "configurableInWizard": false,
           "default": false,
           "type": "boolean"
+        },
+        {
+          "name": "notification_kafka_topic",
+          "label": "Notification Kafka Topic",
+          "description": "Kafka topic name used to publish notifications",
+          "configName": "notification.kafka.topic",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "notifications",
+          "type": "string"
         }
       ],
       "configWriter": {
