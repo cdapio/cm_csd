@@ -352,16 +352,6 @@
       "type": "string"
     },
     {
-      "name": "instance_name",
-      "label": "Instance name",
-      "description": "Determines a unique identifier for a CDAP instance. It is used for providing authorization to a particular CDAP instance. Must be alphanumeric, and should not be changed after CDAP has been started. If it is changed, there is a risk of losing data (for example, authorization policies).",
-      "configName": "instance.name",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "${root.namespace}",
-      "type": "string"
-    },
-    {
       "name": "kerberos_auth_enabled",
       "label": "Kerberos Auth Enabled",
       "description": "Determines if Kerberos authentication is enabled",
