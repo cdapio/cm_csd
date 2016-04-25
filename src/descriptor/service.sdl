@@ -157,7 +157,7 @@
       "configName": "audit.enabled",
       "required": true,
       "configurableInWizard": false,
-      "default": false,
+      "default": true,
       "type": "boolean"
     },
     {
