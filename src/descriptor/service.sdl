@@ -25,7 +25,8 @@
     {"name": "HDFS", "required": "true"},
     {"name": "YARN", "required": "true"},
     {"name": "HBASE", "required": "true"},
-    {"name": "HIVE", "required": "false"}
+    {"name": "HIVE", "required": "false"},
+    {"name": "SPARK_ON_YARN", "required": "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_UI"

@@ -183,12 +183,18 @@ if [ ${MAIN_CLASS} ]; then
   # Include appropriate hbase_compat module in classpath
   cdap_set_hbase
 
+  # If a user has selected a dependency on Spark, CM will generate spark-conf directory in CWD
+  if [ -d "spark-conf" ]; then
+    export SPARK_HOME=${CDH_SPARK_HOME}
+  fi
+
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
   echo "`ulimit -a`"
   echo "Using java_heapmax: ${JAVA_HEAPMAX}"
   echo "Using explore.conf.files: ${EXPLORE_CONF_FILES}"
   echo "Using explore.classpath: ${EXPLORE_CLASSPATH}"
+  echo "Using SPARK_HOME: ${SPARK_HOME}"
   echo "Using user.dir: ${LOCAL_DIR}"
   echo "Using classpath: ${CLASSPATH}"
   echo "Using main_class: ${MAIN_CLASS}"
