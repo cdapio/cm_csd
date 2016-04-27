@@ -2,6 +2,7 @@ CDAP CSD CHANGELOG
 ==================
 
 v3.3.2 (Apr 26, 2016)
+---------------------
 - Adds configuration for data.tx.timeout ( Issues: #66 [CDAP-5035](https://issues.cask.co/browse/CDAP-5035) )
 - Fixes an issue where CDAP failed to start on Ubuntu due to a kinit issue ( Issues: #67 [CDAP-5058](https://issues.cask.co/browse/CDAP-5058) )
 
