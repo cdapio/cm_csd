@@ -1427,6 +1427,16 @@
           "scaleFactor": 1.3
         },
         {
+          "name": "security_auth_server_bind_address",
+          "label": "CDAP Authentication service bind address",
+          "description": "CDAP Authentication service bind address",
+          "configName": "security.auth.server.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
           "name": "security_auth_server_bind_port",
           "label": "Security Auth Server Bind Port",
           "description": "CDAP Authentication service bind port",
@@ -1601,10 +1611,6 @@
               {
                 "key": "kafka.log.dir",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
-              },
-              {
-                "key": "security.auth.server.address",
-                "value": "{{HOSTNAME}}"
               },
               {
                 "key": "cdap.master.kerberos.keytab",
