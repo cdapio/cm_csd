@@ -80,7 +80,7 @@ case ${SERVICE} in
     ;;
   (client)
     CLIENT_CONF_DIR=${CONF_DIR}/cdap-conf
-    HOSTNAME=`hostname`
+    HOSTNAME=`hostname -f`
     substitute_cdap_site_tokens ${CLIENT_CONF_DIR}/cdap-site.xml
     exit 0
     ;;
@@ -130,7 +130,7 @@ CDAP_VERSION=${VERSION:-$(basename ${CDAP_HOME} | cut -d- -f2)}
 
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
-HOSTNAME=`hostname`
+HOSTNAME=`hostname -f`
 substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 
 # Copy logback-container.xml into place unless user has populated safety valve
