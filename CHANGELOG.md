@@ -7,6 +7,7 @@ v3.4.0 (Apr 28, 2016)
 - Fixes an issue where logging directory was not modifiable ( Issues: #72 [CDAP-5620](https://issues.cask.co/browse/CDAP-5620) )
 - Add configurations for CDAP 3.4 release ( Issues: #73 #74 [CDAP-5681](https://issues.cask.co/browse/CDAP-5681) )
 - Dynamically enable Spark integration ( Issues: #76 [CDAP-5086](https://issues.cask.co/browse/CDAP-5086) )
+- Adds security.auth.server.bind.address configuration ( Issues: #80 )
 
 v3.3.2 (Apr 26, 2016)
 ---------------------
