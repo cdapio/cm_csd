@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.3.2",
+  "version": "3.4.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel": {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/3.3/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.4/",
     "requiredTags": [ "cdh", "cdap" ]
   },
   "icon": "images/icon.png",
@@ -25,7 +25,8 @@
     {"name": "HDFS", "required": "true"},
     {"name": "YARN", "required": "true"},
     {"name": "HBASE", "required": "true"},
-    {"name": "HIVE", "required": "false"}
+    {"name": "HIVE", "required": "false"},
+    {"name": "SPARK_ON_YARN", "required": "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_UI"
@@ -115,13 +116,6 @@
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
-      "name": "cdap_java_opts",
-      "label": "Additional Java Options",
-      "description": "Additional Java Options passed on the command line",
-      "default": "-XX:+UseConcMarkSweepGC",
-      "type": "string"
-    },
-    {
       "name": "app_temp_dir",
       "label": "App Temp Dir",
       "description": "Temp directory",
@@ -143,6 +137,46 @@
         "${cdap.home}/master/artifacts"
       ],
       "separator": ";"
+    },
+    {
+      "name": "app_program_runtime_extensions_dir",
+      "label": "App Program Runtime Extensions Dir",
+      "description": "Semicolon-separated list of local directories that are scanned for program runtime extensions",
+      "configName": "app.program.runtime.extensions.dir",
+      "required": true,
+      "configurableInWizard": true,
+      "type": "string_array",
+      "default": [
+        "${cdap.home}/master/ext/runtimes"
+      ],
+      "separator": ";"
+    },
+    {
+      "name": "audit_enabled",
+      "label": "Audit Enabled",
+      "description": "Determines whether to publish audit messages to Apache Kafka",
+      "configName": "audit.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "audit_kafka_topic",
+      "label": "Audit Kafka Topic",
+      "description": "Apache Kafka topic name to which audit messages are published",
+      "configName": "audit.kafka.topic",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "audit",
+      "type": "string"
+    },
+    {
+      "name": "cdap_java_opts",
+      "label": "Additional Java Options",
+      "description": "Additional Java Options passed on the command line",
+      "default": "-XX:+UseConcMarkSweepGC -XX:MaxPermSize=256m",
+      "type": "string"
     },
     {
       "name": "data_tx_max_instances",
@@ -719,7 +753,7 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "router.log",
-        "isModifiable": true,
+        "modifiable": true,
         "loggingType": "logback",
         "additionalConfigs": [
           {  
@@ -859,7 +893,7 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "kafka.log",
-        "isModifiable": true,
+        "modifiable": true,
         "loggingType": "logback",
         "additionalConfigs": [
           {
@@ -913,6 +947,26 @@
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
       "parameters": [
+        {
+          "name": "app_program_spark_yarn_client_rewrite_enabled",
+          "label": "App Program Spark Yarn Client Rewrite Enabled",
+          "description": "Specify whether to rewrite the yarn.Client class in Spark to work around the issue SPARK-13441 in CDM clusters.",
+          "configName": "app.program.spark.yarn.client.rewrite.enabled",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "log_kafka_topic",
+          "label": "Log Kafka Topic",
+          "description": "Kafka topic name used to publish logs",
+          "configName": "log.kafka.topic",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "logs.user-v2",
+          "type": "string"
+        },
         {
           "name": "master_collect_containers_log",
           "label": "Master Collect Container Logs",
@@ -1017,7 +1071,7 @@
         {
           "name": "metadata_updates_kafka_topic",
           "label": "Metadata Updates Kafka Topic",
-          "description": "Apache Kafka topic to which metadata update notifications are published",
+          "description": "Apache Kafka topic name to which metadata update notifications are published",
           "configName": "metadata.updates.kafka.topic",
           "required": true,
           "configurableInWizard": false,
@@ -1033,6 +1087,16 @@
           "configurableInWizard": false,
           "default": false,
           "type": "boolean"
+        },
+        {
+          "name": "notification_kafka_topic",
+          "label": "Notification Kafka Topic",
+          "description": "Kafka topic name used to publish notifications",
+          "configName": "notification.kafka.topic",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "notifications",
+          "type": "string"
         }
       ],
       "configWriter": {
@@ -1101,7 +1165,7 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "master.log",
-        "isModifiable": true,
+        "modifiable": true,
         "loggingType": "logback",
         "additionalConfigs": [
           {
@@ -1363,6 +1427,16 @@
           "scaleFactor": 1.3
         },
         {
+          "name": "security_auth_server_bind_address",
+          "label": "CDAP Authentication service bind address",
+          "description": "CDAP Authentication service bind address",
+          "configName": "security.auth.server.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
           "name": "security_auth_server_bind_port",
           "label": "Security Auth Server Bind Port",
           "description": "CDAP Authentication service bind port",
@@ -1539,10 +1613,6 @@
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               },
               {
-                "key": "security.auth.server.address",
-                "value": "{{HOSTNAME}}"
-              },
-              {
                 "key": "cdap.master.kerberos.keytab",
                 "value": "{{CDAP_MASTER_KERBEROS_KEYTAB}}"
               },
@@ -1571,7 +1641,7 @@
       "logging": {
         "dir": "/var/log/cdap",
         "filename": "auth-server.log",
-        "isModifiable": true,
+        "modifiable": true,
         "loggingType": "logback",
         "additionalConfigs": [
           {
