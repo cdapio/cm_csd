@@ -175,6 +175,11 @@ if [ ${MAIN_CLASS} ]; then
   # Set base classpath to include component and conf directory (CM provided)
   cdap_set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
+  # If a user has selected a dependency on Spark, CM will generate spark-conf directory in CWD
+  if [ -d "spark-conf" ]; then
+    export SPARK_HOME=${CDH_SPARK_HOME}
+  fi
+
   # Set HIVE_HOME to CM-provided active location
   export HIVE_HOME=${CDH_HIVE_HOME}
   # Setup hive classpath if hive is installed, this has to be run after HBASE_CP is setup by set_classpath.
@@ -182,11 +187,6 @@ if [ ${MAIN_CLASS} ]; then
 
   # Include appropriate hbase_compat module in classpath
   cdap_set_hbase
-
-  # If a user has selected a dependency on Spark, CM will generate spark-conf directory in CWD
-  if [ -d "spark-conf" ]; then
-    export SPARK_HOME=${CDH_SPARK_HOME}
-  fi
 
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
