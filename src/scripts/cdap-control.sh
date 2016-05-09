@@ -89,18 +89,24 @@ case ${SERVICE} in
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade_hbase force"
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (upgrade)
     # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade force"
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (postupgrade)
     # A post-upgrade step to correct any pending flow metrics. Kafka server must be running
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.flow.FlowQueuePendingCorrector
     MAIN_CLASS_ARGS=""
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
