@@ -211,7 +211,7 @@ if [ ${MAIN_CLASS} ]; then
         echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
         "${JAVA}" "${JAVA_HEAPMAX}" \
           -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-          -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+          -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
           -Dcdap.home=${CDAP_HOME} \
           -cp ${CLASSPATH} \
           co.cask.cdap.master.startup.MasterStartupTool 2>&1
@@ -228,7 +228,7 @@ if [ ${MAIN_CLASS} ]; then
   # Exec into Master Service
   exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-    -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+    -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
     -Duser.dir=${LOCAL_DIR} \
     -Dcdap.home=${CDAP_HOME} \
     -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}
