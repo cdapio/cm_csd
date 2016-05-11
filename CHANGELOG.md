@@ -1,6 +1,11 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.4.1 (May 11, 2016)
+---------------------
+- Fixes an issue where java heap size for the Upgrade commands was not set properly ( Issues: #84 [CDAP-5891](https://issues.cask.co/browse/CDAP-5891) )
+- Fixes an issue where the Additional Java Options property was not set properly ( Issues: #86 [CDAP-5956](https://issues.cask.co/browse/CDAP-5956) )
+
 v3.4.0 (Apr 28, 2016)
 ---------------------
 - Increase CDAP PermGen memory ( Issues: #69 #70 )
