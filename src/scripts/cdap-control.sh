@@ -89,18 +89,24 @@ case ${SERVICE} in
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade_hbase force"
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (upgrade)
     # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade force"
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (postupgrade)
     # A post-upgrade step to correct any pending flow metrics. Kafka server must be running
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.flow.FlowQueuePendingCorrector
     MAIN_CLASS_ARGS=""
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
@@ -211,7 +217,7 @@ if [ ${MAIN_CLASS} ]; then
         echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
         "${JAVA}" "${JAVA_HEAPMAX}" \
           -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-          -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+          -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
           -Dcdap.home=${CDAP_HOME} \
           -cp ${CLASSPATH} \
           co.cask.cdap.master.startup.MasterStartupTool 2>&1
@@ -228,7 +234,7 @@ if [ ${MAIN_CLASS} ]; then
   # Exec into Master Service
   exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
     -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
-    -Dexplore.classpath=${EXPLORE_CLASSPATH} ${OPTS} \
+    -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
     -Duser.dir=${LOCAL_DIR} \
     -Dcdap.home=${CDAP_HOME} \
     -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}

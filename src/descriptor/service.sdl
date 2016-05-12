@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "Cask DAP",
   "description": "Cask Data Application Platform",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -797,7 +797,7 @@
           "EXPLORE_ENABLED": "${explore_enabled}",
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-          "OPTS": "${cdap_java_opts}",
+          "CDAP_JAVA_OPTS": "${cdap_java_opts}",
           "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
         }
       }
@@ -937,7 +937,7 @@
           "EXPLORE_ENABLED": "${explore_enabled}",
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-          "OPTS": "${cdap_java_opts}",
+          "CDAP_JAVA_OPTS": "${cdap_java_opts}",
           "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}"
         }
       }
@@ -1216,7 +1216,7 @@
               "EXPLORE_ENABLED": "${explore_enabled}",
               "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-              "OPTS": "${cdap_java_opts}",
+              "CDAP_JAVA_OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
@@ -1234,7 +1234,7 @@
               "EXPLORE_ENABLED": "${explore_enabled}",
               "KAFKA_PROPERTIES" : "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-              "OPTS": "${cdap_java_opts}",
+              "CDAP_JAVA_OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
@@ -1252,7 +1252,7 @@
               "EXPLORE_ENABLED": "${explore_enabled}",
               "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-              "OPTS": "${cdap_java_opts}",
+              "CDAP_JAVA_OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
@@ -1265,7 +1265,7 @@
           "EXPLORE_ENABLED": "${explore_enabled}",
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-          "OPTS": "${cdap_java_opts}",
+          "CDAP_JAVA_OPTS": "${cdap_java_opts}",
           "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
           "STARTUP_CHECKS_ENABLED": "${master_startup_checks_enabled}"
         }
@@ -1685,7 +1685,7 @@
           "EXPLORE_ENABLED": "${explore_enabled}",
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-          "OPTS": "${cdap_java_opts}",
+          "CDAP_JAVA_OPTS": "${cdap_java_opts}",
           "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}"
         }
       }
