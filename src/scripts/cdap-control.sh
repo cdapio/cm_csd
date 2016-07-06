@@ -152,6 +152,10 @@ if [ -n "${COMPONENT_CONF_SCRIPT}" ]; then
   source ${COMPONENT_CONF_SCRIPT}
 fi
 
+# Set JAVA_HEAPMAX from variable defined in JAVA_HEAP_VAR, unless defined already
+JAVA_HEAPMAX=${JAVA_HEAPMAX:-${!JAVA_HEAP_VAR}}
+export JAVA_HEAPMAX
+
 # CDAP_CONF is used by Web-App to find cdap-site.xml
 export CDAP_CONF=${CONF_DIR}
 
