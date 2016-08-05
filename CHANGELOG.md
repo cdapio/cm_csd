@@ -1,6 +1,11 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.4.2 (Aug 4, 2016)
+--------------------
+- Updates CDAP label and description ( Issues: #90 )
+- Prevent unnecessary checks of Hive, HBase, and Spark environments ( Issues: #93 [CDAP-6923](https://issues.cask.co/browse/CDAP-6923) )
+
 v3.4.1 (May 11, 2016)
 ---------------------
 - Fixes an issue where java heap size for the Upgrade commands was not set properly ( Issues: #84 [CDAP-5891](https://issues.cask.co/browse/CDAP-5891) )
