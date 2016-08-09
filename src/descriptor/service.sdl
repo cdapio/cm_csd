@@ -116,6 +116,15 @@
   "kerberos": "${kerberos_auth_enabled}",
   "parameters": [
     {
+      "name": "apps_scheduler_queue",
+      "label": "Apps Scheduler Queue",
+      "description": "Scheduler queue for CDAP programs and Explore Queries",
+      "configName": "apps.scheduler.queue",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
       "name": "app_temp_dir",
       "label": "App Temp Dir",
       "description": "Temp directory",
@@ -406,6 +415,15 @@
       "default": 2,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "master_services_scheduler_queue",
+      "label": "Master Services Scheduler Queue",
+      "description": "Scheduler queue for CDAP master services",
+      "configName": "master.services.scheduler.queue",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
     },
     {
       "name": "metrics_data_table_retention_resolution_1_seconds",
