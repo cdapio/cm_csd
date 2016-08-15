@@ -537,10 +537,40 @@
       "type": "string"
     },
     {
+      "name": "router_bind_address",
+      "label": "Router Bind Address",
+      "description": "CDAP Router service bind address",
+      "configName": "router.bind.address",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "0.0.0.0",
+      "type": "string"
+    },
+    {
       "name": "router_bind_port",
       "label": "Router Bind Port",
       "description": "CDAP Router service bind port",
       "configName": "router.bind.port",
+      "required": true,
+      "configurableInWizard": true,
+      "default": 11015,
+      "type": "port"
+    },
+    {
+      "name": "router_server_address",
+      "label": "Router Server Address",
+      "description": "CDAP Router service address to which CDAP UI connects",
+      "configName": "router.server.address",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "127.0.0.1",
+      "type": "string"
+    },
+    {
+      "name": "router_server_port",
+      "label": "Router Server Port",
+      "description": "CDAP Router service port to which CDAP UI connects",
+      "configName": "router.server.port",
       "required": true,
       "configurableInWizard": true,
       "default": 11015,
@@ -737,10 +767,6 @@
               {
                 "key": "kafka.log.dir",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
-              },
-              {
-                "key": "router.bind.address",
-                "value": "{{HOSTNAME}}"
               },
               {
                 "key": "cdap.master.kerberos.keytab",
@@ -1369,16 +1395,6 @@
           "configurableInWizard": false,
           "default": "",
           "type": "string"
-        },
-        {
-          "name": "router_server_port",
-          "label": "Router Server Port",
-          "description": "CDAP Router service port to which CDAP UI connects",
-          "configName": "router.server.port",
-          "required": true,
-          "configurableInWizard": true,
-          "default": 11015,
-          "type": "port"
         }
       ],
       "configWriter": {
@@ -1399,10 +1415,6 @@
               {
                 "key": "kafka.log.dir",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
-              },
-              {
-                "key": "router.server.address",
-                "value": "{{HOSTNAME}}"
               }
             ]
           }
