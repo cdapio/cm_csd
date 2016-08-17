@@ -527,6 +527,38 @@
       "min": 1
     },
     {
+      "name": "remote_system_op_exec_threads",
+      "label": "Remote System Op Exec Threads",
+      "description": "Number of Netty service executor threads for the remote system operation HTTP service",
+      "configName": "remote.system.op.exec.threads",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 20,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "remote_system_op_service_bind_address",
+      "label": "Remote System Op Service Bind Address",
+      "description": "Remote system operation HTTP service bind address",
+      "configName": "remote.system.op.service.bind.address",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "0.0.0.0",
+      "type": "string"
+    },
+    {
+      "name": "remote_system_op_worker_threads",
+      "label": "Remote System Op Worker Threads",
+      "description": "Number of Netty service IO worker threads for the remote system operation HTTP service",
+      "configName": "remote.system.op.worker.threads",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "root_namespace",
       "label": "Root Namespace",
       "description": "Root for this CDAP instance; used as the parent (or root) node for ZooKeeper, as the directory under which all CDAP data and metadata is stored in HDFS, and as the prefix for all HBase tables created by CDAP; must be composed of alphanumeric characters",
