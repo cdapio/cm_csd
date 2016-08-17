@@ -557,6 +557,54 @@
       "type": "port"
     },
     {
+      "name": "security_authorization_cache_enabled",
+      "label": "Security Authorization Cache Enabled",
+      "description": "Determines if authorization policies can be cached by programs; defaults to true",
+      "configName": "security.authorization.cache.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "security_authorization_cache_refresh_interval_secs",
+      "label": "Security Authorization Cache Refresh Interval Seconds",
+      "description": "Determines the interval in seconds after which a background thread will refresh cached authorization policies. Defaults to 50 seconds. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "configName": "security.authorization.cache.refresh.interval.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "security_authorization_cache_ttl_secs",
+      "label": "Security Authorization Cache TTL Seconds",
+      "description": "Determines the time to live in seconds for entries in the authorization cache used by programs. Defaults to 60 seconds. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "configName": "security.authorization.cache.ttl.secs",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 60,
+      "type": "long"
+    },
+    {
+      "name": "security_authorization_enabled",
+      "label": "Security Authorization Enabled",
+      "description": "When set to true, all operations in CDAP are authorized using the authorizer implementation found at the property ${security.authorization.extension.jar.path}",
+      "configName": "security.authorization.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
+    },
+    {
+      "name": "security_authorization_extension_jar_path",
+      "label": "Security Authorization Extension Jar Path",
+      "description": "If an external authorization system is used for authorizing operations on CDAP entities, this property sets the path to the bundled JAR file containing the extension code. This jar is only used when authorization is enabled by setting ${security.authorization.enabled} to true.",
+      "configName": "security.authorization.extension.jar.path",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
       "name": "security_enabled",
       "label": "Security Enabled",
       "description": "Determines if authentication is enabled for CDAP; if true, all requests to CDAP must provide a valid access token",
@@ -565,6 +613,49 @@
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
+    },
+    {
+      "name": "security_store_file_name",
+      "label": "Security Store File Name",
+      "description": "Name of the secure store file",
+      "configName": "security.store.file.name",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "securestore",
+      "type": "string"
+    },
+    {
+      "name": "security_store_file_password",
+      "label": "Security Store File Password",
+      "description": "Password of the encrypted file which holds the secure store entries",
+      "configName": "security.store.file.password",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "password"
+    },
+    {
+      "name": "security_store_file_path",
+      "label": "Security Store File Path",
+      "description": "",
+      "configName": "security.store.file.path",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "security_store_provider",
+      "label": "Security Store Provider",
+      "description": "",
+      "configName": "security.store.provider",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "file",
+        "kms"
+      ]
     },
     {
       "name": "ssl_enabled",
