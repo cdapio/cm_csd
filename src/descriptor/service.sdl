@@ -372,6 +372,16 @@
       "type": "boolean"
     },
     {
+      "name": "local_data_dir",
+      "label": "Local Data Directory",
+      "description": "User name for accessing HDFS",
+      "configName": "local.data.dir",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "data",
+      "type": "string"
+    },
+    {
       "name": "log_saver_max_instances",
       "label": "Log Saver Max Instances",
       "description": "Maximum number of log saver instances to run in YARN",
@@ -682,6 +692,7 @@
       "configName": "security.store.file.path",
       "required": false,
       "configurableInWizard": false,
+      "default": "${local.data.dir}/store",
       "type": "string"
     },
     {
