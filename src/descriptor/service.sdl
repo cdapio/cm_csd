@@ -688,7 +688,7 @@
     {
       "name": "security_store_file_path",
       "label": "Security Store File Path",
-      "description": "",
+      "description": "Location of the encrypted file which holds the secure store entries",
       "configName": "security.store.file.path",
       "required": false,
       "configurableInWizard": false,
@@ -698,7 +698,7 @@
     {
       "name": "security_store_provider",
       "label": "Security Store Provider",
-      "description": "",
+      "description": "Backend provider for the secure store; use 'none' if no secure store",
       "configName": "security.store.provider",
       "required": false,
       "configurableInWizard": false,
