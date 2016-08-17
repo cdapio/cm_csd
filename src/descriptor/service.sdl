@@ -706,7 +706,6 @@
       "default": "none",
       "validValues": [
         "none",
-        "file",
         "kms"
       ]
     },
