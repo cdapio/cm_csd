@@ -613,7 +613,7 @@
       "label": "Security Authorization Cache Enabled",
       "description": "Determines if authorization policies can be cached by programs; defaults to true",
       "configName": "security.authorization.cache.enabled",
-      "required": true,
+      "required": false,
       "configurableInWizard": false,
       "default": true,
       "type": "boolean"
@@ -625,17 +625,20 @@
       "configName": "security.authorization.cache.refresh.interval.secs",
       "required": false,
       "configurableInWizard": false,
-      "type": "string"
+      "default": 50
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "security_authorization_cache_ttl_secs",
       "label": "Security Authorization Cache TTL Seconds",
       "description": "Determines the time to live in seconds for entries in the authorization cache used by programs. Defaults to 60 seconds. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.ttl.secs",
-      "required": true,
+      "required": false,
       "configurableInWizard": false,
       "default": 60,
-      "type": "long"
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "security_authorization_enabled",
