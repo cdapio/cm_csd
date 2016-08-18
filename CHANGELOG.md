@@ -1,6 +1,13 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.5.0 (Aug 19, 2016)
+---------------------
+- Exposes YARN scheduler configurations ( Issues: #96 [CDAP-6182](https://issues.cask.co/browse/CDAP-6182) )
+- Fixes an issue where the Router and UI roles needed to be colocated ( Issues: #98 [CDAP-2501](https://issues.cask.co/browse/CDAP-2501) )
+- Fixes an issue where the Gateway client was missing router.server.* configurations ( Issues: #98 [CDAP-6974](https://issues.cask.co/browse/CDAP-6974) )
+- Adds configurations for CDAP 3.5 release ( Issues: #99 #100 #101 )
+
 v3.4.2 (Aug 4, 2016)
 --------------------
 - Updates CDAP label and description ( Issues: #90 )
