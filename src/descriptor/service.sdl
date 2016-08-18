@@ -98,7 +98,7 @@
       "peerConfigGenerators": [
         {
           "filename": "kafka.properties",
-          "params": [ "kafka_bind_port" ],
+          "params": [ "kafka_server_port" ],
           "roleName": "CDAP_KAFKA"
         }
       ]
@@ -372,6 +372,16 @@
       "type": "boolean"
     },
     {
+      "name": "local_data_dir",
+      "label": "Local Data Directory",
+      "description": "User name for accessing HDFS",
+      "configName": "local.data.dir",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "data",
+      "type": "string"
+    },
+    {
       "name": "log_saver_max_instances",
       "label": "Log Saver Max Instances",
       "description": "Maximum number of log saver instances to run in YARN",
@@ -527,6 +537,38 @@
       "min": 1
     },
     {
+      "name": "remote_system_op_exec_threads",
+      "label": "Remote System Op Exec Threads",
+      "description": "Number of Netty service executor threads for the remote system operation HTTP service",
+      "configName": "remote.system.op.exec.threads",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 20,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "remote_system_op_service_bind_address",
+      "label": "Remote System Op Service Bind Address",
+      "description": "Remote system operation HTTP service bind address",
+      "configName": "remote.system.op.service.bind.address",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "0.0.0.0",
+      "type": "string"
+    },
+    {
+      "name": "remote_system_op_worker_threads",
+      "label": "Remote System Op Worker Threads",
+      "description": "Number of Netty service IO worker threads for the remote system operation HTTP service",
+      "configName": "remote.system.op.worker.threads",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "root_namespace",
       "label": "Root Namespace",
       "description": "Root for this CDAP instance; used as the parent (or root) node for ZooKeeper, as the directory under which all CDAP data and metadata is stored in HDFS, and as the prefix for all HBase tables created by CDAP; must be composed of alphanumeric characters",
@@ -537,24 +579,82 @@
       "type": "string"
     },
     {
-      "name": "router_bind_port",
-      "label": "Router Bind Port",
-      "description": "CDAP Router service bind port",
-      "configName": "router.bind.port",
+      "name": "router_server_address",
+      "label": "Router Server Address",
+      "description": "CDAP Router service address to which CDAP UI connects",
+      "configName": "router.server.address",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "127.0.0.1",
+      "type": "string"
+    },
+    {
+      "name": "router_server_port",
+      "label": "Router Server Port",
+      "description": "CDAP Router service port to which CDAP UI connects",
+      "configName": "router.server.port",
       "required": true,
       "configurableInWizard": true,
       "default": 11015,
       "type": "port"
     },
     {
-      "name": "router_ssl_bind_port",
-      "label": "Router SSL Bind Port",
-      "description": "CDAP Router service bind port for HTTPS",
-      "configName": "router.ssl.bind.port",
+      "name": "security_authorization_cache_enabled",
+      "label": "Security Authorization Cache Enabled",
+      "description": "Determines if authorization policies can be cached by programs; defaults to true",
+      "configName": "security.authorization.cache.enabled",
       "required": true,
       "configurableInWizard": false,
-      "default": 10443,
-      "type": "port"
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "security_authorization_cache_refresh_interval_secs",
+      "label": "Security Authorization Cache Refresh Interval Seconds",
+      "description": "Determines the interval in seconds after which a background thread will refresh cached authorization policies. Defaults to 50 seconds. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "configName": "security.authorization.cache.refresh.interval.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "security_authorization_cache_ttl_secs",
+      "label": "Security Authorization Cache TTL Seconds",
+      "description": "Determines the time to live in seconds for entries in the authorization cache used by programs. Defaults to 60 seconds. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "configName": "security.authorization.cache.ttl.secs",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 60,
+      "type": "long"
+    },
+    {
+      "name": "security_authorization_enabled",
+      "label": "Security Authorization Enabled",
+      "description": "When set to true, all operations in CDAP are authorized using the authorizer implementation found at the property ${security.authorization.extension.jar.path}",
+      "configName": "security.authorization.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
+    },
+    {
+      "name": "security_authorization_extension_jar_path",
+      "label": "Security Authorization Extension Jar Path",
+      "description": "If an external authorization system is used for authorizing operations on CDAP entities, this property sets the path to the bundled JAR file containing the extension code. This jar is only used when authorization is enabled by setting ${security.authorization.enabled} to true.",
+      "configName": "security.authorization.extension.jar.path",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "security_authorization_system_user",
+      "label": "Security Authorization System User",
+      "description": "Determines a user for whom specific privileges are granted during CDAP startup.  This is the user used for creating the default namespace, deploying system artifacts and deploying dataset modules. This user is also granted ALL privileges on the system namespace, so it can access datasets and other entities in the system namespace. This user does not get any other privileges on user namespaces. Defaults to 'cdap'. Please set this to the user that the CDAP Master runs as in a secure, authorization-enabled environment.",
+      "configName": "security.authorization.system.user",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "cdap",
+      "type": "string"
     },
     {
       "name": "security_enabled",
@@ -565,6 +665,20 @@
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
+    },
+    {
+      "name": "security_store_provider",
+      "label": "Security Store Provider",
+      "description": "Backend provider for the secure store; use 'none' if no secure store",
+      "configName": "security.store.provider",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "kms"
+      ]
     },
     {
       "name": "ssl_enabled",
@@ -668,6 +782,26 @@
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
         {
+          "name": "router_bind_address",
+          "label": "Router Bind Address",
+          "description": "CDAP Router service bind address",
+          "configName": "router.bind.address",
+          "required": true,
+          "configurableInWizard": true,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "router_bind_port",
+          "label": "Router Bind Port",
+          "description": "CDAP Router service bind port",
+          "configName": "router.bind.port",
+          "required": true,
+          "configurableInWizard": true,
+          "default": 11015,
+          "type": "port"
+        },
+        {
           "name": "router_java_heapmax",
           "label": "Router Max Heapsize",
           "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
@@ -677,6 +811,16 @@
           "min": 2147483648,
           "default": 4294967296,
           "scaleFactor": 1.3
+        },
+        {
+          "name": "router_ssl_bind_port",
+          "label": "Router SSL Bind Port",
+          "description": "CDAP Router service bind port for HTTPS",
+          "configName": "router.ssl.bind.port",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 10443,
+          "type": "port"
         },
         {
           "name": "router_ssl_keystore_keypassword",
@@ -735,12 +879,8 @@
                 "value": "{{KAFKA_SEED_BROKERS}}"
               },
               {
-                "key": "kafka.log.dir",
+                "key": "kafka.server.log.dirs",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
-              },
-              {
-                "key": "router.bind.address",
-                "value": "{{HOSTNAME}}"
               },
               {
                 "key": "cdap.master.kerberos.keytab",
@@ -756,7 +896,7 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ],
+            "params": [ "kafka_server_port" ],
             "roleName": "CDAP_KAFKA"
           }
         ]
@@ -837,35 +977,80 @@
           "scaleFactor": 1.3
         },
         {
-          "name": "kafka_bind_address",
-          "label": "Kafka Bind Address",
+          "name": "kafka_server_default_replication_factor",
+          "label": "Kafka Server Default Replication Factor",
+          "description": "CDAP Kafka service replication factor; used to replicate Kafka messages across multiple machines to prevent data loss in the event of a hardware failure. The recommended setting is to run at least two CDAP Kafka servers. If you are running two CDAP Kafka servers, set this value to 2; otherwise, set it to the number of CDAP Kafka servers.",
+          "configName": "kafka.server.default.replication.factor",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 1,
+          "type": "long",
+          "min": 1
+        },
+        {
+          "name": "kafka_server_host_name",
+          "label": "Kafka Server Host Name",
           "description": "CDAP Kafka service bind address",
-          "configName": "kafka.bind.address",
+          "configName": "kafka.server.host.name",
           "required": true,
           "configurableInWizard": false,
           "default": "0.0.0.0",
           "type": "string"
         },
         {
-          "name": "kafka_bind_port",
-          "label": "Kafka Bind Port",
+          "name": "kafka_server_log_flush_interval_messages",
+          "label": "Kafka Server Log Flush Interval Messages",
+          "description": "The interval length at which will force an fsync of data written to the log",
+          "configName": "kafka.server.log.flush.interval.messages",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 10000,
+          "type": "long",
+          "min": 1
+        },
+        {
+          "name": "kafka_server_log_retention_hours",
+          "label": "Kafka Server Log Retention Hours",
+          "description": "The number of hours to keep a log file before deleting it",
+          "configName": "kafka.server.log.retention.hours",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 24,
+          "type": "long",
+          "min": 0,
+          "unit": "hours" 
+        },
+        {
+          "name": "kafka_server_num_partitions",
+          "label": "Kafka Server Number of Partitions",
+          "description": "Default number of partitions for a topic",
+          "configName": "kafka.server.num.partitions",
+          "required": true,
+          "configurableInWizard": false,
+          "default": 10,
+          "type": "long",
+          "min": 1
+        },
+        {
+          "name": "kafka_server_port",
+          "label": "Kafka Server Port",
           "description": "CDAP Kafka service bind port",
-          "configName": "kafka.bind.port",
+          "configName": "kafka.server.port",
           "required": true,
           "configurableInWizard": true,
           "default": 9092,
           "type": "port"
         },
         {
-          "name": "kafka_default_replication_factor",
-          "label": "Kafka Default Replication Factor",
-          "description": "CDAP Kafka service replication factor; used to replicate Kafka messages across multiple machines to prevent data loss in the event of a hardware failure. The recommended setting is to run at least two CDAP Kafka servers. If you are running two CDAP Kafka servers, set this value to 2; otherwise, set it to the number of CDAP Kafka servers.",
-          "configName": "kafka.default.replication.factor",
+          "name": "kafka_server_zookeeper_connection_timeout_ms",
+          "label": "Kafka Server Zookeeper Connection Timeout Milliseconds",
+          "description": "The maximum time (in milliseconds) that the client will wait to establish a connection to Zookeeper",
+          "configName": "kafka.server.zookeeper.connection.timeout.ms",
           "required": true,
           "configurableInWizard": false,
-          "default": 1,
+          "default": 1000000,
           "type": "long",
-          "min": 1
+          "unit": "milliseconds"
         },
         {
           "name": "kafka_zookeeper_namespace",
@@ -894,7 +1079,7 @@
                 "value": "{{KAFKA_SEED_BROKERS}}"
               },
               {
-                "key": "kafka.log.dir",
+                "key": "kafka.server.log.dirs",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
@@ -903,7 +1088,7 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ],
+            "params": [ "kafka_server_port" ],
             "roleName": "CDAP_KAFKA"
           }
         ]
@@ -1133,7 +1318,7 @@
                 "value": "{{KAFKA_SEED_BROKERS}}"
               },
               {
-                "key": "kafka.log.dir",
+                "key": "kafka.server.log.dirs",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               },
               {
@@ -1162,7 +1347,7 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ],
+            "params": [ "kafka_server_port" ],
             "roleName": "CDAP_KAFKA"
           }
         ],
@@ -1369,16 +1554,6 @@
           "configurableInWizard": false,
           "default": "",
           "type": "string"
-        },
-        {
-          "name": "router_server_port",
-          "label": "Router Server Port",
-          "description": "CDAP Router service port to which CDAP UI connects",
-          "configName": "router.server.port",
-          "required": true,
-          "configurableInWizard": true,
-          "default": 11015,
-          "type": "port"
         }
       ],
       "configWriter": {
@@ -1397,12 +1572,8 @@
                 "value": "{{KAFKA_SEED_BROKERS}}"
               },
               {
-                "key": "kafka.log.dir",
+                "key": "kafka.server.log.dirs",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
-              },
-              {
-                "key": "router.server.address",
-                "value": "{{HOSTNAME}}"
               }
             ]
           }
@@ -1410,7 +1581,7 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ],
+            "params": [ "kafka_server_port" ],
             "roleName": "CDAP_KAFKA"
           }
         ]
@@ -1627,7 +1798,7 @@
                 "value": "{{KAFKA_SEED_BROKERS}}"
               },
               {
-                "key": "kafka.log.dir",
+                "key": "kafka.server.log.dirs",
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               },
               {
@@ -1644,7 +1815,7 @@
         "peerConfigGenerators": [
           {
             "filename": "kafka.properties",
-            "params": [ "kafka_bind_port" ],
+            "params": [ "kafka_server_port" ],
             "roleName": "CDAP_KAFKA"
           }
         ]
