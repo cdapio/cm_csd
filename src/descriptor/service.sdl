@@ -600,7 +600,7 @@
     },
     {
       "name": "security_authorization_admin_users",
-      "label": "Security Authorization Admin Users"
+      "label": "Security Authorization Admin Users",
       "description": "Determines a comma-separated list of users for whom admin privileges are granted on the CDAP instance during CDAP startup, so these users can create namespaces and in-effect bootstrap CDAP on an authorization enabled cluster. Defaults to empty, in which case no users have access to create namespaces. In this scenario, it may be impossible to bootstrap CDAP, so it is recommended that at least one user be provided as the admin user.",
       "configName": "security.authorization.admin.users",
       "required": false,
@@ -625,7 +625,7 @@
       "configName": "security.authorization.cache.refresh.interval.secs",
       "required": false,
       "configurableInWizard": false,
-      "default": 50
+      "default": 50,
       "type": "long",
       "unit": "seconds"
     },
