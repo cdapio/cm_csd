@@ -29,7 +29,7 @@ function generate_kafka_quorum {
   local __seed_brokers=()
   for line in `cat ${KAFKA_PROPERTIES}`; do
     readconf "${line}"
-    if [ "${key}" == "kafka.bind.port" ]; then
+    if [ "${key}" == "kafka.server.port" ]; then
       __seed_brokers+=("${host}:${value}")
     fi
   done
