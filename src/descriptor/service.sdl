@@ -840,7 +840,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "router_ssl_keystore_password",
@@ -850,7 +850,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "router_ssl_keystore_path",
@@ -1028,7 +1028,7 @@
           "default": 24,
           "type": "long",
           "min": 0,
-          "unit": "hours" 
+          "unit": "hours"
         },
         {
           "name": "kafka_server_num_partitions",
@@ -1663,7 +1663,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "security_auth_server_ssl_keystore_password",
@@ -1673,7 +1673,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "security_auth_server_ssl_keystore_path",
