@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright © 2015 Cask Data, Inc.
+# Copyright © 2015-2016 Cask Data, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may not
 # use this file except in compliance with the License. You may obtain a copy of
@@ -118,8 +118,7 @@ esac
 source $COMMON_SCRIPT
 
 # Source the CDAP common init functions
-source ${COMPONENT_HOME}/bin/common-env.sh
-source ${COMPONENT_HOME}/bin/common.sh
+source ${COMPONENT_HOME}/bin/functions.sh
 
 # Remap CDAP common init functions, if necessary
 fn_exists() { type -t ${1} | grep -q function; }
