@@ -194,8 +194,8 @@ if [ ${MAIN_CLASS} ]; then
   echo "Using main_class: ${MAIN_CLASS}"
   echo "Using args: ${MAIN_CLASS_ARGS}"
 
-  # Run Master Startup Checks
-  if [ "${SERVICE}" == "master" ]; then
+  # Run Master-specific logic (for master and upgrade* services)
+  if [ ${COMPONENT_HOME} == ${CDAP_MASTER_HOME} ]; then
 
     # Set HIVE_HOME to CM-provided active location
     export HIVE_HOME=${CDH_HIVE_HOME}

@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.5.1 (Aug 24, 2016)
+---------------------
+- Fixes an issue where the Upgrade Tool commands could fail ( Issues: #104 )
+
 v3.5.0 (Aug 19, 2016)
 ---------------------
 - Exposes YARN scheduler configurations ( Issues: #96 [CDAP-6182](https://issues.cask.co/browse/CDAP-6182) )
