@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "3.4.2",
+  "version": "3.5.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel": {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/3.4/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.5/",
     "requiredTags": [ "cdh", "cdap" ]
   },
   "icon": "images/icon.png",
@@ -599,11 +599,21 @@
       "type": "port"
     },
     {
+      "name": "security_authorization_admin_users",
+      "label": "Security Authorization Admin Users",
+      "description": "Determines a comma-separated list of users for whom admin privileges are granted on the CDAP instance during CDAP startup, so these users can create namespaces and in-effect bootstrap CDAP on an authorization enabled cluster. Defaults to empty, in which case no users have access to create namespaces. In this scenario, it may be impossible to bootstrap CDAP, so it is recommended that at least one user be provided as the admin user.",
+      "configName": "security.authorization.admin.users",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_array",
+      "separator": ","
+    },
+    {
       "name": "security_authorization_cache_enabled",
       "label": "Security Authorization Cache Enabled",
       "description": "Determines if authorization policies can be cached by programs; defaults to true",
       "configName": "security.authorization.cache.enabled",
-      "required": true,
+      "required": false,
       "configurableInWizard": false,
       "default": true,
       "type": "boolean"
@@ -615,17 +625,20 @@
       "configName": "security.authorization.cache.refresh.interval.secs",
       "required": false,
       "configurableInWizard": false,
-      "type": "string"
+      "default": 50,
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "security_authorization_cache_ttl_secs",
       "label": "Security Authorization Cache TTL Seconds",
       "description": "Determines the time to live in seconds for entries in the authorization cache used by programs. Defaults to 60 seconds. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.ttl.secs",
-      "required": true,
+      "required": false,
       "configurableInWizard": false,
       "default": 60,
-      "type": "long"
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "security_authorization_enabled",
@@ -644,16 +657,6 @@
       "configName": "security.authorization.extension.jar.path",
       "required": false,
       "configurableInWizard": false,
-      "type": "string"
-    },
-    {
-      "name": "security_authorization_system_user",
-      "label": "Security Authorization System User",
-      "description": "Determines a user for whom specific privileges are granted during CDAP startup.  This is the user used for creating the default namespace, deploying system artifacts and deploying dataset modules. This user is also granted ALL privileges on the system namespace, so it can access datasets and other entities in the system namespace. This user does not get any other privileges on user namespaces. Defaults to 'cdap'. Please set this to the user that the CDAP Master runs as in a secure, authorization-enabled environment.",
-      "configName": "security.authorization.system.user",
-      "required": false,
-      "configurableInWizard": false,
-      "default": "cdap",
       "type": "string"
     },
     {
@@ -830,7 +833,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "router_ssl_keystore_password",
@@ -840,7 +843,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "router_ssl_keystore_path",
@@ -1018,7 +1021,7 @@
           "default": 24,
           "type": "long",
           "min": 0,
-          "unit": "hours" 
+          "unit": "hours"
         },
         {
           "name": "kafka_server_num_partitions",
@@ -1653,7 +1656,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "security_auth_server_ssl_keystore_password",
@@ -1663,7 +1666,7 @@
           "required": false,
           "configurableInWizard": false,
           "default": "",
-          "type": "string"
+          "type": "password"
         },
         {
           "name": "security_auth_server_ssl_keystore_path",

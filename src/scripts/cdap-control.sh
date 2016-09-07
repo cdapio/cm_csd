@@ -29,7 +29,7 @@ function generate_kafka_quorum {
   local __seed_brokers=()
   for line in `cat ${KAFKA_PROPERTIES}`; do
     readconf "${line}"
-    if [ "${key}" == "kafka.bind.port" ]; then
+    if [ "${key}" == "kafka.server.port" ]; then
       __seed_brokers+=("${host}:${value}")
     fi
   done
@@ -194,8 +194,8 @@ if [ ${MAIN_CLASS} ]; then
   echo "Using main_class: ${MAIN_CLASS}"
   echo "Using args: ${MAIN_CLASS_ARGS}"
 
-  # Run Master Startup Checks
-  if [ "${SERVICE}" == "master" ]; then
+  # Run Master-specific logic (for master and upgrade* services)
+  if [ ${COMPONENT_HOME} == ${CDAP_MASTER_HOME} ]; then
 
     # Set HIVE_HOME to CM-provided active location
     export HIVE_HOME=${CDH_HIVE_HOME}
