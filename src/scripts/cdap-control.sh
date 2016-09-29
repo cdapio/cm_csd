@@ -15,7 +15,7 @@
 # the License.
 
 # Expects argument: [CDAP service]
-SERVICE=$1
+SERVICE=${1}
 
 # Reads a line from a generated properties file in the format "$host:$key=$value", setting those variables.
 function readconf {
@@ -39,13 +39,13 @@ function generate_kafka_quorum {
 }
 
 function substitute_cdap_site_tokens {
-  local __cdap_site=$1
+  local __cdap_site=${1}
   generate_kafka_quorum
   sed -i -e "s#{{HOSTNAME}}#${HOSTNAME}#" -e "s#{{ZK_QUORUM}}#${ZK_QUORUM}#" \
     -e "s#{{KAFKA_SEED_BROKERS}}#${KAFKA_SEED_BROKERS}#" -e "s#{{LOCAL_DIR}}#${LOCAL_DIR}#" \
     -e "s#{{COMPONENT_HOME}}#${COMPONENT_HOME}#" ${__cdap_site}
 
-  if [ "${cdap_principal}" != "" ]; then
+  if [[ "${cdap_principal}" != "" ]]; then
     # Kerberos is enabled, update cdap-site.xml keytab and principal settings
     sed -i -e "s#{{CDAP_MASTER_KERBEROS_PRINCIPAL}}#${cdap_principal}#" \
       -e "s#{{CDAP_MASTER_KERBEROS_KEYTAB}}#${CONF_DIR}/cdap.keytab#" \
@@ -115,10 +115,15 @@ case ${SERVICE} in
 esac
 
 # Source Cloudera common functions (for Kerberos)
-source $COMMON_SCRIPT
+source ${COMMON_SCRIPT}
 
 # Source the CDAP common init functions
-source ${COMPONENT_HOME}/bin/functions.sh
+if [[ -e ${COMPONENT_HOME}/bin/functions.sh ]]; then
+  source ${COMPONENT_HOME}/bin/functions.sh
+else
+  source ${COMPONENT_HOME}/bin/common-env.sh
+  source ${COMPONENT_HOME}/bin/common.sh
+fi
 
 # Remap CDAP common init functions, if necessary
 fn_exists() { type -t ${1} | grep -q function; }
@@ -139,15 +144,15 @@ HOSTNAME=`hostname -f`
 substitute_cdap_site_tokens ${CONF_DIR}/cdap-site.xml
 
 # Copy logback-container.xml into place unless user has populated safety valve
-if [ -s logback-container.xml ]; then
+if [[ -s logback-container.xml ]]; then
   echo "Populating logback-container.xml from safety valve content. Ensure the contents of the safety valve represent the entire file!"
 else
   # No safety valve content, copy the packaged default into place
   cp aux/logback-container.xml.default logback-container.xml
 fi
 
-# Source CDAP Component config if defined
-if [ -n "${COMPONENT_CONF_SCRIPT}" ]; then
+# Source CDAP Component config if defined and readable
+if [[ -r "${COMPONENT_CONF_SCRIPT}" ]]; then
   source ${COMPONENT_CONF_SCRIPT}
 fi
 
