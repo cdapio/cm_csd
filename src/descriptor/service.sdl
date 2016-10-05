@@ -864,6 +864,22 @@
           "configurableInWizard": false,
           "default": "JKS",
           "type": "string"
+        },
+        {
+          "name": "router_userservice_fallback_strategy",
+          "label": "Router User Service Fallback Strategy",
+          "description": "If RouteConfig is not found for a particular user service, this property can be used to define the fallback routing strategy. Allowed options are - random, smallest, largest, drop (smallest/largest is based on the string comparison of the version of the user service). Drop option will not route the request to any service and will return service not found.",
+          "configName": "router.userservice.fallback.strategy",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "random",
+          "type": "string_enum",
+          "validValues": [
+            "random",
+            "smallest",
+            "largest",
+            "drop"
+          ]
         }
       ],
       "configWriter": {
