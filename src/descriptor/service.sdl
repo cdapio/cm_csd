@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "3.5.1",
+  "version": "3.6.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel": {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/3.5/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/3.6/",
     "requiredTags": [ "cdh", "cdap" ]
   },
   "icon": "images/icon.png",
@@ -864,6 +864,22 @@
           "configurableInWizard": false,
           "default": "JKS",
           "type": "string"
+        },
+        {
+          "name": "router_userservice_fallback_strategy",
+          "label": "Router User Service Fallback Strategy",
+          "description": "If RouteConfig is not found for a particular user service, this property can be used to define the fallback routing strategy. Allowed options are - random, smallest, largest, drop (smallest/largest is based on the string comparison of the version of the user service). Drop option will not route the request to any service and will return service not found.",
+          "configName": "router.userservice.fallback.strategy",
+          "required": false,
+          "configurableInWizard": false,
+          "default": "random",
+          "type": "string_enum",
+          "validValues": [
+            "random",
+            "smallest",
+            "largest",
+            "drop"
+          ]
         }
       ],
       "configWriter": {

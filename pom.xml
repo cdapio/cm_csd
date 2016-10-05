@@ -21,7 +21,7 @@
 
   <groupId>co.cask.cdap.distributions.release.csd</groupId>
   <artifactId>CDAP</artifactId>
-  <version>3.5.1</version>
+  <version>3.6.0</version>
   <name>The CDAP CSD for Cloudera Manager</name>
   <packaging>pom</packaging>
 

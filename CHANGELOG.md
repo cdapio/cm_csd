@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v3.6.0 (Oct 4, 2016)
+--------------------
+- Adds configurations for CDAP 3.6 release ( Issues: #108 )
+
 v3.5.1 (Aug 24, 2016)
 ---------------------
 - Fixes an issue where the Upgrade Tool commands could fail ( Issues: #104 )
