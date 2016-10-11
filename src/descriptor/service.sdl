@@ -1172,7 +1172,7 @@
         {
           "name": "app_program_spark_yarn_client_rewrite_enabled",
           "label": "App Program Spark Yarn Client Rewrite Enabled",
-          "description": "Specify whether to rewrite the yarn.client class in Spark to work around the issue SPARK-13441 in CDM clusters",
+          "description": "Specify whether to rewrite the yarn.client class in Spark to work around the issue SPARK-13441 in CDH clusters",
           "configName": "app.program.spark.yarn.client.rewrite.enabled",
           "required": true,
           "configurableInWizard": false,
