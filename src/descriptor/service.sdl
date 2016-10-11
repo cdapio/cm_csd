@@ -374,7 +374,7 @@
     {
       "name": "local_data_dir",
       "label": "Local Data Directory",
-      "description": "Data directory for Standalone CDAP and the master process in Distributed CDAP",
+      "description": "Data directory for the master process",
       "configName": "local.data.dir",
       "required": true,
       "configurableInWizard": true,
@@ -696,7 +696,7 @@
     {
       "name": "stream_container_instances",
       "label": "Stream Container Instances",
-      "description": "Number of YARN container instances for the stream handler; in Standalone CDAP, it is always one",
+      "description": "Number of YARN container instances for the stream handler",
       "configName": "stream.container.instances",
       "required": true,
       "configurableInWizard": true,
@@ -1232,7 +1232,7 @@
         {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
-          "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP. It does not apply to Standalone CDAP.",
+          "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP.",
           "configName": "master.startup.checks.enabled",
           "required": true,
           "configurableInWizard": false,
