@@ -118,7 +118,7 @@
     {
       "name": "apps_scheduler_queue",
       "label": "Apps Scheduler Queue",
-      "description": "Scheduler queue for CDAP programs and Explore Queries",
+      "description": "Scheduler queue for CDAP programs and CDAP Explore queries",
       "configName": "apps.scheduler.queue",
       "required": false,
       "configurableInWizard": false,
@@ -190,7 +190,7 @@
     {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
-      "description": "Maximum number of transaction client instances",
+      "description": "Maximum number of transaction service instances",
       "configName": "data.tx.max.instances",
       "required": true,
       "configurableInWizard": false,
@@ -201,7 +201,7 @@
     {
       "name": "data_tx_memory_mb",
       "label": "Transaction Client Container Memory MB",
-      "description": "Memory in megabytes of the transaction clients",
+      "description": "Memory in megabytes for each transaction service instance",
       "configName": "data.tx.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -213,7 +213,7 @@
     {
       "name": "data_tx_num_cores",
       "label": "Transaction Client Container Number of Virtual Cores",
-      "description": "Number of virtual cores for each transaction client instance",
+      "description": "Number of cores for the transaction service",
       "configName": "data.tx.num.cores",
       "required": true,
       "configurableInWizard": true,
@@ -224,7 +224,7 @@
     {
       "name": "data_tx_num_instances",
       "label": "Transaction Client Number of Instances",
-      "description": "Number of transaction client instances",
+      "description": "Requested number of transaction service instances",
       "configName": "data.tx.num.instances",
       "required": true,
       "configurableInWizard": true,
@@ -256,7 +256,7 @@
     {
       "name": "dataset_executor_container_memory_mb",
       "label": "Dataset Executor Container Memory MB",
-      "description": "Size of memory in megabytes for each dataset executor instance",
+      "description": "Memory in megabytes for each dataset executor instance",
       "configName": "dataset.executor.container.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -321,7 +321,7 @@
     {
       "name": "explore_executor_container_memory_mb",
       "label": "Explore Executor Container Memory MB",
-      "description": "Size of memory in megabytes for each explore executor instance",
+      "description": "Memory in megabytes for each CDAP Explore executor instance. This is explicitly set differently than ${master.service.memory.mb} as Explore requires more memory to run than the Master service.",
       "configName": "explore.executor.container.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -333,7 +333,7 @@
     {
       "name": "explore_executor_container_num_cores",
       "label": "Explore Executor Container Number of Virtual Cores",
-      "description": "Number of virtual cores for each explore executor",
+      "description": "Number of virtual cores for each explore executor instance",
       "configName": "explore.executor.container.num.cores",
       "required": true,
       "configurableInWizard": true,
@@ -374,7 +374,7 @@
     {
       "name": "local_data_dir",
       "label": "Local Data Directory",
-      "description": "User name for accessing HDFS",
+      "description": "Data directory for the master process",
       "configName": "local.data.dir",
       "required": true,
       "configurableInWizard": true,
@@ -429,7 +429,7 @@
     {
       "name": "master_services_scheduler_queue",
       "label": "Master Services Scheduler Queue",
-      "description": "Scheduler queue for CDAP master services",
+      "description": "Scheduler queue for CDAP Master Services",
       "configName": "master.services.scheduler.queue",
       "required": false,
       "configurableInWizard": false,
@@ -438,7 +438,7 @@
     {
       "name": "metrics_data_table_retention_resolution_1_seconds",
       "label": "Metrics Data Table Retention Resolution 1 Seconds",
-      "description": "Retention resolution of the 1-second resolution table in seconds; default retention period is 2 hours",
+      "description": "Retention resolution in seconds of the 1-second resolution table; default retention period is 2 hours",
       "configName": "metrics.data.table.retention.resolution.1.seconds",
       "required": true,
       "configurableInWizard": false,
@@ -460,7 +460,7 @@
     {
       "name": "metrics_memory_mb",
       "label": "Metrics Container Memory MB",
-      "description": "Memory assigned to the metrics service in megabytes",
+      "description": "Memory in megabytes for each metrics service instance",
       "configName": "metrics.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -505,7 +505,7 @@
     {
       "name": "metrics_processor_memory_mb",
       "label": "Metrics Processor Container Memory MB",
-      "description": "Size of memory in megabytes for metrics processor service Apache Twill runnable",
+      "description": "Memory in megabytes for each metrics processor service Apache Twill runnable instance",
       "configName": "metrics.processor.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -601,7 +601,7 @@
     {
       "name": "security_authorization_admin_users",
       "label": "Security Authorization Admin Users",
-      "description": "Determines a comma-separated list of users for whom admin privileges are granted on the CDAP instance during CDAP startup, so these users can create namespaces and in-effect bootstrap CDAP on an authorization enabled cluster. Defaults to empty, in which case no users have access to create namespaces. In this scenario, it may be impossible to bootstrap CDAP, so it is recommended that at least one user be provided as the admin user.",
+      "description": "A comma-separated list of users for whom admin privileges are to be granted on the CDAP instance during CDAP startup, so that these users can create namespaces. These users are also granted admin privileges on the default namespace, so that they can manage privileges on the default namespace. This provides a method to bootstrap CDAP on an authorization-enabled cluster. The default is empty, in which case no users have access to creating namespaces or to managing privileges on the default namespace. In that scenario, authorization in CDAP has to be bootstrapped externally using interfaces provided by the configured authorization extension.",
       "configName": "security.authorization.admin.users",
       "required": false,
       "configurableInWizard": false,
@@ -621,7 +621,7 @@
     {
       "name": "security_authorization_cache_refresh_interval_secs",
       "label": "Security Authorization Cache Refresh Interval Seconds",
-      "description": "Determines the interval in seconds after which a background thread will refresh cached authorization policies. Defaults to 50 seconds. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "description": "The interval in seconds after which a background thread will refresh cached authorization policies. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.refresh.interval.secs",
       "required": false,
       "configurableInWizard": false,
@@ -632,7 +632,7 @@
     {
       "name": "security_authorization_cache_ttl_secs",
       "label": "Security Authorization Cache TTL Seconds",
-      "description": "Determines the time to live in seconds for entries in the authorization cache used by programs. Defaults to 60 seconds. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "description": "The time-to-live in seconds for entries in the authorization cache used by programs. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.ttl.secs",
       "required": false,
       "configurableInWizard": false,
@@ -696,7 +696,7 @@
     {
       "name": "stream_container_instances",
       "label": "Stream Container Instances",
-      "description": "Number of YARN container instances for the stream handler; in standalone mode, it's always one",
+      "description": "Number of YARN container instances for the stream handler",
       "configName": "stream.container.instances",
       "required": true,
       "configurableInWizard": true,
@@ -707,7 +707,7 @@
     {
       "name": "stream_container_memory_mb",
       "label": "Stream Container Memory MB",
-      "description": "Amount of memory in megabytes for the YARN container that runs the stream handler",
+      "description": "Memory in megabytes for each YARN container that runs the stream handler",
       "configName": "stream.container.memory.mb",
       "required": true,
       "configurableInWizard": true,
@@ -750,7 +750,7 @@
     {
       "name": "twill_no_container_timeout",
       "label": "Twill No Container Timeout",
-      "description": "Amount of time in milliseconds to wait for at least one container for Apache Twill runnable",
+      "description": "Duration in milliseconds to wait for at least one container for Apache Twill runnable",
       "configName": "twill.no.container.timeout",
       "required": true,
       "configurableInWizard": false,
@@ -868,7 +868,7 @@
         {
           "name": "router_userservice_fallback_strategy",
           "label": "Router User Service Fallback Strategy",
-          "description": "If RouteConfig is not found for a particular user service, this property can be used to define the fallback routing strategy. Allowed options are - random, smallest, largest, drop (smallest/largest is based on the string comparison of the version of the user service). Drop option will not route the request to any service and will return service not found.",
+          "description": "If a RouteConfig is not found for a particular user service, this property is used to set the fallback routing strategy. Allowed options: \"random\", \"smallest\", \"largest\", or \"drop\". A string comparison of the versions of the user service is used for \"smallest\" or \"largest\". The \"drop\" option will not route the request to any service and will return \"service not found\".",
           "configName": "router.userservice.fallback.strategy",
           "required": false,
           "configurableInWizard": false,
@@ -998,7 +998,7 @@
         {
           "name": "kafka_server_default_replication_factor",
           "label": "Kafka Server Default Replication Factor",
-          "description": "CDAP Kafka service replication factor; used to replicate Kafka messages across multiple machines to prevent data loss in the event of a hardware failure. The recommended setting is to run at least two CDAP Kafka servers. If you are running two CDAP Kafka servers, set this value to 2; otherwise, set it to the number of CDAP Kafka servers.",
+          "description": "CDAP Kafka service replication factor; used to replicate Kafka messages across multiple machines to prevent data loss in the event of a hardware failure. The recommended setting is to run at least two CDAP Kafka servers. If you are running two CDAP Kafka servers, set this value to 2; otherwise, set it to the maximum number of tolerated machine failures plus one (assuming you have that number of machines).",
           "configName": "kafka.server.default.replication.factor",
           "required": true,
           "configurableInWizard": false,
@@ -1063,7 +1063,7 @@
         {
           "name": "kafka_server_zookeeper_connection_timeout_ms",
           "label": "Kafka Server Zookeeper Connection Timeout Milliseconds",
-          "description": "The maximum time (in milliseconds) that the client will wait to establish a connection to Zookeeper",
+          "description": "Maximum time in milliseconds that the client will wait to establish a connection to Zookeeper",
           "configName": "kafka.server.zookeeper.connection.timeout.ms",
           "required": true,
           "configurableInWizard": false,
@@ -1172,7 +1172,7 @@
         {
           "name": "app_program_spark_yarn_client_rewrite_enabled",
           "label": "App Program Spark Yarn Client Rewrite Enabled",
-          "description": "Specify whether to rewrite the yarn.Client class in Spark to work around the issue SPARK-13441 in CDM clusters.",
+          "description": "Specify whether to rewrite the yarn.client class in Spark to work around the issue SPARK-13441 in CDH clusters",
           "configName": "app.program.spark.yarn.client.rewrite.enabled",
           "required": true,
           "configurableInWizard": false,
@@ -1232,7 +1232,7 @@
         {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
-          "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the master.startup.checks.packages and master.startup.checks.classes settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP. It does not apply to Standalone CDAP.",
+          "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP.",
           "configName": "master.startup.checks.enabled",
           "required": true,
           "configurableInWizard": false,
@@ -1252,7 +1252,7 @@
         {
           "name": "master_startup_checks_classes",
           "label": "Master Startup Checks Classes",
-          "description": "Comma-separated list of classnames for checks that will be run before the CDAP Master starts up. If any of the checks fails, the CDAP Master will not start up. Checks will only be run if master.startup.checks.enabled is set to true.",
+          "description": "Comma-separated list of classnames for checks that will be run before the CDAP Master starts up. If any of the checks fails, the CDAP Master will not start up. Checks will only be run if ${master.startup.checks.enabled} is set to true.",
           "configName": "master.startup.checks.classes",
           "required": false,
           "configurableInWizard": false,
@@ -1526,7 +1526,7 @@
         {
           "name": "dashboard_router_check_timeout_secs",
           "label": "Dashboard Router Check Timeout Seconds",
-          "description": "Amount of time, in seconds, CDAP UI waits before exiting when unable to connect to CDAP Router service on startup; use a timeout of 0 to wait indefinitely",
+          "description": "Interval in seconds that the CDAP UI waits before exiting when unable to connect to the CDAP Router service on startup; use a timeout of 0 to wait indefinitely",
           "configName": "dashboard.router.check.timeout.secs",
           "required": true,
           "configurableInWizard": false,
@@ -1707,7 +1707,7 @@
         {
           "name": "security_authentication_basic_realmfile",
           "label": "Security Authentication Basic Realm File",
-          "description": "Username / password file to use when basic authentication is configured",
+          "description": "Username and password file to use when basic authentication is configured",
           "configName": "security.authentication.basic.realmfile",
           "required": false,
           "configurableInWizard": false,
@@ -1793,7 +1793,7 @@
         {
           "name": "security_authentication_loginmodule_className",
           "label": "Security Authentication Login Module Class Name",
-          "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for security.authentication.handlerClassName",
+          "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for ${security.authentication.handlerClassName}",
           "configName": "security.authentication.loginmodule.className",
           "required": true,
           "configurableInWizard": false,
