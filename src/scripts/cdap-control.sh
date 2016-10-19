@@ -61,22 +61,54 @@ case ${SERVICE} in
   (auth-server)
     COMPONENT_HOME=${CDAP_AUTH_SERVER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_AUTH_SERVER_CONF_SCRIPT}
+    MAIN_CLASS=co.cask.cdap.security.runtime.AuthenticationServerMain
+    MAIN_CLASS_ARGS=
+    JAVA_HEAP_VAR=AUTH_JAVA_HEAPMAX
+    AUTH_JAVA_HEAPMAX=${AUTH_JAVA_HEAPMAX:--Xmx1024m}
+    EXTRA_CLASSPATH="${EXTRA_CLASSPATH}:/etc/hbase/conf/"
     ;;
   (kafka-server)
     COMPONENT_HOME=${CDAP_KAFKA_SERVER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_KAFKA_SERVER_CONF_SCRIPT}
+    MAIN_CLASS=co.cask.cdap.kafka.run.KafkaServerMain
+    MAIN_CLASS_ARGS=
+    JAVA_HEAP_VAR=KAFKA_JAVA_HEAPMAX
+    KAFKA_JAVA_HEAPMAX=${KAFKA_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (master)
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_MASTER_CONF_SCRIPT}
+    MAIN_CLASS=co.cask.cdap.data.runtime.main.MasterServiceMain
+    MAIN_CLASS_ARGS="start"
+    JAVA_HEAP_VAR=MASTER_JAVA_HEAPMAX
+    MASTER_JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
+    EXTRA_CLASSPATH="${EXTRA_CLASSPATH}:/etc/hbase/conf/"
     ;;
   (router)
     COMPONENT_HOME=${CDAP_ROUTER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_ROUTER_CONF_SCRIPT}
+    MAIN_CLASS=co.cask.cdap.gateway.router.RouterMain
+    MAIN_CLASS_ARGS=
+    JAVA_HEAP_VAR=ROUTER_JAVA_HEAPMAX
+    ROUTER_JAVA_HEAPMAX=${ROUTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
   (ui)
     COMPONENT_HOME=${CDAP_UI_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_UI_CONF_SCRIPT}
+    MAIN_CMD=node
+    if test -x ${CDAP_HOME}/ui/bin/node ; then
+      ${CDAP_HOME}/ui/bin/node --version >/dev/null 2>&1
+      if [ $? -eq 0 ] ; then
+        MAIN_CMD=${CDAP_HOME}/ui/bin/node
+      elif [[ $(which node 2>/dev/null) ]]; then
+        MAIN_CMD=node
+      else
+        echo "Unable to locate Node.js binary (node), is it installed and in the PATH?"
+        exit 1
+      fi
+    fi
+    export NODE_ENV=production
+    MAIN_CMD_ARGS="${CDAP_HOME}/ui/server.js"
     ;;
   (client)
     CLIENT_CONF_DIR=${CONF_DIR}/cdap-conf
