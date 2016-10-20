@@ -1520,7 +1520,7 @@
           "configName": "dashboard.bind.port",
           "required": true,
           "configurableInWizard": true,
-          "default": 9999,
+          "default": 11011,
           "type": "port"
         },
         {
