@@ -246,8 +246,15 @@ if [ ${MAIN_CLASS} ]; then
       export SPARK_HOME=${CDH_SPARK_HOME}
     fi
 
-    echo "Using explore.conf.files: ${EXPLORE_CONF_FILES}"
+    # CDAP < 4.0 uses explore.conf.files, CDAP >= 4.0 uses explore.conf.dirs
+    if [[ -n ${EXPLORE_CONF_DIRS} ]]; then
+      __EXPLORE_CONF_FLAG="-Dexplore.conf.dirs=${EXPLORE_CONF_DIRS}"
+    else
+      __EXPLORE_CONF_FLAG="-Dexplore.conf.files=${EXPLORE_CONF_FILES}"
+    fi
+    echo "Using ${__EXPLORE_CONF_FLAG}"
     echo "Using explore.classpath: ${EXPLORE_CLASSPATH}"
+
     echo "Using SPARK_HOME: ${SPARK_HOME}"
 
     if [[ "${STARTUP_CHECKS_ENABLED}" == "true" ]]; then
@@ -258,7 +265,7 @@ if [ ${MAIN_CLASS} ]; then
         echo "Running startup checks -- this may take a few minutes"
         echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
         "${JAVA}" "${JAVA_HEAPMAX}" \
-          -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
+          ${__EXPLORE_CONF_FLAG} \
           -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
           -Dcdap.home=${CDAP_HOME} \
           -cp ${CLASSPATH} \
@@ -275,7 +282,7 @@ if [ ${MAIN_CLASS} ]; then
 
   # Exec into Master Service
   exec "${JAVA}" -Dcdap.service=${SERVICE} "${JAVA_HEAPMAX}" \
-    -Dexplore.conf.files=${EXPLORE_CONF_FILES} \
+    ${__EXPLORE_CONF_FLAG} \
     -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
     -Duser.dir=${LOCAL_DIR} \
     -Dcdap.home=${CDAP_HOME} \
