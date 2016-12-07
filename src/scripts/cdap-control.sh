@@ -140,13 +140,11 @@ case ${SERVICE} in
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
-  (queuedebugger)
-    # The HBase queue debugger utility is run as master, but with an overridden $MAIN_CLASS
+  (debugger_utility)
+    # The debugger utility (ie HBase queue debugger) is run as master, but with an overridden $MAIN_CLASS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
-    MAIN_CLASS=co.cask.cdap.data.tools.HBaseQueueDebugger
-    if [[ -n ${CDAP_HBASE_QUEUE_DEBUGGER_ARGS} ]]; then
-      MAIN_CLASS_ARGS=${CDAP_HBASE_QUEUE_DEBUGGER_ARGS}
-    fi
+    # MAIN_CLASS set by CSD, configurable by user
+    # MAIN_CLASS_ARGS set by CSD, configurable by user
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
