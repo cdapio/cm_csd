@@ -79,6 +79,14 @@
       "roleCommand": "master_post_upgrade_tasks",
       "roleName": "CDAP_MASTER",
       "runMode": "single"
+    },
+    {
+      "name": "hbase_queue_debugger_utility",
+      "label": "Run HBase Queue Debugger Utility",
+      "description": "Run the HBase Queue Debugger Utility",
+      "roleCommand": "master_hbase_queue_debugger_utility",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     }
   ],
   "gateway": {
@@ -1470,6 +1478,24 @@
           "commandRunner": {
             "program": "scripts/cdap-control.sh",
             "args": ["postupgrade"],
+            "environmentVariables": {
+              "EXPLORE_ENABLED": "${explore_enabled}",
+              "KAFKA_PROPERTIES": "kafka.properties",
+              "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
+              "CDAP_JAVA_OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+            }
+          }
+        },
+        {
+          "name": "master_hbase_queue_debugger_utility",
+          "label": "Run HBase Queue Debugger Utility",
+          "description": "Run the HBase Queue Debugger Utility",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "running",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["queuedebugger"],
             "environmentVariables": {
               "EXPLORE_ENABLED": "${explore_enabled}",
               "KAFKA_PROPERTIES": "kafka.properties",
