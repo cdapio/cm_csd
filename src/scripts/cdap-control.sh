@@ -144,6 +144,9 @@ case ${SERVICE} in
     # The HBase queue debugger utility is run as master, but with an overridden $MAIN_CLASS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     MAIN_CLASS=co.cask.cdap.data.tools.HBaseQueueDebugger
+    if [[ -n ${CDAP_HBASE_QUEUE_DEBUGGER_ARGS} ]]; then
+      MAIN_CLASS_ARGS=${CDAP_HBASE_QUEUE_DEBUGGER_ARGS}
+    fi
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;

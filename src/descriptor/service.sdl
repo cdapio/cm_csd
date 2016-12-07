@@ -1490,7 +1490,7 @@
         {
           "name": "master_hbase_queue_debugger_utility",
           "label": "Run HBase Queue Debugger Utility",
-          "description": "Run the HBase Queue Debugger Utility",
+          "description": "Run the HBase Queue Debugger Utility. Arguments can be specified by setting CDAP_HBASE_QUEUE_DEBUGGER_ARGS in the Service Environment Safety Valve",
           "expectedExitCodes": [0],
           "requiredRoleState": "running",
           "commandRunner": {
