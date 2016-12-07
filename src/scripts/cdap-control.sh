@@ -221,6 +221,11 @@ if [ ${MAIN_CLASS} ]; then
   # Set base classpath to include component and conf directory (CM provided)
   cdap_set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
+  # Prepend CM-provided ${CSD_JAVA_OPTS} to our ${CDAP_JAVA_OPTS}
+  if [[ -n ${CSD_JAVA_OPTS} ]]; then
+    CDAP_JAVA_OPTS="${CSD_JAVA_OPTS} ${CDAP_JAVA_OPTS}"
+  fi
+
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
   echo "`ulimit -a`"
