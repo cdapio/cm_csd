@@ -812,6 +812,7 @@
   "roles": [
     {
       "name": "CDAP_ROUTER",
+      "jvmBased": "true",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
@@ -1012,6 +1013,7 @@
     },
     {
       "name": "CDAP_KAFKA",
+      "jvmBased": "true",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [
@@ -1197,6 +1199,7 @@
     },
     {
       "name": "CDAP_MASTER",
+      "jvmBased": "true",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
       "parameters": [
@@ -1668,6 +1671,7 @@
     },
     {
       "name": "CDAP_AUTH_SERVER",
+      "jvmBased": "true",
       "label": "CDAP Security Auth Service",
       "pluralLabel": "CDAP Security Auth Services",
       "topology": {
