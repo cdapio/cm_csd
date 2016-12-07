@@ -140,6 +140,14 @@ case ${SERVICE} in
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
+  (debugger_utility)
+    # The debugger utility (ie HBase queue debugger) is run as master, but with an overridden $MAIN_CLASS
+    COMPONENT_HOME=${CDAP_MASTER_HOME}
+    # MAIN_CLASS set by CSD, configurable by user
+    # MAIN_CLASS_ARGS set by CSD, configurable by user
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
+    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
