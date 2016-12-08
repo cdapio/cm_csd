@@ -226,6 +226,17 @@ if [ ${MAIN_CLASS} ]; then
 
   # Set HBASE_HOME to CM-provided active location
   export HBASE_HOME=${CDH_HBASE_HOME}
+
+  # CDAP-7556: we must construct the CLASSPATH to include our dependencies' configuration first
+  # Dependency service configs will be in ${CONF_DIR}/[service]-conf/ directories
+  for d in $(ls -1d ${CONF_DIR}/*-conf/); do
+    if [[ -n ${CLASSPATH} ]]; then
+      CLASSPATH="${CLASSPATH}:${d}"
+    else
+      CLASSPATH=${d}
+    fi
+  done
+
   # Set base classpath to include component and conf directory (CM provided)
   cdap_set_classpath ${COMPONENT_HOME} ${CONF_DIR}
 
