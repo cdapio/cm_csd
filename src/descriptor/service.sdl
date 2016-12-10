@@ -79,14 +79,6 @@
       "roleCommand": "master_post_upgrade_tasks",
       "roleName": "CDAP_MASTER",
       "runMode": "single"
-    },
-    {
-      "name": "cdap_debugger_utility",
-      "label": "Run Configured CDAP Debugger Utility",
-      "description": "Run the configured CDAP Debugger Utility. See debugger.utility.class",
-      "roleCommand": "master_debugger_utility",
-      "roleName": "CDAP_MASTER",
-      "runMode": "single"
     }
   ],
   "gateway": {
@@ -100,8 +92,7 @@
       "generators": [
         {
           "filename": "cdap-conf/cdap-site.xml",
-          "configFormat": "hadoop_xml",
-          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ]
+          "configFormat": "hadoop_xml"
         }
       ],
       "peerConfigGenerators": [
@@ -208,6 +199,17 @@
       "min": 1
     },
     {
+      "name": "data_tx_max_timeout",
+      "label": "data tx max timeout",
+      "description": "The limit for the allowed transaction timeout, in seconds. Attempts to start a transaction with a longer timeout will fail.",
+      "configName": "data.tx.max.timeout",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "600",
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
       "name": "data_tx_memory_mb",
       "label": "Transaction Client Container Memory MB",
       "description": "Memory in megabytes for each transaction service instance",
@@ -297,28 +299,6 @@
       "min": 1
     },
     {
-      "name": "debugger_utility_class",
-      "label": "CDAP Debugger Utility Class Name",
-      "description": "CDAP Debugger Utility Class to run from the Actions menu",
-      "required": false,
-      "configurableInWizard": false,
-      "type": "string_enum",
-      "default": "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
-      "validValues": [
-        "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
-        "co.cask.cdap.data.tools.HBaseQueueDebugger"
-      ]
-    },
-    {
-      "name": "debugger_utility_args",
-      "label": "CDAP Debugger Utility Arguments",
-      "description": "CDAP Debugger Utility Arguments run from the Actions menu",
-      "required": false,
-      "configurableInWizard": false,
-      "type": "string",
-      "default": "help"
-    },
-    {
       "name": "enable_unrecoverable_reset",
       "label": "Enable Unrecoverable Reset",
       "description": "Determines if resetting CDAP should be enabled. **WARNING: Enabling this option makes it possible to delete all applications and data; NO RECOVERY IS POSSIBLE!**",
@@ -327,6 +307,16 @@
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
+    },
+    {
+      "name": "explore_container_yarn_app_classpath_first",
+      "label": "explore container yarn app classpath first",
+      "description": "Determines if the YARN application classpath precedes the query engine classpath",
+      "configName": "explore.container.yarn.app.classpath.first",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "false",
+      "type": "string"
     },
     {
       "name": "explore_enabled",
@@ -413,6 +403,18 @@
       "type": "string"
     },
     {
+      "name": "log_saver_container-memory_mb",
+      "label": "log saver container memory mb",
+      "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as Log saver requires more memory to run than the Master service.",
+      "configName": "log.saver.container.memory.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "1024",
+      "type": "memory",
+      "unit": "megabytes",
+      "min": 512
+    },
+    {
       "name": "log_saver_max_instances",
       "label": "Log Saver Max Instances",
       "description": "Maximum number of log saver instances to run in YARN",
@@ -420,6 +422,17 @@
       "required": true,
       "configurableInWizard": false,
       "default": 5,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "log_saver_container_num_cores",
+      "label": "log saver container num cores",
+      "description": "Number of virtual cores for each log saver instance in YARN",
+      "configName": "log.saver.container.num.cores",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "2",
       "type": "long",
       "min": 1
     },
@@ -465,6 +478,186 @@
       "required": false,
       "configurableInWizard": false,
       "type": "string"
+    },
+    {
+      "name": "messaging_container_instances",
+      "label": "messaging container instances",
+      "description": "Number of instances for the messaging service",
+      "configName": "messaging.container.instances",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "1",
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "messaging_container_memory_mb",
+      "label": "messaging container memory mb",
+      "description": "Memory in megabytes for each messaging service instance",
+      "configName": "messaging.container.memory.mb",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "512",
+      "unit": "megabytes",
+      "type": "memory",
+      "min": 512
+    },
+    {
+      "name": "messaging_container_num_cores",
+      "label": "messaging container num cores",
+      "description": "Number of virtual cores for each messaging service instance",
+      "configName": "messaging.container.num.cores",
+      "required": true,
+      "configurableInWizard": true,
+      "default": "2",
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "messaging_hbase_max_scan_threads",
+      "label": "messaging hbase max scan threads",
+      "description": "Maximum number of threads used for scanning HBase tables",
+      "configName": "messaging.hbase.max.scan.threads",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "48",
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "messaging_http_server_consume_chunk_size",
+      "label": "messaging http server consume chunk size",
+      "description": "Approximate size in bytes of each chunk streamed back to a consumer",
+      "configName": "messaging.http.server.consume.chunk.size",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "60000",
+      "type": "memory",
+      "unit": "bytes"
+    },
+    {
+      "name": "messaging_http_server_executor_threads",
+      "label": "messaging http server executor threads",
+      "description": "Number of executor threads for the HTTP server in the messaging system. If set to 0, no executor threads will be used and requests will be handled directly in the IO thread.",
+      "configName": "messaging.http.server.executor.threads",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "0",
+      "type": "long"
+    },
+    {
+      "name": "messaging_http_server_max_request_size_mb",
+      "label": "messaging http server max request size mb",
+      "description": "Maximum request content size in megabytes for each request to the HTTP server in the messaging system",
+      "configName": "messaging.http.server.max.request.size.mb",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "10",
+      "type": "memory",
+      "unit": "megabytes"
+    },
+    {
+      "name": "messaging_http_server_worker_threads",
+      "label": "messaging http server worker threads",
+      "description": "Number of IO threads used by the HTTP server in the messaging system",
+      "configName": "messaging.http.server.worker.threads",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "30",
+      "type": "long"
+    },
+    {
+      "name": "messaging_local_data_dir",
+      "label": "messaging local data dir",
+      "description": "Local storage directory for the messaging system (used only in Standalone CDAP)",
+      "configName": "messaging.local.data.dir",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "data/messaging",
+      "type": "string"
+    },
+    {
+      "name": "messaging_max_instances",
+      "label": "messaging max instances",
+      "description": "Maximum number of instances for the messaging service",
+      "configName": "messaging.max.instances",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "1",
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "messaging_message_table_hbase_splits",
+      "label": "messaging message table hbase splits",
+      "description": "Number of splits to use for the message table in HBase upon table creation",
+      "configName": "messaging.message.table.hbase.splits",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "16",
+      "type": "long"
+    },
+    {
+      "name": "messaging_message_table_name",
+      "label": "messaging message table name",
+      "description": "Name of the message table of the messaging system",
+      "configName": "messaging.message.table.name",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "tms.message",
+      "type": "string"
+    },
+    {
+      "name": "messaging_metadata_table_name",
+      "label": "messaging metadata table name",
+      "description": "Name of the metadata table of the messaging system",
+      "configName": "messaging.metadata.table.name",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "tms.meta",
+      "type": "string"
+    },
+    {
+      "name": "messaging_payload_table_hbase_splits",
+      "label": "messaging payload table hbase splits",
+      "description": "Number of splits to use for the payload table in HBase upon table creation",
+      "configName": "messaging.payload.table.hbase.splits",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "16",
+      "type": "long"
+    },
+    {
+      "name": "messaging_payload_table_name",
+      "label": "messaging payload table name",
+      "description": "Name of the payload table of the messaging system",
+      "configName": "messaging.payload.table.name",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "tms.payload",
+      "type": "string"
+    },
+    {
+      "name": "messaging_table_expiration_seconds",
+      "label": "messaging table expiration seconds",
+      "description": "Number of seconds after which the messaging table cache will expire",
+      "configName": "messaging.table.expiration.seconds",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "300",
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "messaging_topic_default_ttl_seconds",
+      "label": "messaging topic default ttl seconds",
+      "description": "The default time-to-live in seconds for messages in a topic",
+      "configName": "messaging.topic.default.ttl.seconds",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "604800",
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "metrics_data_table_retention_resolution_1_seconds",
@@ -568,6 +761,27 @@
       "min": 1
     },
     {
+      "name": "operational_stats_extensions_dir",
+      "label": "operational stats extensions dir",
+      "description": "Semicolon-separated list of local directories on the CDAP Master that are scanned for operational statistics extensions",
+      "configName": "operational.stats.extensions.dir",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "/opt/cdap/master/ext/operations",
+      "type": "string"
+    },
+    {
+      "name": "operational_stats_refresh_interval_secs",
+      "label": "operational stats refresh interval secs",
+      "description": "Number of seconds after which operational statistics should be refreshed",
+      "configName": "operational.stats.refresh.interval.secs",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "60",
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
       "name": "remote_system_op_exec_threads",
       "label": "Remote System Op Exec Threads",
       "description": "Number of Netty service executor threads for the remote system operation HTTP service",
@@ -628,6 +842,16 @@
       "configurableInWizard": true,
       "default": 11015,
       "type": "port"
+    },
+    {
+      "name": "security_auth_server_announce_address",
+      "label": "security auth server announce address",
+      "description": "CDAP Authentication service announce address, in the format of host:port. This is the address that clients should use to communicate with the Authentication Server. Leave empty to use the default value generated by the Authentication Server.",
+      "configName": "security.auth.server.announce.address",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "",
+      "type": "string"
     },
     {
       "name": "security_authorization_admin_users",
@@ -725,6 +949,26 @@
       "type": "boolean"
     },
     {
+      "name": "ssl_external_enabled",
+      "label": "ssl external enabled",
+      "description": "Determines if SSL for external services is enabled",
+      "configName": "ssl.external.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default":false,
+      "type": "boolean"
+    },
+    {
+      "name": "ssl_internal_enabled",
+      "label": "ssl internal enabled",
+      "description": "Enable SSL between Router and App Fabric",
+      "configName": "ssl.internal.enabled",
+      "required": true,
+      "configurableInWizard": false,
+      "default":false,
+      "type": "boolean"
+    },
+    {
       "name": "stream_container_instances",
       "label": "Stream Container Instances",
       "description": "Number of YARN container instances for the stream handler",
@@ -799,6 +1043,17 @@
       "type": "string"
     },
     {
+      "name": "zookeeper_client_startup_timeout_millis",
+      "label": "zookeeper client startup timeout millis",
+      "description": "Duration in milliseconds to wait for a successful connection to a server in the ZooKeeper quorum",
+      "configName": "zookeeper.client.startup.timeout.millis",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "60000",
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
       "name": "zookeeper_session_timeout_millis",
       "label": "ZooKeeper Session Timeout Millis",
       "description": "ZooKeeper session timeout in milliseconds",
@@ -812,7 +1067,6 @@
   "roles": [
     {
       "name": "CDAP_ROUTER",
-      "jvmBased": "true",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
@@ -919,7 +1173,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -965,23 +1219,23 @@
         "modifiable": true,
         "loggingType": "logback",
         "additionalConfigs": [
-          {  
+          {
             "key": "disableChattyLoggerBeanutils",
             "value": "<logger name=\"org.apache.commons.beanutils\" level=\"ERROR\"/>"
           },
-          {  
+          {
             "key": "disableChattyLoggerZookeeperServer",
             "value": "<logger name=\"org.apache.zookeeper.server\" level=\"ERROR\"/>"
           },
-          {  
+          {
             "key": "disableChattyLoggerZookeeper",
             "value": "<logger name=\"org.apache.zookeeper\" level=\"ERROR\"/>"
           },
-          {  
+          {
             "key": "disableChattyLoggerNing",
             "value": "<logger name=\"com.ning\" level=\"WARN\"/>"
           },
-          {  
+          {
             "key": "disableChattyLoggerHadoop",
             "value": "<logger name=\"org.apache.hadoop\" level=\"WARN\"/>"
           },
@@ -1013,7 +1267,6 @@
     },
     {
       "name": "CDAP_KAFKA",
-      "jvmBased": "true",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [
@@ -1120,7 +1373,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1199,7 +1452,6 @@
     },
     {
       "name": "CDAP_MASTER",
-      "jvmBased": "true",
       "label": "CDAP Master Service",
       "pluralLabel": "CDAP Master Services",
       "parameters": [
@@ -1212,6 +1464,16 @@
           "configurableInWizard": false,
           "default": true,
           "type": "boolean"
+        },
+        {
+          "name": "app_ssl_bind_port",
+          "label": "app ssl bind port",
+          "description": "App Fabric service bind port",
+          "configName": "app.ssl.bind.port",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "30443",
+          "type": "port"
         },
         {
           "name": "log_kafka_topic",
@@ -1360,7 +1622,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "master_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "master_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1512,26 +1774,6 @@
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
-        },
-        {
-          "name": "master_debugger_utility",
-          "label": "Run Configured CDAP Debugger Utility",
-          "description": "Run the configured CDAP Debugger Utility. See debugger.utility.class",
-          "expectedExitCodes": [0],
-          "requiredRoleState": "running",
-          "commandRunner": {
-            "program": "scripts/cdap-control.sh",
-            "args": ["debugger_utility"],
-            "environmentVariables": {
-              "EXPLORE_ENABLED": "${explore_enabled}",
-              "KAFKA_PROPERTIES": "kafka.properties",
-              "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
-              "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
-              "MAIN_CLASS": "${debugger_utility_class}",
-              "MAIN_CLASS_ARGS": "${debugger_utility_args}"
-            }
-          }
         }
       ],
       "startRunner": {
@@ -1634,7 +1876,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1671,7 +1913,6 @@
     },
     {
       "name": "CDAP_AUTH_SERVER",
-      "jvmBased": "true",
       "label": "CDAP Security Auth Service",
       "pluralLabel": "CDAP Security Auth Services",
       "topology": {
@@ -1861,7 +2102,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
