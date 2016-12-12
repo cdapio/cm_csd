@@ -101,7 +101,7 @@
         {
           "filename": "cdap-conf/cdap-site.xml",
           "configFormat": "hadoop_xml",
-          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ]
+          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args"]
         }
       ],
       "peerConfigGenerators": [
@@ -1807,8 +1807,9 @@
               "CDAP_JAVA_OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
-          },
-          {
+          }
+        },
+        {
           "name": "master_debugger_utility",
           "label": "Run Configured CDAP Debugger Utility",
           "description": "Run the configured CDAP Debugger Utility. See debugger.utility.class",
