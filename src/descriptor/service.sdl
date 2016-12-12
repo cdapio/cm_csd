@@ -79,6 +79,14 @@
       "roleCommand": "master_post_upgrade_tasks",
       "roleName": "CDAP_MASTER",
       "runMode": "single"
+    },
+    {
+      "name": "cdap_debugger_utility",
+      "label": "Run Configured CDAP Debugger Utility",
+      "description": "Run the configured CDAP Debugger Utility. See debugger.utility.class",
+      "roleCommand": "master_debugger_utility",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     }
   ],
   "gateway": {
@@ -92,6 +100,7 @@
       "generators": [
         {
           "filename": "cdap-conf/cdap-site.xml",
+          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ],
           "configFormat": "hadoop_xml"
         }
       ],
@@ -297,6 +306,28 @@
       "default": 5,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "debugger_utility_class",
+      "label": "CDAP Debugger Utility Class Name",
+      "description": "CDAP Debugger Utility Class to run from the Actions menu",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
+      "validValues": [
+        "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
+        "co.cask.cdap.data.tools.HBaseQueueDebugger"
+      ]
+    },
+    {
+      "name": "debugger_utility_args",
+      "label": "CDAP Debugger Utility Arguments",
+      "description": "CDAP Debugger Utility Arguments run from the Actions menu",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string",
+      "default": "help"
     },
     {
       "name": "enable_unrecoverable_reset",
@@ -1067,6 +1098,7 @@
   "roles": [
     {
       "name": "CDAP_ROUTER",
+      "jvmBased": "true",
       "label": "CDAP Gateway/Router Service",
       "pluralLabel": "CDAP Gateway/Router Services",
       "parameters": [
@@ -1173,7 +1205,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax" ], "debugger_utility_class", "debugger_utility_args" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1267,6 +1299,7 @@
     },
     {
       "name": "CDAP_KAFKA",
+      "jvmBased": "true",
       "label": "CDAP Kafka Service",
       "pluralLabel": "CDAP Kafka Services",
       "parameters": [
@@ -1373,7 +1406,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax" ], "debugger_utility_class", "debugger_utility_args" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1453,6 +1486,7 @@
     {
       "name": "CDAP_MASTER",
       "label": "CDAP Master Service",
+      "jvmBased": "true",
       "pluralLabel": "CDAP Master Services",
       "parameters": [
         {
@@ -1622,7 +1656,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "master_java_heapmax" ],
+            "excludedParams": [ "cdap_java_opts", "master_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
