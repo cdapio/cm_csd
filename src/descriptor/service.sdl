@@ -101,7 +101,7 @@
         {
           "filename": "cdap-conf/cdap-site.xml",
           "configFormat": "hadoop_xml",
-          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args"]
+          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ]
         }
       ],
       "peerConfigGenerators": [
@@ -1930,7 +1930,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args"],
+            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
