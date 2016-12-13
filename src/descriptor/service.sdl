@@ -599,7 +599,7 @@
     },
     {
       "name": "messaging_message_table_hbase_splits",
-      "label": "Messaging message table hbase splits",
+      "label": "Messaging Message Table Hbase Splits",
       "description": "Number of splits to use for the message table in HBase upon table creation",
       "configName": "messaging.message.table.hbase.splits",
       "required": true,
