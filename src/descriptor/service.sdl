@@ -425,7 +425,7 @@
     {
       "name": "log_saver_container_memory_mb",
       "label": "Log Saver Container Memory MB",
-      "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as Log saver requires more memory to run than the Master service.",
+      "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as log saver requires more memory to run than the Master service.",
       "configName": "log.saver.container.memory.mb",
       "required": false,
       "configurableInWizard": true,
@@ -512,7 +512,7 @@
     },
     {
       "name": "messaging_hbase_max_scan_threads",
-      "label": "Messaging Hbase Max Scan Threads",
+      "label": "Messaging HBase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
       "configName": "messaging.hbase.max.scan.threads",
       "required": true,
@@ -576,7 +576,7 @@
     },
     {
       "name": "messaging_message_table_hbase_splits",
-      "label": "Messaging Message Table Hbase Splits",
+      "label": "Messaging Message Table HBase Splits",
       "description": "Number of splits to use for the message table in HBase upon table creation",
       "configName": "messaging.message.table.hbase.splits",
       "required": true,
@@ -606,7 +606,7 @@
     },
     {
       "name": "messaging_payload_table_hbase_splits",
-      "label": "Messaging Payload Table Hbase Splits",
+      "label": "Messaging Payload Table HBase Splits",
       "description": "Number of splits to use for the payload table in HBase upon table creation",
       "configName": "messaging.payload.table.hbase.splits",
       "required": true,
@@ -757,7 +757,8 @@
       "default": [
         "/opt/cdap/master/ext/operations"
       ],
-      "type": "string_array"
+      "type": "string_array",
+      "separator": ";"
     },
     {
       "name": "operational_stats_refresh_interval_secs",
