@@ -155,12 +155,15 @@ case ${SERVICE} in
 esac
 
 # Source Cloudera common functions (for Kerberos)
+echo "Sourcing Cloudera Common Script: ${COMMON_SCRIPT}"
 source ${COMMON_SCRIPT}
 
 # Source the CDAP common init functions
 if [[ -e ${COMPONENT_HOME}/bin/functions.sh ]]; then
+  echo "Sourcing CDAP common functions: ${COMPONENT_HOME}/bin/functions.sh"
   source ${COMPONENT_HOME}/bin/functions.sh
 else
+  echo "Sourcing CDAP pre-4.0 common functions: ${COMPONENT_HOME}/bin/common[-env].sh"
   source ${COMPONENT_HOME}/bin/common-env.sh
   source ${COMPONENT_HOME}/bin/common.sh
 fi
