@@ -468,29 +468,6 @@
       "min": 1
     },
     {
-      "name": "log_saver_run_memory_megs",
-      "label": "Log Saver Run Memory Megs (deprecated)",
-      "description": "Memory in megabytes allocated for log saver instances to run in YARN (deprecated: use ${log.saver.container.memory.mb} instead)",
-      "configName": "log.saver.run.memory.megs",
-      "required": false,
-      "configurableInWizard": false,
-      "default": 1024,
-      "type": "memory",
-      "unit": "megabytes",
-      "min": 512
-    },
-    {
-      "name": "log_saver_run_num_cores",
-      "label": "Log Saver Run Number of Virtual Cores (deprecated)",
-      "description": "Number of cores for each log saver instance in YARN (deprecated: use ${log.saver.container.num.cores} instead)",
-      "configName": "log.saver.run.num.cores",
-      "required": false,
-      "configurableInWizard": false,
-      "default": 2,
-      "type": "long",
-      "min": 1
-    },
-    {
       "name": "master_services_scheduler_queue",
       "label": "Master Services Scheduler Queue",
       "description": "Scheduler queue for CDAP Master Services",
