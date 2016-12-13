@@ -209,7 +209,7 @@
     },
     {
       "name": "data_tx_max_timeout",
-      "label": "data tx max timeout",
+      "label": "Transaction Client Max Timeout",
       "description": "The limit for the allowed transaction timeout, in seconds. Attempts to start a transaction with a longer timeout will fail.",
       "configName": "data.tx.max.timeout",
       "required": true,
@@ -341,13 +341,13 @@
     },
     {
       "name": "explore_container_yarn_app_classpath_first",
-      "label": "explore container yarn app classpath first",
+      "label": "Explore Container Yarn App Classpath First",
       "description": "Determines if the YARN application classpath precedes the query engine classpath",
       "configName": "explore.container.yarn.app.classpath.first",
       "required": true,
       "configurableInWizard": false,
       "default": "false",
-      "type": "string"
+      "type": "boolean"
     },
     {
       "name": "explore_enabled",
@@ -358,17 +358,6 @@
       "configurableInWizard": true,
       "default": true,
       "type": "boolean"
-    },
-    {
-      "name": "explore_executor_container_instances",
-      "label": "Explore Executor Container Instances",
-      "description": "Number of explore executor instances",
-      "configName": "explore.executor.container.instances",
-      "required": true,
-      "configurableInWizard": false,
-      "default": 1,
-      "type": "long",
-      "max": 1
     },
     {
       "name": "explore_executor_container_memory_mb",
@@ -434,12 +423,12 @@
       "type": "string"
     },
     {
-      "name": "log_saver_container-memory_mb",
-      "label": "log saver container memory mb",
+      "name": "log_saver_container_memory_mb",
+      "label": "Log Saver Container Memory MB",
       "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as Log saver requires more memory to run than the Master service.",
       "configName": "log.saver.container.memory.mb",
-      "required": true,
-      "configurableInWizard": false,
+      "required": false,
+      "configurableInWizard": true,
       "default": "1024",
       "type": "memory",
       "unit": "megabytes",
@@ -458,11 +447,11 @@
     },
     {
       "name": "log_saver_container_num_cores",
-      "label": "log saver container num cores",
+      "label": "Log Saver Container Num Cores",
       "description": "Number of virtual cores for each log saver instance in YARN",
       "configName": "log.saver.container.num.cores",
-      "required": true,
-      "configurableInWizard": false,
+      "required": false,
+      "configurableInWizard": true,
       "default": "2",
       "type": "long",
       "min": 1
@@ -480,11 +469,11 @@
     },
     {
       "name": "log_saver_run_memory_megs",
-      "label": "Log Saver Run Memory Megs",
-      "description": "Memory in megabytes allocated for log saver instances to run in YARN",
+      "label": "Log Saver Run Memory Megs (deprecated)",
+      "description": "Memory in megabytes allocated for log saver instances to run in YARN (deprecated: use ${log.saver.container.memory.mb} instead)",
       "configName": "log.saver.run.memory.megs",
-      "required": true,
-      "configurableInWizard": true,
+      "required": false,
+      "configurableInWizard": false,
       "default": 1024,
       "type": "memory",
       "unit": "megabytes",
@@ -492,11 +481,11 @@
     },
     {
       "name": "log_saver_run_num_cores",
-      "label": "Log Saver Run Number of Virtual Cores",
-      "description": "Number of cores for each log saver instance in YARN",
+      "label": "Log Saver Run Number of Virtual Cores (deprecated)",
+      "description": "Number of cores for each log saver instance in YARN (deprecated: use ${log.saver.container.num.cores} instead)",
       "configName": "log.saver.run.num.cores",
-      "required": true,
-      "configurableInWizard": true,
+      "required": false,
+      "configurableInWizard": false,
       "default": 2,
       "type": "long",
       "min": 1
@@ -512,7 +501,7 @@
     },
     {
       "name": "messaging_container_instances",
-      "label": "messaging container instances",
+      "label": "Messaging Container Instances",
       "description": "Number of instances for the messaging service",
       "configName": "messaging.container.instances",
       "required": true,
@@ -523,7 +512,7 @@
     },
     {
       "name": "messaging_container_memory_mb",
-      "label": "messaging container memory mb",
+      "label": "Messaging Container Memory MB",
       "description": "Memory in megabytes for each messaging service instance",
       "configName": "messaging.container.memory.mb",
       "required": true,
@@ -535,7 +524,7 @@
     },
     {
       "name": "messaging_container_num_cores",
-      "label": "messaging container num cores",
+      "label": "Messaging Container Num Cores",
       "description": "Number of virtual cores for each messaging service instance",
       "configName": "messaging.container.num.cores",
       "required": true,
@@ -546,7 +535,7 @@
     },
     {
       "name": "messaging_hbase_max_scan_threads",
-      "label": "messaging hbase max scan threads",
+      "label": "Messaging Hbase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
       "configName": "messaging.hbase.max.scan.threads",
       "required": true,
@@ -557,7 +546,7 @@
     },
     {
       "name": "messaging_http_server_consume_chunk_size",
-      "label": "messaging http server consume chunk size",
+      "label": "Messaging HTTP Server Consume Chunk Size",
       "description": "Approximate size in bytes of each chunk streamed back to a consumer",
       "configName": "messaging.http.server.consume.chunk.size",
       "required": true,
@@ -568,7 +557,7 @@
     },
     {
       "name": "messaging_http_server_executor_threads",
-      "label": "messaging http server executor threads",
+      "label": "Messaging HTTP Server Executor Threads",
       "description": "Number of executor threads for the HTTP server in the messaging system. If set to 0, no executor threads will be used and requests will be handled directly in the IO thread.",
       "configName": "messaging.http.server.executor.threads",
       "required": true,
@@ -578,7 +567,7 @@
     },
     {
       "name": "messaging_http_server_max_request_size_mb",
-      "label": "messaging http server max request size mb",
+      "label": "Messaging HTTP Server Max Request Size MB",
       "description": "Maximum request content size in megabytes for each request to the HTTP server in the messaging system",
       "configName": "messaging.http.server.max.request.size.mb",
       "required": true,
@@ -589,7 +578,7 @@
     },
     {
       "name": "messaging_http_server_worker_threads",
-      "label": "messaging http server worker threads",
+      "label": "Messaging HTTP Server Worker Threads",
       "description": "Number of IO threads used by the HTTP server in the messaging system",
       "configName": "messaging.http.server.worker.threads",
       "required": true,
@@ -598,29 +587,19 @@
       "type": "long"
     },
     {
-      "name": "messaging_local_data_dir",
-      "label": "messaging local data dir",
-      "description": "Local storage directory for the messaging system (used only in Standalone CDAP)",
-      "configName": "messaging.local.data.dir",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "data/messaging",
-      "type": "string"
-    },
-    {
       "name": "messaging_max_instances",
-      "label": "messaging max instances",
+      "label": "Messaging Max Instances",
       "description": "Maximum number of instances for the messaging service",
       "configName": "messaging.max.instances",
       "required": true,
       "configurableInWizard": false,
       "default": "1",
       "type": "long",
-      "min": 1
+      "max": 1
     },
     {
       "name": "messaging_message_table_hbase_splits",
-      "label": "messaging message table hbase splits",
+      "label": "Messaging message table hbase splits",
       "description": "Number of splits to use for the message table in HBase upon table creation",
       "configName": "messaging.message.table.hbase.splits",
       "required": true,
@@ -630,7 +609,7 @@
     },
     {
       "name": "messaging_message_table_name",
-      "label": "messaging message table name",
+      "label": "Messaging Message Table Name",
       "description": "Name of the message table of the messaging system",
       "configName": "messaging.message.table.name",
       "required": true,
@@ -640,7 +619,7 @@
     },
     {
       "name": "messaging_metadata_table_name",
-      "label": "messaging metadata table name",
+      "label": "Messaging Metadata Table Name",
       "description": "Name of the metadata table of the messaging system",
       "configName": "messaging.metadata.table.name",
       "required": true,
@@ -650,7 +629,7 @@
     },
     {
       "name": "messaging_payload_table_hbase_splits",
-      "label": "messaging payload table hbase splits",
+      "label": "Messaging Payload Table Hbase Splits",
       "description": "Number of splits to use for the payload table in HBase upon table creation",
       "configName": "messaging.payload.table.hbase.splits",
       "required": true,
@@ -660,7 +639,7 @@
     },
     {
       "name": "messaging_payload_table_name",
-      "label": "messaging payload table name",
+      "label": "Messaging Payload Table Name",
       "description": "Name of the payload table of the messaging system",
       "configName": "messaging.payload.table.name",
       "required": true,
@@ -670,7 +649,7 @@
     },
     {
       "name": "messaging_table_expiration_seconds",
-      "label": "messaging table expiration seconds",
+      "label": "Messaging Table Expiration Seconds",
       "description": "Number of seconds after which the messaging table cache will expire",
       "configName": "messaging.table.expiration.seconds",
       "required": true,
@@ -681,7 +660,7 @@
     },
     {
       "name": "messaging_topic_default_ttl_seconds",
-      "label": "messaging topic default ttl seconds",
+      "label": "Messaging Topic Default TTL Seconds",
       "description": "The default time-to-live in seconds for messages in a topic",
       "configName": "messaging.topic.default.ttl.seconds",
       "required": true,
@@ -793,17 +772,19 @@
     },
     {
       "name": "operational_stats_extensions_dir",
-      "label": "operational stats extensions dir",
+      "label": "Operational Stats Extensions Dir",
       "description": "Semicolon-separated list of local directories on the CDAP Master that are scanned for operational statistics extensions",
       "configName": "operational.stats.extensions.dir",
       "required": true,
       "configurableInWizard": false,
-      "default": "/opt/cdap/master/ext/operations",
-      "type": "string"
+      "default": [
+        "/opt/cdap/master/ext/operations"
+      ],
+      "type": "string_array"
     },
     {
       "name": "operational_stats_refresh_interval_secs",
-      "label": "operational stats refresh interval secs",
+      "label": "Operational Stats Refresh Interval Secs",
       "description": "Number of seconds after which operational statistics should be refreshed",
       "configName": "operational.stats.refresh.interval.secs",
       "required": true,
@@ -876,7 +857,7 @@
     },
     {
       "name": "security_auth_server_announce_address",
-      "label": "security auth server announce address",
+      "label": "Security Authorization Server Announce Address",
       "description": "CDAP Authentication service announce address, in the format of host:port. This is the address that clients should use to communicate with the Authentication Server. Leave empty to use the default value generated by the Authentication Server.",
       "configName": "security.auth.server.announce.address",
       "required": true,
@@ -981,8 +962,8 @@
     },
     {
       "name": "ssl_external_enabled",
-      "label": "ssl external enabled",
-      "description": "Determines if SSL for external services is enabled",
+      "label": "SSL External Enabled",
+      "description": "Enable SSL for external services",
       "configName": "ssl.external.enabled",
       "required": true,
       "configurableInWizard": false,
@@ -991,7 +972,7 @@
     },
     {
       "name": "ssl_internal_enabled",
-      "label": "ssl internal enabled",
+      "label": "SSL Internal Enabled",
       "description": "Enable SSL between Router and App Fabric",
       "configName": "ssl.internal.enabled",
       "required": true,
@@ -1075,7 +1056,7 @@
     },
     {
       "name": "zookeeper_client_startup_timeout_millis",
-      "label": "zookeeper client startup timeout millis",
+      "label": "Zookeeper Client Startup Timeout Millis",
       "description": "Duration in milliseconds to wait for a successful connection to a server in the ZooKeeper quorum",
       "configName": "zookeeper.client.startup.timeout.millis",
       "required": true,
@@ -1501,7 +1482,7 @@
         },
         {
           "name": "app_ssl_bind_port",
-          "label": "app ssl bind port",
+          "label": "App SSL Bind Port",
           "description": "App Fabric service bind port",
           "configName": "app.ssl.bind.port",
           "required": true,
@@ -1609,36 +1590,6 @@
           "configurableInWizard": false,
           "default": "0.0.0.0",
           "type": "string"
-        },
-        {
-          "name": "metadata_updates_kafka_broker_list",
-          "label": "Metadata Updates Kafka Broker List",
-          "description": "Apache Kafka broker list to which metadata update notifications are published",
-          "configName": "metadata.updates.kafka.broker.list",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "127.0.0.1:${kafka.bind.port}",
-          "type": "string"
-        },
-        {
-          "name": "metadata_updates_kafka_topic",
-          "label": "Metadata Updates Kafka Topic",
-          "description": "Apache Kafka topic name to which metadata update notifications are published",
-          "configName": "metadata.updates.kafka.topic",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "cdap-metadata-updates",
-          "type": "string"
-        },
-        {
-          "name": "metadata_updates_publish_enabled",
-          "label": "Metadata Updates Publish Enabled",
-          "description": "Determines if metadata updates will be published to Apache Kafka. External systems can subscribe to the Kafka topic determined by ${metadata.updates.kafka.topic} to receive notifications of metadata updates.",
-          "configName": "metadata.updates.publish.enabled",
-          "required": true,
-          "configurableInWizard": false,
-          "default": false,
-          "type": "boolean"
         },
         {
           "name": "notification_kafka_topic",
