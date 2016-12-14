@@ -755,7 +755,7 @@
       "required": true,
       "configurableInWizard": false,
       "default": [
-        "/opt/cdap/master/ext/operations"
+        "${cdap.home}/master/ext/operations"
       ],
       "type": "string_array",
       "separator": ";"
