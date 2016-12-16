@@ -1,6 +1,17 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.0.0 (Dec 16, 2016)
+---------------------
+- Adds support for CDAP 4.0 init framework ( Issues: #105 #107 #112 #126 )
+- Sync logback-container.xml updates from CDAP ( Issues: #113 #114 #115 )
+- Updates UI default port to 11011 ( Issues: #118 [CDAP-5897](https://issues.cask.co/browse/CDAP-5897) )
+- Supports improved CDAP mechanism to use Hive Classpath ( Issues #119 [CDAP-7054](https://issues.cask.co/browse/CDAP-7354) )
+- Adds capability to run a CDAP debugger utility from the Actions menu ( Issues: #122 [CDAP-5632](https://issues.cask.co/browse/CDAP-5632) )
+- Adds CM enhanced JVM support for CDAP services, **Requires CM 5.7 or above** ( Issues: #123 [CDAP-7555](https://issues.cask.co/browse/CDAP-7555) )
+- Fixes an issue where CDAP would not pickup latest configuration changes ( Issues: #124 [CDAP-7556](https://issues.cask.co/browse/CDAP-7556) )
+- Adds configurations for CDAP 4.0 release ( Issues: #125 #127 [CDAP-7796](https://issues.cask.co/browse/CDAP-7556) ) 
+
 v3.6.0 (Oct 4, 2016)
 --------------------
 - Adds configurations for CDAP 3.6 release ( Issues: #108 )
