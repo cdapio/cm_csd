@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "4.0.0-SNAPSHOT",
+  "version": "4.0.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
