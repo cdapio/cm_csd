@@ -1175,7 +1175,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args", "router_ssl_keystore_keypassword", "router_ssl_keystore_password", "router_ssl_keystore_path", "router_ssl_keystore_type" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1198,6 +1198,11 @@
                 "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
               }
             ]
+          },
+          {
+            "filename": "cdap-security.xml",
+            "configFormat": "hadoop_xml",
+            "includedParams": [ "router_ssl_keystore_keypassword", "router_ssl_keystore_password", "router_ssl_keystore_path", "router_ssl_keystore_type" ]
           }
         ],
         "peerConfigGenerators": [
@@ -1870,7 +1875,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args", "dashboard_ssl_cert", "dashboard_ssl_key" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1885,6 +1890,11 @@
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               }
             ]
+          },
+          {
+            "filename": "cdap-security.xml",
+            "configFormat": "hadoop_xml",
+            "includedParams": [ "dashboard_ssl_cert", "dashboard_ssl_key" ]
           }
         ],
         "peerConfigGenerators": [
@@ -2097,7 +2107,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "security_auth_server_ssl_keystore_keypassword", "security_auth_server_ssl_keystore_password", "security_auth_server_ssl_keystore_path", "security_auth_server_ssl_keystore_type" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -2120,6 +2130,11 @@
                 "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
               }
             ]
+          },
+          {
+            "filename": "cdap-security.xml",
+            "configFormat": "hadoop_xml",
+            "includedParams": [ "security_auth_server_ssl_keystore_keypassword", "security_auth_server_ssl_keystore_password", "security_auth_server_ssl_keystore_path", "security_auth_server_ssl_keystore_type" ]
           }
         ],
         "peerConfigGenerators": [
