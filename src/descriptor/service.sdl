@@ -826,11 +826,21 @@
     {
       "name": "router_server_port",
       "label": "Router Server Port",
-      "description": "CDAP Router service port to which CDAP UI connects",
+      "description": "CDAP Router service port, for clients and webapps",
       "configName": "router.server.port",
       "required": true,
       "configurableInWizard": true,
       "default": 11015,
+      "type": "port"
+    },
+    {
+      "name": "router_ssl_server_port",
+      "label": "Router SSL Server Port",
+      "description": "CDAP Router service port for HTTPS, for clients and webapps",
+      "configName": "router.ssl.server.port",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10443,
       "type": "port"
     },
     {
