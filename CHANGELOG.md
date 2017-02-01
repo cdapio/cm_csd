@@ -1,6 +1,11 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.0.1 (Feb 1, 2017)
+--------------------
+- Exposes configuration for scheduler.misfire.threshold.ms ( Issue: #129 )
+- SSL support ( Issues: #130, #131 )
+
 v4.0.0 (Dec 16, 2016)
 ---------------------
 - Adds support for CDAP 4.0 init framework ( Issues: #105 #107 #112 #126 )
