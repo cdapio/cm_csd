@@ -140,6 +140,14 @@ case ${SERVICE} in
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
+  (debugger_utility)
+    # The debugger utility (ie HBase queue debugger) is run as master, but with an overridden $MAIN_CLASS
+    COMPONENT_HOME=${CDAP_MASTER_HOME}
+    # MAIN_CLASS set by CSD, configurable by user
+    # MAIN_CLASS_ARGS set by CSD, configurable by user
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
+    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
@@ -147,12 +155,15 @@ case ${SERVICE} in
 esac
 
 # Source Cloudera common functions (for Kerberos)
+echo "Sourcing Cloudera Common Script: ${COMMON_SCRIPT}"
 source ${COMMON_SCRIPT}
 
 # Source the CDAP common init functions
 if [[ -e ${COMPONENT_HOME}/bin/functions.sh ]]; then
+  echo "Sourcing CDAP common functions: ${COMPONENT_HOME}/bin/functions.sh"
   source ${COMPONENT_HOME}/bin/functions.sh
 else
+  echo "Sourcing CDAP pre-4.0 common functions: ${COMPONENT_HOME}/bin/common[-env].sh"
   source ${COMPONENT_HOME}/bin/common-env.sh
   source ${COMPONENT_HOME}/bin/common.sh
 fi
@@ -218,8 +229,24 @@ if [ ${MAIN_CLASS} ]; then
 
   # Set HBASE_HOME to CM-provided active location
   export HBASE_HOME=${CDH_HBASE_HOME}
+
+  # CDAP-7556: we must construct the CLASSPATH to include our dependencies' configuration first
+  # Dependency service configs will be in ${CONF_DIR}/[service]-conf/ directories
+  for d in $(ls -1d ${CONF_DIR}/*-conf/); do
+    if [[ -n ${CLASSPATH} ]]; then
+      CLASSPATH="${CLASSPATH}:${d}"
+    else
+      CLASSPATH=${d}
+    fi
+  done
+
   # Set base classpath to include component and conf directory (CM provided)
   cdap_set_classpath ${COMPONENT_HOME} ${CONF_DIR}
+
+  # Prepend CM-provided ${CSD_JAVA_OPTS} to our ${CDAP_JAVA_OPTS}
+  if [[ -n ${CSD_JAVA_OPTS} ]]; then
+    CDAP_JAVA_OPTS="${CSD_JAVA_OPTS} ${CDAP_JAVA_OPTS}"
+  fi
 
   echo "`date` Starting Java service ${SERVICE} on `hostname`"
   "${JAVA}" -version
