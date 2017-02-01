@@ -826,11 +826,21 @@
     {
       "name": "router_server_port",
       "label": "Router Server Port",
-      "description": "CDAP Router service port to which CDAP UI connects",
+      "description": "CDAP Router service port, for clients and webapps",
       "configName": "router.server.port",
       "required": true,
       "configurableInWizard": true,
       "default": 11015,
+      "type": "port"
+    },
+    {
+      "name": "router_ssl_server_port",
+      "label": "Router SSL Server Port",
+      "description": "CDAP Router service port for HTTPS, for clients and webapps",
+      "configName": "router.ssl.server.port",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10443,
       "type": "port"
     },
     {
@@ -938,26 +948,6 @@
         "none",
         "kms"
       ]
-    },
-    {
-      "name": "ssl_enabled",
-      "label": "SSL Enabled",
-      "description": "Determines if SSL is enabled",
-      "configName": "ssl.enabled",
-      "required": true,
-      "configurableInWizard": false,
-      "default": false,
-      "type": "boolean"
-    },
-    {
-      "name": "ssl_external_enabled",
-      "label": "SSL External Enabled",
-      "description": "Enable SSL for external services",
-      "configName": "ssl.external.enabled",
-      "required": true,
-      "configurableInWizard": false,
-      "default":false,
-      "type": "boolean"
     },
     {
       "name": "ssl_internal_enabled",
@@ -1114,46 +1104,6 @@
           "type": "port"
         },
         {
-          "name": "router_ssl_keystore_keypassword",
-          "label": "Router SSL Keystore Key Password",
-          "description": "Keystore key password",
-          "configName": "router.ssl.keystore.keypassword",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "password"
-        },
-        {
-          "name": "router_ssl_keystore_password",
-          "label": "Router SSL Keystore Password",
-          "description": "Keystore password",
-          "configName": "router.ssl.keystore.password",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "password"
-        },
-        {
-          "name": "router_ssl_keystore_path",
-          "label": "Router SSL Keystore Path",
-          "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-          "configName": "router.ssl.keystore.path",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "string"
-        },
-        {
-          "name": "router_ssl_keystore_type",
-          "label": "Router SSL Keystore Type",
-          "description": "Keystore file type",
-          "configName": "router.ssl.keystore.type",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "JKS",
-          "type": "string"
-        },
-        {
           "name": "router_userservice_fallback_strategy",
           "label": "Router User Service Fallback Strategy",
           "description": "If a RouteConfig is not found for a particular user service, this property is used to set the fallback routing strategy. Allowed options: \"random\", \"smallest\", \"largest\", or \"drop\". A string comparison of the versions of the user service is used for \"smallest\" or \"largest\". The \"drop\" option will not route the request to any service and will return \"service not found\".",
@@ -1175,7 +1125,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args", "router_ssl_keystore_keypassword", "router_ssl_keystore_password", "router_ssl_keystore_path", "router_ssl_keystore_type" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1202,7 +1152,7 @@
           {
             "filename": "cdap-security.xml",
             "configFormat": "hadoop_xml",
-            "includedParams": [ "router_ssl_keystore_keypassword", "router_ssl_keystore_password", "router_ssl_keystore_path", "router_ssl_keystore_type" ]
+            "includedParams": [ "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ]
           }
         ],
         "peerConfigGenerators": [
@@ -1259,6 +1209,15 @@
             "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
           }
         ]
+      },
+      "sslServer": {
+        "keystoreFormat": "jks",
+        "keyIdentifier": "cdap_router",
+        "enabledConfigName": "ssl.external.enabled",
+        "keystoreLocationConfigName": "router.ssl.keystore.path",
+        "keyPasswordOptionality" : "required",
+        "keystoreKeyPasswordConfigName": "router.ssl.keystore.keypassword",
+        "keystorePasswordConfigName": "router.ssl.keystore.password"
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
@@ -1795,7 +1754,8 @@
       "externalLink": {
         "name": "cdap_ui",
         "label": "CDAP UI",
-        "url": "http://${host}:${dashboard_bind_port}"
+        "url": "http://${host}:${dashboard_bind_port}",
+        "secureUrl": "https://${host}:${dashboard_ssl_bind_port}"
       },
       "parameters": [
         {
@@ -1840,16 +1800,6 @@
           "type": "port"
         },
         {
-          "name": "dashboard_ssl_cert",
-          "label": "Dashboard SSL Cert",
-          "description": "SSL cert file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-          "configName": "dashboard.ssl.cert",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "string"
-        },
-        {
           "name": "dashboard_ssl_disable_cert_check",
           "label": "Dashboard SSL Disable Cert Check",
           "description": "True to disable SSL certificate check from the CDAP UI",
@@ -1858,16 +1808,6 @@
           "configurableInWizard": false,
           "default": false,
           "type": "boolean"
-        },
-        {
-          "name": "dashboard_ssl_key",
-          "label": "Dashboard SSL Key",
-          "description": "SSL key file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-          "configName": "dashboard.ssl.key",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "string"
         }
       ],
       "configWriter": {
@@ -1875,7 +1815,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args", "dashboard_ssl_cert", "dashboard_ssl_key" ],
+            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args", "ssl_server_certificate_location", "ssl_server_privatekey_location" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1894,7 +1834,7 @@
           {
             "filename": "cdap-security.xml",
             "configFormat": "hadoop_xml",
-            "includedParams": [ "dashboard_ssl_cert", "dashboard_ssl_key" ]
+            "includedParams": [ "ssl_server_certificate_location", "ssl_server_privatekey_location" ]
           }
         ],
         "peerConfigGenerators": [
@@ -1904,6 +1844,12 @@
             "roleName": "CDAP_KAFKA"
           }
         ]
+      },
+      "sslServer": {
+        "keystoreFormat": "pem",
+        "enabledConfigName": "ssl.external.enabled",
+        "certificateLocationConfigName": "dashboard.ssl.cert",
+        "privateKeyLocationConfigName": "dashboard.ssl.key"
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
@@ -1964,46 +1910,6 @@
           "configurableInWizard": false,
           "default": 10010,
           "type": "port"
-        },
-        {
-          "name": "security_auth_server_ssl_keystore_keypassword",
-          "label": "Security Auth Server SSL Keystore Key Password",
-          "description": "Keystore key password",
-          "configName": "security.auth.server.ssl.keystore.keypassword",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "password"
-        },
-        {
-          "name": "security_auth_server_ssl_keystore_password",
-          "label": "Security Auth Server SSL Keystore Password",
-          "description": "Keystore password",
-          "configName": "security.auth.server.ssl.keystore.password",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "password"
-        },
-        {
-          "name": "security_auth_server_ssl_keystore_path",
-          "label": "Security Auth Server SSL Keystore Path",
-          "description": "Keystore file location, either absolute or relative; the file should be owned and readable only by the CDAP user",
-          "configName": "security.auth.server.ssl.keystore.path",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "",
-          "type": "string"
-        },
-        {
-          "name": "security_auth_server_ssl_keystore_type",
-          "label": "Security Auth Server SSL Keystore Type",
-          "description": "Keystore file type",
-          "configName": "security.auth.server.ssl.keystore.type",
-          "required": false,
-          "configurableInWizard": false,
-          "default": "JKS",
-          "type": "string"
         },
         {
           "name": "security_authentication_basic_realmfile",
@@ -2107,7 +2013,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "security_auth_server_ssl_keystore_keypassword", "security_auth_server_ssl_keystore_password", "security_auth_server_ssl_keystore_path", "security_auth_server_ssl_keystore_type" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -2134,7 +2040,7 @@
           {
             "filename": "cdap-security.xml",
             "configFormat": "hadoop_xml",
-            "includedParams": [ "security_auth_server_ssl_keystore_keypassword", "security_auth_server_ssl_keystore_password", "security_auth_server_ssl_keystore_path", "security_auth_server_ssl_keystore_type" ]
+            "includedParams": [ "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ]
           }
         ],
         "peerConfigGenerators": [
@@ -2191,6 +2097,15 @@
             "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
           }
         ]
+      },
+      "sslServer": {
+        "keystoreFormat": "jks",
+        "keyIdentifier": "cdap_auth",
+        "enabledConfigName": "ssl.external.enabled",
+        "keystoreLocationConfigName": "security.auth.server.ssl.keystore.path",
+        "keyPasswordOptionality" : "required",
+        "keystoreKeyPasswordConfigName": "security.auth.server.ssl.keystore.keypassword",
+        "keystorePasswordConfigName": "security.auth.server.ssl.keystore.password"
       },
       "startRunner": {
         "program": "scripts/cdap-control.sh",
