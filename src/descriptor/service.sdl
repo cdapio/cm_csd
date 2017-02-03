@@ -87,6 +87,14 @@
       "roleCommand": "master_debugger_utility",
       "roleName": "CDAP_MASTER",
       "runMode": "single"
+    },
+    {
+      "name": "cdap_setup_coprocessors",
+      "label": "Run CDAP Coprocessor Setup Utility",
+      "description": "Run the CDAP Coprocessor Setup Utility",
+      "roleCommand": "master_setup_coprocessors",
+      "roleName": "CDAP_MASTER",
+      "runMode": "single"
     }
   ],
   "gateway": {
@@ -1730,6 +1738,24 @@
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
               "MAIN_CLASS": "${debugger_utility_class}",
               "MAIN_CLASS_ARGS": "${debugger_utility_args}"
+            }
+          }
+        },
+        {
+          "name": "master_setup_coprocessors",
+          "label": "Run CDAP Coprocessor Setup Utility",
+          "description": "Run the CDAP Coprocessor Setup Utility",
+          "expectedExitCodes": [0],
+          "requiredRoleState": "running",
+          "commandRunner": {
+            "program": "scripts/cdap-control.sh",
+            "args": ["setup_coprocessors"],
+            "environmentVariables": {
+              "EXPLORE_ENABLED": "${explore_enabled}",
+              "KAFKA_PROPERTIES": "kafka.properties",
+              "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
+              "CDAP_JAVA_OPTS": "${cdap_java_opts}",
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
             }
           }
         }
