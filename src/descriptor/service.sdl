@@ -1746,7 +1746,7 @@
           "label": "Run CDAP Coprocessor Setup Utility",
           "description": "Run the CDAP Coprocessor Setup Utility",
           "expectedExitCodes": [0],
-          "requiredRoleState": "running",
+          "requiredRoleState": "stopped",
           "commandRunner": {
             "program": "scripts/cdap-control.sh",
             "args": ["setup_coprocessors"],
