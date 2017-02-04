@@ -148,6 +148,14 @@ case ${SERVICE} in
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
+  (setup_coprocessors)
+    # The coprocessor utility is run as master, but with an overridden $MAIN_CLASS
+    COMPONENT_HOME=${CDAP_MASTER_HOME}
+    MAIN_CLASS=co.cask.cdap.data.tools.CoprocessorBuildTool
+    MAIN_CLASS_ARGS=""
+    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
+    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
+    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
@@ -283,6 +291,12 @@ if [ ${MAIN_CLASS} ]; then
     echo "Using explore.classpath: ${EXPLORE_CLASSPATH}"
 
     echo "Using SPARK_HOME: ${SPARK_HOME}"
+
+    # Build and upload coprocessor jars, if we are starting master
+    if [[ "${MAIN_CLASS}" == "co.cask.cdap.data.runtime.main.MasterServiceMain" ]]; then
+      echo "$(date) Ensuring required HBase coprocessors are on HDFS"
+      cdap_setup_coprocessors </dev/null 2>&1 || die "Could not setup coprocessors."
+    fi
 
     if [[ "${STARTUP_CHECKS_ENABLED}" == "true" ]]; then
       # Run only if CDAP_VERSION >= 3.3
