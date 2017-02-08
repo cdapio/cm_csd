@@ -1063,6 +1063,25 @@
       "type": "long"
     }
   ],
+  "rollingRestart": {
+    "nonWorkerSteps": [
+      {
+        "roleName": "CDAP_AUTH_SERVER"
+      },
+      {
+        "roleName": "CDAP_KAFKA"
+      },
+      {
+        "roleName": "CDAP_MASTER"
+      },
+      {
+        "roleName": "CDAP_ROUTER"
+      },
+      {
+        "roleName": "CDAP_UI"
+      }
+    ]
+  },
   "roles": [
     {
       "name": "CDAP_ROUTER",
