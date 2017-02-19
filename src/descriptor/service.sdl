@@ -369,7 +369,8 @@
       "required": true,
       "configurableInWizard": false,
       "default": 30,
-      "type": "long"
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "dataset_executor_container_instances",
@@ -490,6 +491,17 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "explore_http_timeout",
+      "label": "Explore Http Timeout",
+      "description": "The timeout in seconds for HTTP requests to the CDAP Explore service. Because requests may happen within a transaction, it is recommended to keep this timeout noticeably shorter than the default transaction timeout, ${data.tx.timeout}.",
+      "configName": "explore.http.timeout",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 20,
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "flow_retry_policy_base_delay_ms",
