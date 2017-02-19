@@ -205,6 +205,64 @@
       "type": "string"
     },
     {
+      "name": "custom_action_retry_policy_base_delay_ms",
+      "label": "Custom Action Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "custom.action.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "custom_action_retry_policy_max_delay_ms",
+      "label": "Custom Action Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "custom.action.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "custom_action_retry_policy_max_retries",
+      "label": "Custom Action Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "custom.action.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "custom_action_retry_policy_max_time_secs",
+      "label": "Custom Action Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "custom.action.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "custom_action_retry_policy_type",
+      "label": "Custom Action Retry Policy Type",
+      "description": "The type of retry policy for custom actions",
+      "configName": "custom.action.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
       "description": "Maximum number of transaction service instances",
@@ -391,6 +449,64 @@
       "min": 1
     },
     {
+      "name": "flow_retry_policy_base_delay_ms",
+      "label": "Flow Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "flow.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "flow_retry_policy_max_delay_ms",
+      "label": "Flow Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "flow.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "flow_retry_policy_max_retries",
+      "label": "Flow Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "flow.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 3,
+      "type": "long"
+    },
+    {
+      "name": "flow_retry_policy_max_time_secs",
+      "label": "Flow Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "flow.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "flow_retry_policy_type",
+      "label": "Flow Retry Policy Type",
+      "description": "The type of retry policy for flows",
+      "configName": "flow.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
       "description": "Root directory for HDFS files written by CDAP",
@@ -474,6 +590,64 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "mapreduce_retry_policy_base_delay_ms",
+      "label": "MapReduce Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "mapreduce.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_delay_ms",
+      "label": "MapReduce Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "mapreduce.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_retries",
+      "label": "MapReduce Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "mapreduce.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_time_secs",
+      "label": "MapReduce Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "mapreduce.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_type",
+      "label": "MapReduce Retry Policy Type",
+      "description": "The type of retry policy for MapReduce programs",
+      "configName": "mapreduce.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
     },
     {
       "name": "master_services_scheduler_queue",
@@ -958,6 +1132,122 @@
       ]
     },
     {
+      "name": "service_retry_policy_base_delay_ms",
+      "label": "Service Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "service.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "service_retry_policy_max_delay_ms",
+      "label": "Service Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "service.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "service_retry_policy_max_retries",
+      "label": "Service Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "service.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 3,
+      "type": "long"
+    },
+    {
+      "name": "service_retry_policy_max_time_secs",
+      "label": "Service Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "service.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "service_retry_policy_type",
+      "label": "Service Retry Policy Type",
+      "description": "The type of retry policy for services",
+      "configName": "service.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "spark_retry_policy_base_delay_ms",
+      "label": "Spark Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "spark.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "spark_retry_policy_max_delay_ms",
+      "label": "Spark Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "spark.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "spark_retry_policy_max_retries",
+      "label": "Spark Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "spark.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "spark_retry_policy_max_time_secs",
+      "label": "Spark Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "spark.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "spark_retry_policy_type",
+      "label": "Spark Retry Policy Type",
+      "description": "The type of retry policy for Spark programs",
+      "configName": "spark.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "ssl_internal_enabled",
       "label": "SSL Internal Enabled",
       "description": "Enable SSL between Router and App Fabric",
@@ -1002,6 +1292,100 @@
       "min": 1
     },
     {
+      "name": "system_log_process_retry_policy_base_delay_ms",
+      "label": "System Log Process Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.log.process.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_log_process_retry_policy_max_retries",
+      "label": "System Log Process Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.log.process.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1500,
+      "type": "long"
+    },
+    {
+      "name": "system_log_process_retry_policy_max_time_secs",
+      "label": "System Log Process Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.log.process.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1500,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_log_process_retry_policy_type",
+      "label": "System Log Process Retry Policy Type",
+      "description": "The type of retry policy for log processing",
+      "configName": "system.log.process.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "system_metrics_retry_policy_base_delay_ms",
+      "label": "System Metrics Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.metrics.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_metrics_retry_policy_max_retries",
+      "label": "System Metrics Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.metrics.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long"
+    },
+    {
+      "name": "system_metrics_retry_policy_max_time_secs",
+      "label": "System Metrics Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.metrics.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_metrics_retry_policy_type",
+      "label": "System Metrics Retry Policy Type",
+      "description": "The type of retry policy for metrics publishing",
+      "configName": "system.metrics.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "twill_java_reserved_memory_mb",
       "label": "Twill Java Reserved Memory Mb",
       "description": "Reserved non-heap memory in megabytes for Apache Twill container",
@@ -1040,6 +1424,124 @@
       "configurableInWizard": false,
       "default": "/twill",
       "type": "string"
+    },
+
+
+    {
+      "name": "worker_retry_policy_base_delay_ms",
+      "label": "Worker Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "worker.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "worker_retry_policy_max_delay_ms",
+      "label": "Worker Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "worker.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "worker_retry_policy_max_retries",
+      "label": "Worker Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "worker.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "worker_retry_policy_max_time_secs",
+      "label": "Worker Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "worker.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "worker_retry_policy_type",
+      "label": "Worker Retry Policy Type",
+      "description": "The type of retry policy for workers",
+      "configName": "worker.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "workflow_retry_policy_base_delay_ms",
+      "label": "Workflow Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "workflow.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "workflow_retry_policy_max_delay_ms",
+      "label": "Workflow Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "workflow.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "workflow_retry_policy_max_retries",
+      "label": "Workflow Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "workflow.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "workflow_retry_policy_max_time_secs",
+      "label": "Workflow Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "workflow.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "workflow_retry_policy_type",
+      "label": "Workflow Retry Policy Type",
+      "description": "The type of retry policy for workflows",
+      "configName": "workflow.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
     },
     {
       "name": "zookeeper_client_startup_timeout_millis",
