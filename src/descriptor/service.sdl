@@ -319,6 +319,49 @@
       "min": 1
     },
     {
+      "name": "data_tx_prune_enable",
+      "label": "Transaction Client Prune Enable",
+      "description": "Enable invalid transaction list pruning",
+      "configName": "data.tx.prune.enable",
+      "required": true,
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "data_tx_prune_plugins",
+      "label": "Transaction Client Prune Plugins",
+      "description": "List of transaction pruning plugins; for CDAP HBase tables that use transaction functionality to skip or clean invalid data",
+      "configName": "data.tx.prune.plugins",
+      "required": true,
+      "configurableInWizard": false,
+      "default": [
+        "data.tx.pruning.plugin"
+      ],
+      "type": "string_array",
+      "separator": ","
+    },
+    {
+      "name": "data_tx_prune_state_table",
+      "label": "Transaction Client Prune State Table",
+      "description": "Table used to store intermediate state when invalid transaction list pruning is enabled",
+      "configName": "data.tx.prune.state.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "${dataset.table.prefix}_system:tephra.state",
+      "type": "string"
+    },
+    {
+      "name": "data_tx_pruning.plugin.class",
+      "label": "Transaction Client Pruning Plugin Class",
+      "description": "Class name for the default transaction pruning plugin",
+      "configName": "data.tx.pruning.plugin.class",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "co.cask.data2.txprune.DefaultHBaseTransactionPruningPlugin",
+      "type": "string"
+    },
+    {
       "name": "data_tx_timeout",
       "label": "Transaction Client Timeout",
       "description": "Timeout value in seconds for a transaction; if the transaction is not finished in that time, it is marked invalid",
