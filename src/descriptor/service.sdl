@@ -1692,6 +1692,16 @@
       "type": "string"
     },
     {
+      "name": "twill_location_cache_dir",
+      "label": "Twill Cache Dir Location",
+      "description": "The relative directory name on the distributed file system for Apache Twill to cache generated files, to speed up launching applications. This directory is relative to ${root.namespace}/twill on the file system.",
+      "configName": "twill.location.cache.dir",
+      "required": true,
+      "configurableInWizard": false,
+      "default": ".cache",
+      "type": "string"
+    },
+    {
       "name": "twill_no_container_timeout",
       "label": "Twill No Container Timeout",
       "description": "Duration in milliseconds to wait for at least one container for Apache Twill runnable",
