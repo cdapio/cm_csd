@@ -757,6 +757,20 @@
       "unit": "milliseconds"
     },
     {
+      "name": "log_publish_partition_key",
+      "label": "Log Publish Partition Key",
+      "description": "Publish logs from an application or a program to the same partition. Valid values are \"application\" or \"program\". If set to \"application\", logs from all the programs of an application go to the same partition. If set to \"program\", logs from the same program go to the same partition. Changes to this property requires restarting of all CDAP applications.",
+      "configName": "log.publish.partition.key",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "program",
+      "validValues": [
+        "application",
+        "program"
+      ]
+    },
+    {
       "name": "log_saver_container_memory_mb",
       "label": "Log Saver Container Memory MB",
       "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as log saver requires more memory to run than the Master service.",
