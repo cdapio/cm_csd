@@ -1064,6 +1064,26 @@
       "min": 1
     },
     {
+      "name": "metrics_kafka_meta_table",
+      "label": "Metrics Kafka Meta Table",
+      "description": "Name of the Kafka metrics meta table",
+      "configName": "metrics.kafka.meta.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics.kafka.meta",
+      "type": "string"
+    },
+    {
+      "name": "metrics_kafka_topic_prefix",
+      "label": "Metrics Kafka Topic Prefix",
+      "description": "Topic prefix used to publish metrics in Kafka",
+      "configName": "metrics.kafka.topic.prefix",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics",
+      "type": "string"
+    },
+    {
       "name": "metrics_max_instances",
       "label": "Metrics Container Max Instances",
       "description": "Maximum number of instances for the metrics service",
@@ -1085,6 +1105,38 @@
       "type": "memory",
       "unit": "megabytes",
       "min": 512
+    },
+    {
+      "name": "metrics_messaging_fetcher_limit",
+      "label": "Metrics Messaging Fetcher Limit",
+      "description": "Maximum number of metrics messages to be fetched from the messaging fetcher at a time. It is also the maximum number of metric values to be persisted in the metrics store after the number of fetched messages reaches the limit.",
+      "configName": "metrics.messaging.fetcher.limit",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 200,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_messaging_meta_table",
+      "label": "Metrics Messaging Meta Table",
+      "description": "Name of the messaging metrics meta table",
+      "configName": "metrics.messaging.meta.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics.messaging.meta",
+      "type": "string"
+    },
+    {
+      "name": "metrics_messaging_topic_num",
+      "label": "Metrics Messaging Topic Number",
+      "description": "Number of topics for metrics messages. This property also sets the number of threads used to fetch and process metrics in parallel from the messaging service. For a value of N, topics will be created for metrics with names beginning at ${metrics.topic.prefix}0, ${metrics.topic.prefix}1, up to ${metrics.topic.prefix}(N-1).",
+      "configName": "metrics.messaging.topic.num",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
     },
     {
       "name": "metrics_num_cores",
@@ -1152,6 +1204,16 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "metrics_topic_prefix",
+      "label": "Metrics Topic Prefix",
+      "description": "Topic prefix used to publish metrics in messaging",
+      "configName": "metrics.topic.prefix",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics",
+      "type": "string"
     },
     {
       "name": "operational_stats_extensions_dir",
