@@ -2579,6 +2579,16 @@
           "configurableInWizard": false,
           "default": false,
           "type": "boolean"
+        },
+        {
+          "name": "market_base_url",
+          "label": "Market Base Url",
+          "description": "The base URL of the Cask Market used by the CDAP UI for the Cask Market RESTful API. The default value shown is that of the public Cask Market.",
+          "configName": "market.base.url",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "http://market.cask.co/v1",
+          "type": "uri"
         }
       ],
       "configWriter": {
