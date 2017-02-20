@@ -2247,6 +2247,16 @@
           "scaleFactor": 1.3
         },
         {
+          "name": "master_manage_hbase_coprocessors",
+          "label": "Master Manage HBase Coprocessors",
+          "description": "Whether CDAP Master should manage HBase coprocessors. This should only be set to false if you are managing coprocessors yourself in order to support rolling HBase upgrades.",
+          "configName": "master.manage.hbase.coprocessors",
+          "required": true,
+          "configurableInWizard": false,
+          "default": false,
+          "type": "boolean"
+        },
+        {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
           "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP.",
