@@ -352,7 +352,7 @@
       "type": "string"
     },
     {
-      "name": "data_tx_pruning.plugin.class",
+      "name": "data_tx_pruning_plugin_class",
       "label": "Transaction Client Pruning Plugin Class",
       "description": "Class name for the default transaction pruning plugin",
       "configName": "data.tx.pruning.plugin.class",
@@ -2354,7 +2354,7 @@
           "configName": "master.manage.hbase.coprocessors",
           "required": true,
           "configurableInWizard": false,
-          "default": false,
+          "default": true,
           "type": "boolean"
         },
         {
