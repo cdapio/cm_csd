@@ -299,7 +299,7 @@ if [ ${MAIN_CLASS} ]; then
     # Build and upload coprocessor jars, if we are starting master
     if [[ "${MAIN_CLASS}" == "co.cask.cdap.data.runtime.main.MasterServiceMain" ]]; then
       # Run only if CDAP_VERSION >= 4.1
-      if [[ __maj_version -gt 4 ]] || [[ __maj_version -ge 4 && __min_version -ge 3 ]]; then
+      if [[ __maj_version -gt 4 ]] || [[ __maj_version -ge 4 && __min_version -ge 1 ]]; then
         echo "$(date) Ensuring required HBase coprocessors are on HDFS"
         cdap_setup_coprocessors </dev/null 2>&1 || die "Could not setup coprocessors."
       fi
