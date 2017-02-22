@@ -329,19 +329,6 @@
       "type": "boolean"
     },
     {
-      "name": "data_tx_prune_plugins",
-      "label": "Transaction Client Prune Plugins",
-      "description": "List of transaction pruning plugins; for CDAP HBase tables that use transaction functionality to skip or clean invalid data",
-      "configName": "data.tx.prune.plugins",
-      "required": true,
-      "configurableInWizard": false,
-      "default": [
-        "data.tx.pruning.plugin"
-      ],
-      "type": "string_array",
-      "separator": ","
-    },
-    {
       "name": "data_tx_prune_state_table",
       "label": "Transaction Client Prune State Table",
       "description": "Table used to store intermediate state when invalid transaction list pruning is enabled",
@@ -360,20 +347,6 @@
       "configurableInWizard": false,
       "default": "co.cask.data2.txprune.DefaultHBaseTransactionPruningPlugin",
       "type": "string"
-    },
-    {
-      "name": "data_tx_snapshot_codecs",
-      "label": "Transaction Client Snapshot Codecs",
-      "description": "Specifies the class names of all supported transaction state codecs",
-      "configName": "data.tx.snapshot.codecs",
-      "required": true,
-      "configurableInWizard": false,
-      "type": "string_array",
-      "default": [
-        "org.apache.tephra.snapshot.SnapshotCodecV3",
-        "org.apache.tephra.snapshot.SnapshotCodecV4"
-      ],
-      "separator": ","
     },
     {
       "name": "data_tx_timeout",
