@@ -197,6 +197,64 @@
       "type": "string"
     },
     {
+      "name": "custom_action_retry_policy_base_delay_ms",
+      "label": "Custom Action Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "custom.action.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "custom_action_retry_policy_max_delay_ms",
+      "label": "Custom Action Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "custom.action.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "custom_action_retry_policy_max_retries",
+      "label": "Custom Action Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "custom.action.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "custom_action_retry_policy_max_time_secs",
+      "label": "Custom Action Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "custom.action.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "custom_action_retry_policy_type",
+      "label": "Custom Action Retry Policy Type",
+      "description": "The type of retry policy for custom actions",
+      "configName": "custom.action.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
       "description": "Maximum number of transaction service instances",
@@ -253,6 +311,36 @@
       "min": 1
     },
     {
+      "name": "data_tx_prune_enable",
+      "label": "Transaction Client Prune Enable",
+      "description": "Enable invalid transaction list pruning",
+      "configName": "data.tx.prune.enable",
+      "required": true,
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "data_tx_prune_state_table",
+      "label": "Transaction Client Prune State Table",
+      "description": "Table used to store intermediate state when invalid transaction list pruning is enabled",
+      "configName": "data.tx.prune.state.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "${dataset.table.prefix}_system:tephra.state",
+      "type": "string"
+    },
+    {
+      "name": "data_tx_pruning_plugin_class",
+      "label": "Transaction Client Pruning Plugin Class",
+      "description": "Class name for the default transaction pruning plugin",
+      "configName": "data.tx.pruning.plugin.class",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "co.cask.data2.txprune.DefaultHBaseTransactionPruningPlugin",
+      "type": "string"
+    },
+    {
       "name": "data_tx_timeout",
       "label": "Transaction Client Timeout",
       "description": "Timeout value in seconds for a transaction; if the transaction is not finished in that time, it is marked invalid",
@@ -260,7 +348,8 @@
       "required": true,
       "configurableInWizard": false,
       "default": 30,
-      "type": "long"
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "dataset_executor_container_instances",
@@ -383,6 +472,75 @@
       "min": 1
     },
     {
+      "name": "explore_http_timeout",
+      "label": "Explore Http Timeout",
+      "description": "The timeout in seconds for HTTP requests to the CDAP Explore service. Because requests may happen within a transaction, it is recommended to keep this timeout noticeably shorter than the default transaction timeout, ${data.tx.timeout}.",
+      "configName": "explore.http.timeout",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 20,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "flow_retry_policy_base_delay_ms",
+      "label": "Flow Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "flow.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "flow_retry_policy_max_delay_ms",
+      "label": "Flow Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "flow.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "flow_retry_policy_max_retries",
+      "label": "Flow Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "flow.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 3,
+      "type": "long"
+    },
+    {
+      "name": "flow_retry_policy_max_time_secs",
+      "label": "Flow Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "flow.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "flow_retry_policy_type",
+      "label": "Flow Retry Policy Type",
+      "description": "The type of retry policy for flows",
+      "configName": "flow.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
       "description": "Root directory for HDFS files written by CDAP",
@@ -421,6 +579,175 @@
       "configurableInWizard": true,
       "default": "data",
       "type": "string"
+    },
+    {
+      "name": "log_pipeline_cdap_dir_permissions",
+      "label": "Log Pipeline CDAP Directory Permissions",
+      "description": "Permissions to use for directories created by the system log appender",
+      "configName": "log.pipeline.cdap.dir.permissions",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "700",
+      "type": "string"
+    },
+    {
+      "name": "log_pipeline_cdap_file_max_lifetime_ms",
+      "label": "Log Pipeline CDAP File Maximum Lifetime Milliseconds",
+      "description": "Maximum time in milliseconds a file is kept open by the system log appender",
+      "configName": "log.pipeline.cdap.file.max.lifetime.ms",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 21600000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "log_pipeline_cdap_file_max_size_bytes",
+      "label": "Log Pipeline CDAP File Maximum Size Bytes",
+      "description": "Maximum size in bytes of a file kept open by the system log appender",
+      "configName": "log.pipeline.cdap.file.max.size.bytes",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 104857600,
+      "type": "long",
+      "unit": "bytes"
+    },
+    {
+      "name": "log_pipeline_cdap_file_permissions",
+      "label": "Log Pipeline CDAP File Permissions",
+      "description": "Permissions to set for files created by the system log appender",
+      "configName": "log.pipeline.cdap.file.permissions",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "600",
+      "type": "string"
+    },
+    {
+      "name": "log_pipeline_cdap_file_sync_interval_bytes",
+      "label": "Log Pipeline CDAP File Sync Interval Bytes",
+      "description": "Number of bytes for the sync interval setting of the Avro file written by the system log appender",
+      "configName": "log.pipeline.cdap.file.sync.interval.bytes",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 10485760,
+      "type": "long",
+      "unit": "bytes"
+    },
+    {
+      "name": "log_process_pipeline_auto_buffer_ratio",
+      "label": "Log Process Pipeline Auto Buffer Ratio",
+      "description": "The ratio of total memory used for determining processing pipeline buffer size. This property is only used if ${log.process.pipeline.buffer.size} is set to zero and the value should be greater than zero and less than one.",
+      "configName": "log.process.pipeline.auto.buffer.ratio",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 0.7,
+      "type": "double",
+      "min": 0,
+      "max": 1
+    },
+    {
+      "name": "log_process_pipeline_buffer_size",
+      "label": "Log Process Pipeline Buffer Size",
+      "description": "The internal buffer size in bytes for each log processing pipeline. Setting it to zero means the system will determine it dynamically based on the container size as given by ${log.saver.container.memory.mb}.",
+      "configName": "log.process.pipeline.buffer.size",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 0,
+      "type": "long",
+      "unit": "bytes"
+    },
+    {
+      "name": "log_process_pipeline_checkpoint_interval_ms",
+      "label": "Log Process Pipeline Checkpoint Interval Milliseconds",
+      "description": "The time between log processing pipeline checkpoints in milliseconds",
+      "configName": "log.process.pipeline.checkpoint.interval.ms",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 10000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "log_process_pipeline_config_dir",
+      "label": "Log Process Pipeline Config Directory",
+      "description": "A local directory on the CDAP Master that is scanned for log processing pipeline configurations. Each pipeline is defined by a file in the logback XML format, with \".xml\" as the file name extension.",
+      "configName": "log.process.pipeline.config.dir",
+      "required": false,
+      "configurableInWizard": false,
+      "default": "/opt/cdap/master/ext/logging/config",
+      "type": "path",
+      "pathType": "localDataDir"
+    },
+    {
+      "name": "log_process_pipeline_event_delay_ms",
+      "label": "Log Process Pipeline Event Delay Milliseconds",
+      "description": "The time a log event stays in the log processing pipeline buffer before writing out to log appenders in milliseconds. A longer delay will result in better time ordering of log events before presenting to log appenders but will consume more memory.",
+      "configName": "log.process.pipeline.event.delay.ms",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 2000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "log_process_pipeline_kafka_fetch_size",
+      "label": "Log Process Pipeline Kafka Fetch Size",
+      "description": "The size of the buffer for fetching log events from Kafka per topic partition in bytes",
+      "configName": "log.process.pipeline.kafka.fetch.size",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1048576,
+      "type": "long",
+      "unit": "bytes"
+    },
+    {
+      "name": "log_process_pipeline_lib_dir",
+      "label": "Log Process Pipeline Library Directory",
+      "description": "Semicolon-separated list of local directories on the CDAP Master scanned for additional library JAR files to be included for log processing",
+      "configName": "log.process.pipeline.lib.dir",
+      "required": false,
+      "configurableInWizard": false,
+      "default": [
+        "/opt/cdap/master/ext/logging/lib"
+      ],
+      "type": "path_array",
+      "separator": ";",
+      "pathType": "localDataDir"
+    },
+    {
+      "name": "log_process_pipeline_logger_cache_size",
+      "label": "Log Process Pipeline Logger Cache Size",
+      "description": "The number of loggers that each log processing pipeline will cache.",
+      "configName": "log.process.pipeline.logger.cache.size",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "log_process_pipeline_logger_cache_expiration_ms",
+      "label": "Log Process Pipeline Logger Cache Expiration Milliseconds",
+      "description": "Logger cache entry expiration time in milliseconds.",
+      "configName": "log.process.pipeline.logger.cache.expiration.ms",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 300000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "log_publish_partition_key",
+      "label": "Log Publish Partition Key",
+      "description": "Publish logs from an application or a program to the same partition. Valid values are \"application\" or \"program\". If set to \"application\", logs from all the programs of an application go to the same partition. If set to \"program\", logs from the same program go to the same partition. Changes to this property requires restarting of all CDAP applications.",
+      "configName": "log.publish.partition.key",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "program",
+      "validValues": [
+        "application",
+        "program"
+      ]
     },
     {
       "name": "log_saver_container_memory_mb",
@@ -466,6 +793,64 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "mapreduce_retry_policy_base_delay_ms",
+      "label": "MapReduce Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "mapreduce.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_delay_ms",
+      "label": "MapReduce Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "mapreduce.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_retries",
+      "label": "MapReduce Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "mapreduce.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_time_secs",
+      "label": "MapReduce Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "mapreduce.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_type",
+      "label": "MapReduce Retry Policy Type",
+      "description": "The type of retry policy for MapReduce programs",
+      "configName": "mapreduce.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
     },
     {
       "name": "master_services_scheduler_queue",
@@ -517,7 +902,7 @@
       "configName": "messaging.hbase.max.scan.threads",
       "required": true,
       "configurableInWizard": false,
-      "default": "48",
+      "default": "96",
       "type": "long",
       "min": 1
     },
@@ -625,6 +1010,21 @@
       "type": "string"
     },
     {
+      "name": "messaging_system_topics",
+      "label": "Messaging System Topics",
+      "description": "A comma-separated list of topics that are always available in the system namespace. Multiple topics sharing the same prefix and distinguished by different numerical suffixes can be specified with the syntax <common.prefix>:<total.topic.number>, where the <total.topic.number> is the total number of topics sharing the <common.prefix>, and the numerical suffixes will range from 0 to <total.topic.number> - 1).",
+      "configName": "messaging.system.topics",
+      "required": true,
+      "configurableInWizard": false,
+      "type": "string_array",
+      "default": [
+        "${audit.topic}",
+        "${metrics.topic.prefix}:${metrics.messaging.topic.num}",
+        "${notification.topic}"
+      ],
+      "separator": ","
+    },
+    {
       "name": "messaging_table_expiration_seconds",
       "label": "Messaging Table Expiration Seconds",
       "description": "Number of seconds after which the messaging table cache will expire",
@@ -658,6 +1058,26 @@
       "min": 1
     },
     {
+      "name": "metrics_kafka_meta_table",
+      "label": "Metrics Kafka Meta Table",
+      "description": "Name of the Kafka metrics meta table",
+      "configName": "metrics.kafka.meta.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics.kafka.meta",
+      "type": "string"
+    },
+    {
+      "name": "metrics_kafka_topic_prefix",
+      "label": "Metrics Kafka Topic Prefix",
+      "description": "Topic prefix used to publish metrics in Kafka",
+      "configName": "metrics.kafka.topic.prefix",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics",
+      "type": "string"
+    },
+    {
       "name": "metrics_max_instances",
       "label": "Metrics Container Max Instances",
       "description": "Maximum number of instances for the metrics service",
@@ -679,6 +1099,38 @@
       "type": "memory",
       "unit": "megabytes",
       "min": 512
+    },
+    {
+      "name": "metrics_messaging_fetcher_limit",
+      "label": "Metrics Messaging Fetcher Limit",
+      "description": "Maximum number of metrics messages to be fetched from the messaging fetcher at a time. It is also the maximum number of metric values to be persisted in the metrics store after the number of fetched messages reaches the limit.",
+      "configName": "metrics.messaging.fetcher.limit",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 200,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_messaging_meta_table",
+      "label": "Metrics Messaging Meta Table",
+      "description": "Name of the messaging metrics meta table",
+      "configName": "metrics.messaging.meta.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics.messaging.meta",
+      "type": "string"
+    },
+    {
+      "name": "metrics_messaging_topic_num",
+      "label": "Metrics Messaging Topic Number",
+      "description": "Number of topics for metrics messages. This property also sets the number of threads used to fetch and process metrics in parallel from the messaging service. For a value of N, topics will be created for metrics with names beginning at ${metrics.topic.prefix}0, ${metrics.topic.prefix}1, up to ${metrics.topic.prefix}(N-1).",
+      "configName": "metrics.messaging.topic.num",
+      "required": true,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
     },
     {
       "name": "metrics_num_cores",
@@ -746,6 +1198,16 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "metrics_topic_prefix",
+      "label": "Metrics Topic Prefix",
+      "description": "Topic prefix used to publish metrics in messaging",
+      "configName": "metrics.topic.prefix",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics",
+      "type": "string"
     },
     {
       "name": "operational_stats_extensions_dir",
@@ -950,6 +1412,122 @@
       ]
     },
     {
+      "name": "service_retry_policy_base_delay_ms",
+      "label": "Service Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "service.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "service_retry_policy_max_delay_ms",
+      "label": "Service Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "service.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "service_retry_policy_max_retries",
+      "label": "Service Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "service.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 3,
+      "type": "long"
+    },
+    {
+      "name": "service_retry_policy_max_time_secs",
+      "label": "Service Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "service.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "service_retry_policy_type",
+      "label": "Service Retry Policy Type",
+      "description": "The type of retry policy for services",
+      "configName": "service.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "spark_retry_policy_base_delay_ms",
+      "label": "Spark Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "spark.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "spark_retry_policy_max_delay_ms",
+      "label": "Spark Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "spark.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "spark_retry_policy_max_retries",
+      "label": "Spark Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "spark.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "spark_retry_policy_max_time_secs",
+      "label": "Spark Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "spark.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "spark_retry_policy_type",
+      "label": "Spark Retry Policy Type",
+      "description": "The type of retry policy for Spark programs",
+      "configName": "spark.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "ssl_internal_enabled",
       "label": "SSL Internal Enabled",
       "description": "Enable SSL between Router and App Fabric",
@@ -994,6 +1572,100 @@
       "min": 1
     },
     {
+      "name": "system_log_process_retry_policy_base_delay_ms",
+      "label": "System Log Process Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.log.process.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_log_process_retry_policy_max_retries",
+      "label": "System Log Process Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.log.process.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1500,
+      "type": "long"
+    },
+    {
+      "name": "system_log_process_retry_policy_max_time_secs",
+      "label": "System Log Process Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.log.process.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1500,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_log_process_retry_policy_type",
+      "label": "System Log Process Retry Policy Type",
+      "description": "The type of retry policy for log processing",
+      "configName": "system.log.process.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "system_metrics_retry_policy_base_delay_ms",
+      "label": "System Metrics Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.metrics.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_metrics_retry_policy_max_retries",
+      "label": "System Metrics Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.metrics.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long"
+    },
+    {
+      "name": "system_metrics_retry_policy_max_time_secs",
+      "label": "System Metrics Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.metrics.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_metrics_retry_policy_type",
+      "label": "System Metrics Retry Policy Type",
+      "description": "The type of retry policy for metrics publishing",
+      "configName": "system.metrics.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "twill_java_reserved_memory_mb",
       "label": "Twill Java Reserved Memory Mb",
       "description": "Reserved non-heap memory in megabytes for Apache Twill container",
@@ -1011,6 +1683,16 @@
       "required": true,
       "configurableInWizard": false,
       "default": "-verbose:gc -Xloggc:<LOG_DIR>/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1M",
+      "type": "string"
+    },
+    {
+      "name": "twill_location_cache_dir",
+      "label": "Twill Cache Dir Location",
+      "description": "The relative directory name on the distributed file system for Apache Twill to cache generated files, to speed up launching applications. This directory is relative to ${root.namespace}/twill on the file system.",
+      "configName": "twill.location.cache.dir",
+      "required": true,
+      "configurableInWizard": false,
+      "default": ".cache",
       "type": "string"
     },
     {
@@ -1032,6 +1714,124 @@
       "configurableInWizard": false,
       "default": "/twill",
       "type": "string"
+    },
+
+
+    {
+      "name": "worker_retry_policy_base_delay_ms",
+      "label": "Worker Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "worker.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "worker_retry_policy_max_delay_ms",
+      "label": "Worker Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "worker.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "worker_retry_policy_max_retries",
+      "label": "Worker Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "worker.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "worker_retry_policy_max_time_secs",
+      "label": "Worker Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "worker.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "worker_retry_policy_type",
+      "label": "Worker Retry Policy Type",
+      "description": "The type of retry policy for workers",
+      "configName": "worker.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "workflow_retry_policy_base_delay_ms",
+      "label": "Workflow Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "workflow.retry.policy.base.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "workflow_retry_policy_max_delay_ms",
+      "label": "Workflow Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "workflow.retry.policy.max.delay.ms",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "workflow_retry_policy_max_retries",
+      "label": "Workflow Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "workflow.retry.policy.max.retries",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "workflow_retry_policy_max_time_secs",
+      "label": "Workflow Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "workflow.retry.policy.max.time.secs",
+      "required": false,
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "workflow_retry_policy_type",
+      "label": "Workflow Retry Policy Type",
+      "description": "The type of retry policy for workflows",
+      "configName": "workflow.retry.policy.type",
+      "required": false,
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
     },
     {
       "name": "zookeeper_client_startup_timeout_millis",
@@ -1513,6 +2313,16 @@
           "scaleFactor": 1.3
         },
         {
+          "name": "master_manage_hbase_coprocessors",
+          "label": "Master Manage HBase Coprocessors",
+          "description": "Whether CDAP Master should manage HBase coprocessors. This should only be set to false if you are managing coprocessors yourself in order to support rolling HBase upgrades.",
+          "configName": "master.manage.hbase.coprocessors",
+          "required": true,
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
           "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP.",
@@ -1827,6 +2637,16 @@
           "configurableInWizard": false,
           "default": false,
           "type": "boolean"
+        },
+        {
+          "name": "market_base_url",
+          "label": "Market Base Url",
+          "description": "The base URL of the Cask Market used by the CDAP UI for the Cask Market RESTful API. The default value shown is that of the public Cask Market.",
+          "configName": "market.base.url",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "http://market.cask.co/v1",
+          "type": "uri"
         }
       ],
       "configWriter": {
