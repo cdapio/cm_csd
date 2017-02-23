@@ -148,14 +148,6 @@ case ${SERVICE} in
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
     ;;
-  (setup_coprocessors)
-    # The coprocessor utility is run as master, but with an overridden $MAIN_CLASS
-    COMPONENT_HOME=${CDAP_MASTER_HOME}
-    MAIN_CLASS=co.cask.cdap.data.tools.CoprocessorBuildTool
-    MAIN_CLASS_ARGS=""
-    # Set heap max, normally set in COMPONENT_CONF_SCRIPT
-    JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
-    ;;
   (*)
     echo "Unknown service specified: ${SERVICE}"
     exit 1
