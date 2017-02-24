@@ -176,10 +176,10 @@
       "type": "boolean"
     },
     {
-      "name": "audit_kafka_topic",
-      "label": "Audit Kafka Topic",
-      "description": "Apache Kafka topic name to which audit messages are published",
-      "configName": "audit.kafka.topic",
+      "name": "audit_topic",
+      "label": "Audit Topic",
+      "description": "Topic name in the messaging system to which audit messages are published",
+      "configName": "audit.topic",
       "required": true,
       "configurableInWizard": false,
       "default": "audit",
