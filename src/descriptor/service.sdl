@@ -547,162 +547,6 @@
       "type": "string"
     },
     {
-      "name": "log_pipeline_cdap_dir_permissions",
-      "label": "Log Pipeline CDAP Directory Permissions",
-      "description": "Permissions to use for directories created by the system log appender",
-      "configName": "log.pipeline.cdap.dir.permissions",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "700",
-      "type": "string"
-    },
-    {
-      "name": "log_pipeline_cdap_file_max_lifetime_ms",
-      "label": "Log Pipeline CDAP File Maximum Lifetime Milliseconds",
-      "description": "Maximum time in milliseconds a file is kept open by the system log appender",
-      "configName": "log.pipeline.cdap.file.max.lifetime.ms",
-      "configurableInWizard": false,
-      "default": 21600000,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "log_pipeline_cdap_file_max_size_bytes",
-      "label": "Log Pipeline CDAP File Maximum Size Bytes",
-      "description": "Maximum size in bytes of a file kept open by the system log appender",
-      "configName": "log.pipeline.cdap.file.max.size.bytes",
-      "configurableInWizard": false,
-      "default": 104857600,
-      "type": "long",
-      "unit": "bytes"
-    },
-    {
-      "name": "log_pipeline_cdap_file_permissions",
-      "label": "Log Pipeline CDAP File Permissions",
-      "description": "Permissions to set for files created by the system log appender",
-      "configName": "log.pipeline.cdap.file.permissions",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "600",
-      "type": "string"
-    },
-    {
-      "name": "log_pipeline_cdap_file_sync_interval_bytes",
-      "label": "Log Pipeline CDAP File Sync Interval Bytes",
-      "description": "Number of bytes for the sync interval setting of the Avro file written by the system log appender",
-      "configName": "log.pipeline.cdap.file.sync.interval.bytes",
-      "configurableInWizard": false,
-      "default": 10485760,
-      "type": "long",
-      "unit": "bytes"
-    },
-    {
-      "name": "log_process_pipeline_auto_buffer_ratio",
-      "label": "Log Process Pipeline Auto Buffer Ratio",
-      "description": "The ratio of total memory used for determining processing pipeline buffer size. This property is only used if ${log.process.pipeline.buffer.size} is set to zero and the value should be greater than zero and less than one.",
-      "configName": "log.process.pipeline.auto.buffer.ratio",
-      "configurableInWizard": false,
-      "default": 0.7,
-      "type": "double",
-      "min": 0,
-      "max": 1
-    },
-    {
-      "name": "log_process_pipeline_buffer_size",
-      "label": "Log Process Pipeline Buffer Size",
-      "description": "The internal buffer size in bytes for each log processing pipeline. Setting it to zero means the system will determine it dynamically based on the container size as given by ${log.saver.container.memory.mb}.",
-      "configName": "log.process.pipeline.buffer.size",
-      "configurableInWizard": false,
-      "default": 0,
-      "type": "long",
-      "unit": "bytes"
-    },
-    {
-      "name": "log_process_pipeline_checkpoint_interval_ms",
-      "label": "Log Process Pipeline Checkpoint Interval Milliseconds",
-      "description": "The time between log processing pipeline checkpoints in milliseconds",
-      "configName": "log.process.pipeline.checkpoint.interval.ms",
-      "configurableInWizard": false,
-      "default": 10000,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "log_process_pipeline_config_dir",
-      "label": "Log Process Pipeline Config Directory",
-      "description": "A local directory on the CDAP Master that is scanned for log processing pipeline configurations. Each pipeline is defined by a file in the logback XML format, with \".xml\" as the file name extension.",
-      "configName": "log.process.pipeline.config.dir",
-      "configurableInWizard": false,
-      "default": "/opt/cdap/master/ext/logging/config",
-      "type": "path",
-      "pathType": "localDataDir"
-    },
-    {
-      "name": "log_process_pipeline_event_delay_ms",
-      "label": "Log Process Pipeline Event Delay Milliseconds",
-      "description": "The time a log event stays in the log processing pipeline buffer before writing out to log appenders in milliseconds. A longer delay will result in better time ordering of log events before presenting to log appenders but will consume more memory.",
-      "configName": "log.process.pipeline.event.delay.ms",
-      "configurableInWizard": false,
-      "default": 2000,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "log_process_pipeline_kafka_fetch_size",
-      "label": "Log Process Pipeline Kafka Fetch Size",
-      "description": "The size of the buffer for fetching log events from Kafka per topic partition in bytes",
-      "configName": "log.process.pipeline.kafka.fetch.size",
-      "configurableInWizard": false,
-      "default": 1048576,
-      "type": "long",
-      "unit": "bytes"
-    },
-    {
-      "name": "log_process_pipeline_lib_dir",
-      "label": "Log Process Pipeline Library Directory",
-      "description": "Semicolon-separated list of local directories on the CDAP Master scanned for additional library JAR files to be included for log processing",
-      "configName": "log.process.pipeline.lib.dir",
-      "configurableInWizard": false,
-      "default": [
-        "/opt/cdap/master/ext/logging/lib"
-      ],
-      "type": "path_array",
-      "separator": ";",
-      "pathType": "localDataDir"
-    },
-    {
-      "name": "log_process_pipeline_logger_cache_size",
-      "label": "Log Process Pipeline Logger Cache Size",
-      "description": "The number of loggers that each log processing pipeline will cache.",
-      "configName": "log.process.pipeline.logger.cache.size",
-      "configurableInWizard": false,
-      "default": 1000,
-      "type": "long"
-    },
-    {
-      "name": "log_process_pipeline_logger_cache_expiration_ms",
-      "label": "Log Process Pipeline Logger Cache Expiration Milliseconds",
-      "description": "Logger cache entry expiration time in milliseconds.",
-      "configName": "log.process.pipeline.logger.cache.expiration.ms",
-      "configurableInWizard": false,
-      "default": 300000,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "log_publish_partition_key",
-      "label": "Log Publish Partition Key",
-      "description": "Publish logs from an application or a program to the same partition. Valid values are \"application\" or \"program\". If set to \"application\", logs from all the programs of an application go to the same partition. If set to \"program\", logs from the same program go to the same partition. Changes to this property requires restarting of all CDAP applications.",
-      "configName": "log.publish.partition.key",
-      "configurableInWizard": false,
-      "type": "string_enum",
-      "default": "program",
-      "validValues": [
-        "application",
-        "program"
-      ]
-    },
-    {
       "name": "log_saver_container_memory_mb",
       "label": "Log Saver Container Memory MB",
       "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as log saver requires more memory to run than the Master service.",
@@ -2124,6 +1968,162 @@
           "default": "logs.user-v2",
           "type": "string"
         },
+	{
+	  "name": "log_pipeline_cdap_dir_permissions",
+	  "label": "Log Pipeline CDAP Directory Permissions",
+	  "description": "Permissions to use for directories created by the system log appender",
+	  "configName": "log.pipeline.cdap.dir.permissions",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "700",
+	  "type": "string"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_max_lifetime_ms",
+	  "label": "Log Pipeline CDAP File Maximum Lifetime Milliseconds",
+	  "description": "Maximum time in milliseconds a file is kept open by the system log appender",
+	  "configName": "log.pipeline.cdap.file.max.lifetime.ms",
+	  "configurableInWizard": false,
+	  "default": 21600000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_max_size_bytes",
+	  "label": "Log Pipeline CDAP File Maximum Size Bytes",
+	  "description": "Maximum size in bytes of a file kept open by the system log appender",
+	  "configName": "log.pipeline.cdap.file.max.size.bytes",
+	  "configurableInWizard": false,
+	  "default": 104857600,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_permissions",
+	  "label": "Log Pipeline CDAP File Permissions",
+	  "description": "Permissions to set for files created by the system log appender",
+	  "configName": "log.pipeline.cdap.file.permissions",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "600",
+	  "type": "string"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_sync_interval_bytes",
+	  "label": "Log Pipeline CDAP File Sync Interval Bytes",
+	  "description": "Number of bytes for the sync interval setting of the Avro file written by the system log appender",
+	  "configName": "log.pipeline.cdap.file.sync.interval.bytes",
+	  "configurableInWizard": false,
+	  "default": 10485760,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_process_pipeline_auto_buffer_ratio",
+	  "label": "Log Process Pipeline Auto Buffer Ratio",
+	  "description": "The ratio of total memory used for determining processing pipeline buffer size. This property is only used if ${log.process.pipeline.buffer.size} is set to zero and the value should be greater than zero and less than one.",
+	  "configName": "log.process.pipeline.auto.buffer.ratio",
+	  "configurableInWizard": false,
+	  "default": 0.7,
+	  "type": "double",
+	  "min": 0,
+	  "max": 1
+	},
+	{
+	  "name": "log_process_pipeline_buffer_size",
+	  "label": "Log Process Pipeline Buffer Size",
+	  "description": "The internal buffer size in bytes for each log processing pipeline. Setting it to zero means the system will determine it dynamically based on the container size as given by ${log.saver.container.memory.mb}.",
+	  "configName": "log.process.pipeline.buffer.size",
+	  "configurableInWizard": false,
+	  "default": 0,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_process_pipeline_checkpoint_interval_ms",
+	  "label": "Log Process Pipeline Checkpoint Interval Milliseconds",
+	  "description": "The time between log processing pipeline checkpoints in milliseconds",
+	  "configName": "log.process.pipeline.checkpoint.interval.ms",
+	  "configurableInWizard": false,
+	  "default": 10000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_process_pipeline_config_dir",
+	  "label": "Log Process Pipeline Config Directory",
+	  "description": "A local directory on the CDAP Master that is scanned for log processing pipeline configurations. Each pipeline is defined by a file in the logback XML format, with \".xml\" as the file name extension.",
+	  "configName": "log.process.pipeline.config.dir",
+	  "configurableInWizard": false,
+	  "default": "/opt/cdap/master/ext/logging/config",
+	  "type": "path",
+	  "pathType": "localDataDir"
+	},
+	{
+	  "name": "log_process_pipeline_event_delay_ms",
+	  "label": "Log Process Pipeline Event Delay Milliseconds",
+	  "description": "The time a log event stays in the log processing pipeline buffer before writing out to log appenders in milliseconds. A longer delay will result in better time ordering of log events before presenting to log appenders but will consume more memory.",
+	  "configName": "log.process.pipeline.event.delay.ms",
+	  "configurableInWizard": false,
+	  "default": 2000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_process_pipeline_kafka_fetch_size",
+	  "label": "Log Process Pipeline Kafka Fetch Size",
+	  "description": "The size of the buffer for fetching log events from Kafka per topic partition in bytes",
+	  "configName": "log.process.pipeline.kafka.fetch.size",
+	  "configurableInWizard": false,
+	  "default": 1048576,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_process_pipeline_lib_dir",
+	  "label": "Log Process Pipeline Library Directory",
+	  "description": "Semicolon-separated list of local directories on the CDAP Master scanned for additional library JAR files to be included for log processing",
+	  "configName": "log.process.pipeline.lib.dir",
+	  "configurableInWizard": false,
+	  "default": [
+	    "/opt/cdap/master/ext/logging/lib"
+	  ],
+	  "type": "path_array",
+	  "separator": ";",
+	  "pathType": "localDataDir"
+	},
+	{
+	  "name": "log_process_pipeline_logger_cache_size",
+	  "label": "Log Process Pipeline Logger Cache Size",
+	  "description": "The number of loggers that each log processing pipeline will cache.",
+	  "configName": "log.process.pipeline.logger.cache.size",
+	  "configurableInWizard": false,
+	  "default": 1000,
+	  "type": "long"
+	},
+	{
+	  "name": "log_process_pipeline_logger_cache_expiration_ms",
+	  "label": "Log Process Pipeline Logger Cache Expiration Milliseconds",
+	  "description": "Logger cache entry expiration time in milliseconds.",
+	  "configName": "log.process.pipeline.logger.cache.expiration.ms",
+	  "configurableInWizard": false,
+	  "default": 300000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_publish_partition_key",
+	  "label": "Log Publish Partition Key",
+	  "description": "Publish logs from an application or a program to the same partition. Valid values are \"application\" or \"program\". If set to \"application\", logs from all the programs of an application go to the same partition. If set to \"program\", logs from the same program go to the same partition. Changes to this property requires restarting of all CDAP applications.",
+	  "configName": "log.publish.partition.key",
+	  "configurableInWizard": false,
+	  "type": "string_enum",
+	  "default": "program",
+	  "validValues": [
+	    "application",
+	    "program"
+	  ]
+	},
         {
           "name": "master_collect_containers_log",
           "label": "Master Collect Container Logs",
