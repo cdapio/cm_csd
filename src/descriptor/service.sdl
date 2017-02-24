@@ -842,7 +842,7 @@
     {
       "name": "metrics_kafka_partition_size",
       "label": "Metrics Kafka Partition Size",
-      "description": "Number of partitions for the Kafka metrics topic"
+      "description": "Number of partitions for the Kafka metrics topic",
       "configName": "metrics.kafka.partition.size",
       "configurableInWizard": false,
       "default": 10,
