@@ -2229,10 +2229,10 @@
           "type": "string"
         },
         {
-          "name": "notification_kafka_topic",
-          "label": "Notification Kafka Topic",
-          "description": "Kafka topic name used to publish notifications",
-          "configName": "notification.kafka.topic",
+          "name": "notification_topic",
+          "label": "Notification Topic",
+          "description": "Topic name used to publish notifications",
+          "configName": "notification.topic",
           "required": true,
           "configurableInWizard": false,
           "default": "notifications",
