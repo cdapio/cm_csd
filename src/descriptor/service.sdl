@@ -2233,6 +2233,14 @@
           "configurableInWizard": false,
           "default": "notifications",
           "type": "string"
+        },
+        {
+          "name": "security_keytab_path",
+          "label": "Security Keytab Path",
+          "description": "The location of kerberos keytabs used for impersonation. The location can contain ${name} which will be replaced by the short user name of the principal being impersonated.",
+          "configName": "security.keytab.path",
+          "configurableInWizard": false,
+          "type": "string"
         }
       ],
       "configWriter": {
