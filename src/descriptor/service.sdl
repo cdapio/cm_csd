@@ -1496,9 +1496,7 @@
       "type": "string_enum",
       "default": "fixed.delay",
       "validValues": [
-        "none",
-        "fixed.delay",
-        "exponential.backoff"
+        "fixed.delay"
       ]
     },
     {
@@ -1539,9 +1537,7 @@
       "type": "string_enum",
       "default": "fixed.delay",
       "validValues": [
-        "none",
-        "fixed.delay",
-        "exponential.backoff"
+        "fixed.delay"
       ]
     },
     {
