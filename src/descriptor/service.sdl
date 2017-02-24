@@ -840,6 +840,16 @@
       "type": "string"
     },
     {
+      "name": "metrics_kafka_partition_size",
+      "label": "Metrics Kafka Partition Size",
+      "description": "Number of partitions for the Kafka metrics topic"
+      "configName": "metrics.kafka.partition.size",
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "metrics_kafka_topic_prefix",
       "label": "Metrics Kafka Topic Prefix",
       "description": "Topic prefix used to publish metrics in Kafka",
@@ -1937,6 +1947,15 @@
       "pluralLabel": "CDAP Master Services",
       "parameters": [
         {
+          "name": "app_bind_port",
+          "label": "App Bind Port",
+          "description": "App Fabric service bind port; if 0 binds to a random port",
+          "configName": "app.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port"
+        },
+        {
           "name": "app_program_spark_yarn_client_rewrite_enabled",
           "label": "App Program Spark Yarn Client Rewrite Enabled",
           "description": "Specify whether to rewrite the yarn.client class in Spark to work around the issue SPARK-13441 in CDH clusters",
@@ -1951,7 +1970,34 @@
           "description": "App Fabric service bind port",
           "configName": "app.ssl.bind.port",
           "configurableInWizard": false,
-          "default": "30443",
+          "default": 30443,
+          "type": "port"
+        },
+        {
+          "name": "data_tx_bind_port",
+          "label": "Transaction Client Bind Port",
+          "description": "Transaction service bind port; if 0 binds to a random port",
+          "configName": "data.tx.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port"
+        },
+        {
+          "name": "dataset_executor_bind_port",
+          "label": "Dataset Executor Bind Port",
+          "description": "Dataset executor bind port; if 0 binds to a random port",
+          "configName": "dataset.executor.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port"
+        },
+        {
+          "name": "explore_service_bind_port",
+          "label": "Explore Service Bind Port",
+          "description": "CDAP Explore service bind port; if 0 binds to a random port",
+          "configName": "explore.service.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
           "type": "port"
         },
         {
@@ -2225,6 +2271,24 @@
           "type": "string"
         },
         {
+          "name": "metadata_service_bind_port",
+          "label": "Metadata Service Bind Port",
+          "description": "Metadata HTTP service bind port; if 0 binds to a random port",
+          "configName": "metadata.service.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port"
+        },
+        {
+          "name": "metrics_query_bind_port",
+          "label": "Metrics Query Bind Port",
+          "description": "Metrics Query service bind port",
+          "configName": "metrics.query.bind.port",
+          "configurableInWizard": false,
+          "default": 45005,
+          "type": "port"
+        },
+        {
           "name": "notification_topic",
           "label": "Notification Topic",
           "description": "Topic name used to publish notifications",
@@ -2241,6 +2305,15 @@
           "configName": "security.keytab.path",
           "configurableInWizard": false,
           "type": "string"
+        },
+        {
+          "name": "stream_bind_port",
+          "label": "Stream Bind Port",
+          "description": "Stream HTTP service bind port; if 0 binds to a random port",
+          "configName": "stream.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port"
         }
       ],
       "configWriter": {
