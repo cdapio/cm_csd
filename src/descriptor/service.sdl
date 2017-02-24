@@ -2171,6 +2171,16 @@
           "type": "boolean"
         },
         {
+          "name": "master_services_bind_address",
+          "label": "Master Services Bind Address",
+          "description": "Bind address for app fabric service and dataset service",
+          "configName": "master.services.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
           "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP.",
@@ -2249,20 +2259,12 @@
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               },
               {
-                "key": "app.bind.address",
-                "value": "{{HOSTNAME}}"
-              },
-              {
                 "key": "cdap.master.kerberos.keytab",
                 "value": "{{CDAP_MASTER_KERBEROS_KEYTAB}}"
               },
               {
                 "key": "cdap.master.kerberos.principal",
                 "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
-              },
-              {
-                "key": "dataset.service.bind.address",
-                "value": "{{HOSTNAME}}"
               },
               {
                 "key": "app.adapter.dir",
