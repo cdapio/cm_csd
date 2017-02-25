@@ -1953,7 +1953,8 @@
           "configName": "app.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "port"
+          "type": "long",
+          "max": 65535
         },
         {
           "name": "app_program_spark_yarn_client_rewrite_enabled",
@@ -1980,7 +1981,8 @@
           "configName": "data.tx.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "port"
+          "type": "long",
+          "max": 65535
         },
         {
           "name": "dataset_executor_bind_port",
@@ -1989,7 +1991,8 @@
           "configName": "dataset.executor.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "port"
+          "type": "long",
+          "max": 65535
         },
         {
           "name": "explore_service_bind_port",
@@ -1998,7 +2001,8 @@
           "configName": "explore.service.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "port"
+          "type": "long",
+          "max": 65535
         },
         {
           "name": "log_kafka_topic",
@@ -2277,7 +2281,8 @@
           "configName": "metadata.service.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "port"
+          "type": "long",
+          "max": 65535
         },
         {
           "name": "metrics_query_bind_port",
@@ -2313,7 +2318,8 @@
           "configName": "stream.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "port"
+          "type": "long",
+          "max": 65535
         }
       ],
       "configWriter": {
