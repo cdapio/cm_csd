@@ -1,6 +1,13 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.1.0 (Feb 27, 2017)
+---------------------
+- Adds CDAP coprocessor check to Master startup ( Issues: #135, 138, 139 )
+- Adds basic rolling restart capability ( Issues #136 [CDAP-5453](https://issues.cask.co/browse/CDAP-5453) )
+- Adds configurations for CDAP 4.1 release ( Issues #137 #141 #142 #143 #144 #145 #146 [CDAP-8393](https://issues.cask.co/browse/CDAP-8393) )
+- Relaxes required fields ( Issues #138 [CDAP-8435](https://issues.cask.co/browse/CDAP-8435) )
+
 v4.0.1 (Feb 1, 2017)
 --------------------
 - Exposes configuration for scheduler.misfire.threshold.ms ( Issue: #129 )
