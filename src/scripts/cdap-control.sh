@@ -284,10 +284,21 @@ if [ ${MAIN_CLASS} ]; then
 
     echo "Using SPARK_HOME: ${SPARK_HOME}"
 
+    # Extract CDAP major and minor versions
+    __maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
+    __min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
+
+    # Build and upload coprocessor jars, if we are starting master
+    if [[ "${MAIN_CLASS}" == "co.cask.cdap.data.runtime.main.MasterServiceMain" ]]; then
+      # Run only if CDAP_VERSION >= 4.1
+      if [[ __maj_version -gt 4 ]] || [[ __maj_version -ge 4 && __min_version -ge 1 ]]; then
+        echo "$(date) Ensuring required HBase coprocessors are on HDFS"
+        cdap_setup_coprocessors </dev/null 2>&1 || die "Could not setup coprocessors."
+      fi
+    fi
+
     if [[ "${STARTUP_CHECKS_ENABLED}" == "true" ]]; then
       # Run only if CDAP_VERSION >= 3.3
-      __maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
-      __min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
       if [[ __maj_version -gt 3 ]] || [[ __maj_version -ge 3 && __min_version -ge 3 ]]; then
         echo "Running startup checks -- this may take a few minutes"
         echo "Checks can be disabled using the master.startup.checks.enabled configuration option"

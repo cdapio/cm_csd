@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "4.1.0-SNAPSHOT",
+  "version": "4.1.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,7 +16,7 @@
     }
   },
   "parcel": {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/4.0/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/4.1/",
     "requiredTags": [ "cdh", "cdap" ]
   },
   "icon": "images/icon.png",
@@ -129,7 +129,6 @@
       "label": "Apps Scheduler Queue",
       "description": "Scheduler queue for CDAP programs and CDAP Explore queries",
       "configName": "apps.scheduler.queue",
-      "required": false,
       "configurableInWizard": false,
       "type": "string"
     },
@@ -148,7 +147,6 @@
       "label": "App Artifact Dir",
       "description": "Semicolon-separated list of local directories scanned for system artifacts to add to the artifact repository",
       "configName": "app.artifact.dir",
-      "required": true,
       "configurableInWizard": true,
       "type": "string_array",
       "default": [
@@ -161,7 +159,6 @@
       "label": "App Program Runtime Extensions Dir",
       "description": "Semicolon-separated list of local directories that are scanned for program runtime extensions",
       "configName": "app.program.runtime.extensions.dir",
-      "required": true,
       "configurableInWizard": true,
       "type": "string_array",
       "default": [
@@ -174,16 +171,15 @@
       "label": "Audit Enabled",
       "description": "Determines whether to publish audit messages to Apache Kafka",
       "configName": "audit.enabled",
-      "required": true,
       "configurableInWizard": false,
       "default": true,
       "type": "boolean"
     },
     {
-      "name": "audit_kafka_topic",
-      "label": "Audit Kafka Topic",
-      "description": "Apache Kafka topic name to which audit messages are published",
-      "configName": "audit.kafka.topic",
+      "name": "audit_topic",
+      "label": "Audit Topic",
+      "description": "Topic name in the messaging system to which audit messages are published",
+      "configName": "audit.topic",
       "required": true,
       "configurableInWizard": false,
       "default": "audit",
@@ -197,11 +193,63 @@
       "type": "string"
     },
     {
+      "name": "custom_action_retry_policy_base_delay_ms",
+      "label": "Custom Action Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "custom.action.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "custom_action_retry_policy_max_delay_ms",
+      "label": "Custom Action Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "custom.action.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "custom_action_retry_policy_max_retries",
+      "label": "Custom Action Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "custom.action.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "custom_action_retry_policy_max_time_secs",
+      "label": "Custom Action Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "custom.action.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "custom_action_retry_policy_type",
+      "label": "Custom Action Retry Policy Type",
+      "description": "The type of retry policy for custom actions",
+      "configName": "custom.action.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
       "description": "Maximum number of transaction service instances",
       "configName": "data.tx.max.instances",
-      "required": true,
       "configurableInWizard": false,
       "default": 5,
       "type": "long",
@@ -212,7 +260,6 @@
       "label": "Transaction Client Max Timeout",
       "description": "The limit for the allowed transaction timeout, in seconds. Attempts to start a transaction with a longer timeout will fail.",
       "configName": "data.tx.max.timeout",
-      "required": true,
       "configurableInWizard": false,
       "default": "600",
       "type": "long",
@@ -223,7 +270,6 @@
       "label": "Transaction Client Container Memory MB",
       "description": "Memory in megabytes for each transaction service instance",
       "configName": "data.tx.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": 512,
       "type": "memory",
@@ -235,7 +281,6 @@
       "label": "Transaction Client Container Number of Virtual Cores",
       "description": "Number of cores for the transaction service",
       "configName": "data.tx.num.cores",
-      "required": true,
       "configurableInWizard": true,
       "default": 2,
       "type": "long",
@@ -246,28 +291,55 @@
       "label": "Transaction Client Number of Instances",
       "description": "Requested number of transaction service instances",
       "configName": "data.tx.num.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
       "min": 1
     },
     {
+      "name": "data_tx_prune_enable",
+      "label": "Transaction Client Prune Enable",
+      "description": "Enable invalid transaction list pruning",
+      "configName": "data.tx.prune.enable",
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "data_tx_prune_state_table",
+      "label": "Transaction Client Prune State Table",
+      "description": "Table used to store intermediate state when invalid transaction list pruning is enabled",
+      "configName": "data.tx.prune.state.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "${dataset.table.prefix}_system:tephra.state",
+      "type": "string"
+    },
+    {
+      "name": "data_tx_pruning_plugin_class",
+      "label": "Transaction Client Pruning Plugin Class",
+      "description": "Class name for the default transaction pruning plugin",
+      "configName": "data.tx.pruning.plugin.class",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "co.cask.data2.txprune.DefaultHBaseTransactionPruningPlugin",
+      "type": "string"
+    },
+    {
       "name": "data_tx_timeout",
       "label": "Transaction Client Timeout",
       "description": "Timeout value in seconds for a transaction; if the transaction is not finished in that time, it is marked invalid",
       "configName": "data.tx.timeout",
-      "required": true,
       "configurableInWizard": false,
       "default": 30,
-      "type": "long"
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "dataset_executor_container_instances",
       "label": "Dataset Executor Container Instances",
       "description": "Number of dataset executor instances",
       "configName": "dataset.executor.container.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
@@ -278,7 +350,6 @@
       "label": "Dataset Executor Container Memory MB",
       "description": "Memory in megabytes for each dataset executor instance",
       "configName": "dataset.executor.container.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": 512,
       "type": "memory",
@@ -290,7 +361,6 @@
       "label": "Dataset Executor Container Number of Virtual Cores",
       "description": "Number of virtual cores for each dataset executor instance",
       "configName": "dataset.executor.container.num.cores",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
@@ -301,7 +371,6 @@
       "label": "Dataset Executor Max Instances",
       "description": "Maximum number of dataset executor instances",
       "configName": "dataset.executor.max.instances",
-      "required": true,
       "configurableInWizard": false,
       "default": 5,
       "type": "long",
@@ -311,7 +380,6 @@
       "name": "debugger_utility_class",
       "label": "CDAP Debugger Utility Class Name",
       "description": "CDAP Debugger Utility Class to run from the Actions menu",
-      "required": false,
       "configurableInWizard": false,
       "type": "string_enum",
       "default": "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
@@ -324,7 +392,6 @@
       "name": "debugger_utility_args",
       "label": "CDAP Debugger Utility Arguments",
       "description": "CDAP Debugger Utility Arguments run from the Actions menu",
-      "required": false,
       "configurableInWizard": false,
       "type": "string",
       "default": "help"
@@ -334,7 +401,6 @@
       "label": "Enable Unrecoverable Reset",
       "description": "Determines if resetting CDAP should be enabled. **WARNING: Enabling this option makes it possible to delete all applications and data; NO RECOVERY IS POSSIBLE!**",
       "configName": "enable.unrecoverable.reset",
-      "required": true,
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
@@ -344,7 +410,6 @@
       "label": "Explore Container Yarn App Classpath First",
       "description": "Determines if the YARN application classpath precedes the query engine classpath",
       "configName": "explore.container.yarn.app.classpath.first",
-      "required": true,
       "configurableInWizard": false,
       "default": "false",
       "type": "boolean"
@@ -354,7 +419,6 @@
       "label": "Explore Enabled",
       "description": "Determines if the CDAP Explore Service (ad-hoc SQL queries) is enabled",
       "configName": "explore.enabled",
-      "required": true,
       "configurableInWizard": true,
       "default": true,
       "type": "boolean"
@@ -364,7 +428,6 @@
       "label": "Explore Executor Container Memory MB",
       "description": "Memory in megabytes for each CDAP Explore executor instance. This is explicitly set differently than ${master.service.memory.mb} as Explore requires more memory to run than the Master service.",
       "configName": "explore.executor.container.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": 2048,
       "type": "memory",
@@ -376,11 +439,73 @@
       "label": "Explore Executor Container Number of Virtual Cores",
       "description": "Number of virtual cores for each explore executor instance",
       "configName": "explore.executor.container.num.cores",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "explore_http_timeout",
+      "label": "Explore Http Timeout",
+      "description": "The timeout in seconds for HTTP requests to the CDAP Explore service. Because requests may happen within a transaction, it is recommended to keep this timeout noticeably shorter than the default transaction timeout, ${data.tx.timeout}.",
+      "configName": "explore.http.timeout",
+      "configurableInWizard": false,
+      "default": 20,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "flow_retry_policy_base_delay_ms",
+      "label": "Flow Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "flow.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "flow_retry_policy_max_delay_ms",
+      "label": "Flow Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "flow.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "flow_retry_policy_max_retries",
+      "label": "Flow Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "flow.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 3,
+      "type": "long"
+    },
+    {
+      "name": "flow_retry_policy_max_time_secs",
+      "label": "Flow Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "flow.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "flow_retry_policy_type",
+      "label": "Flow Retry Policy Type",
+      "description": "The type of retry policy for flows",
+      "configName": "flow.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
     },
     {
       "name": "hdfs_namespace",
@@ -407,7 +532,6 @@
       "label": "Kerberos Auth Enabled",
       "description": "Determines if Kerberos authentication is enabled",
       "configName": "kerberos.auth.enabled",
-      "required": true,
       "configurableInWizard": true,
       "default": false,
       "type": "boolean"
@@ -427,7 +551,6 @@
       "label": "Log Saver Container Memory MB",
       "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as log saver requires more memory to run than the Master service.",
       "configName": "log.saver.container.memory.mb",
-      "required": false,
       "configurableInWizard": true,
       "default": "1024",
       "type": "memory",
@@ -439,7 +562,6 @@
       "label": "Log Saver Max Instances",
       "description": "Maximum number of log saver instances to run in YARN",
       "configName": "log.saver.max.instances",
-      "required": true,
       "configurableInWizard": false,
       "default": 5,
       "type": "long",
@@ -450,7 +572,6 @@
       "label": "Log Saver Container Num Cores",
       "description": "Number of virtual cores for each log saver instance in YARN",
       "configName": "log.saver.container.num.cores",
-      "required": false,
       "configurableInWizard": true,
       "default": "2",
       "type": "long",
@@ -461,18 +582,69 @@
       "label": "Log Saver Num Instances",
       "description": "Number of log saver instances to run in YARN",
       "configName": "log.saver.num.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
       "min": 1
     },
     {
+      "name": "mapreduce_retry_policy_base_delay_ms",
+      "label": "MapReduce Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "mapreduce.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_delay_ms",
+      "label": "MapReduce Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "mapreduce.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_retries",
+      "label": "MapReduce Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "mapreduce.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "mapreduce_retry_policy_max_time_secs",
+      "label": "MapReduce Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "mapreduce.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "mapreduce_retry_policy_type",
+      "label": "MapReduce Retry Policy Type",
+      "description": "The type of retry policy for MapReduce programs",
+      "configName": "mapreduce.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "master_services_scheduler_queue",
       "label": "Master Services Scheduler Queue",
       "description": "Scheduler queue for CDAP Master Services",
       "configName": "master.services.scheduler.queue",
-      "required": false,
       "configurableInWizard": false,
       "type": "string"
     },
@@ -481,7 +653,6 @@
       "label": "Messaging Container Instances",
       "description": "Number of instances for the messaging service",
       "configName": "messaging.container.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": "1",
       "type": "long",
@@ -492,7 +663,6 @@
       "label": "Messaging Container Memory MB",
       "description": "Memory in megabytes for each messaging service instance",
       "configName": "messaging.container.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": "512",
       "unit": "megabytes",
@@ -504,7 +674,6 @@
       "label": "Messaging Container Num Cores",
       "description": "Number of virtual cores for each messaging service instance",
       "configName": "messaging.container.num.cores",
-      "required": true,
       "configurableInWizard": true,
       "default": "2",
       "type": "long",
@@ -515,9 +684,8 @@
       "label": "Messaging HBase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
       "configName": "messaging.hbase.max.scan.threads",
-      "required": true,
       "configurableInWizard": false,
-      "default": "48",
+      "default": "96",
       "type": "long",
       "min": 1
     },
@@ -526,7 +694,6 @@
       "label": "Messaging HTTP Server Consume Chunk Size",
       "description": "Approximate size in bytes of each chunk streamed back to a consumer",
       "configName": "messaging.http.server.consume.chunk.size",
-      "required": true,
       "configurableInWizard": false,
       "default": "60000",
       "type": "memory",
@@ -537,7 +704,6 @@
       "label": "Messaging HTTP Server Executor Threads",
       "description": "Number of executor threads for the HTTP server in the messaging system. If set to 0, no executor threads will be used and requests will be handled directly in the IO thread.",
       "configName": "messaging.http.server.executor.threads",
-      "required": true,
       "configurableInWizard": false,
       "default": "0",
       "type": "long"
@@ -547,7 +713,6 @@
       "label": "Messaging HTTP Server Max Request Size MB",
       "description": "Maximum request content size in megabytes for each request to the HTTP server in the messaging system",
       "configName": "messaging.http.server.max.request.size.mb",
-      "required": true,
       "configurableInWizard": false,
       "default": "10",
       "type": "memory",
@@ -558,7 +723,6 @@
       "label": "Messaging HTTP Server Worker Threads",
       "description": "Number of IO threads used by the HTTP server in the messaging system",
       "configName": "messaging.http.server.worker.threads",
-      "required": true,
       "configurableInWizard": false,
       "default": "30",
       "type": "long"
@@ -568,7 +732,6 @@
       "label": "Messaging Max Instances",
       "description": "Maximum number of instances for the messaging service",
       "configName": "messaging.max.instances",
-      "required": true,
       "configurableInWizard": false,
       "default": "1",
       "type": "long",
@@ -579,7 +742,6 @@
       "label": "Messaging Message Table HBase Splits",
       "description": "Number of splits to use for the message table in HBase upon table creation",
       "configName": "messaging.message.table.hbase.splits",
-      "required": true,
       "configurableInWizard": false,
       "default": "16",
       "type": "long"
@@ -609,7 +771,6 @@
       "label": "Messaging Payload Table HBase Splits",
       "description": "Number of splits to use for the payload table in HBase upon table creation",
       "configName": "messaging.payload.table.hbase.splits",
-      "required": true,
       "configurableInWizard": false,
       "default": "16",
       "type": "long"
@@ -625,11 +786,24 @@
       "type": "string"
     },
     {
+      "name": "messaging_system_topics",
+      "label": "Messaging System Topics",
+      "description": "A comma-separated list of topics that are always available in the system namespace. Multiple topics sharing the same prefix and distinguished by different numerical suffixes can be specified with the syntax <common.prefix>:<total.topic.number>, where the <total.topic.number> is the total number of topics sharing the <common.prefix>, and the numerical suffixes will range from 0 to <total.topic.number> - 1).",
+      "configName": "messaging.system.topics",
+      "configurableInWizard": false,
+      "type": "string_array",
+      "default": [
+        "${audit.topic}",
+        "${metrics.topic.prefix}:${metrics.messaging.topic.num}",
+        "${notification.topic}"
+      ],
+      "separator": ","
+    },
+    {
       "name": "messaging_table_expiration_seconds",
       "label": "Messaging Table Expiration Seconds",
       "description": "Number of seconds after which the messaging table cache will expire",
       "configName": "messaging.table.expiration.seconds",
-      "required": true,
       "configurableInWizard": false,
       "default": "300",
       "type": "long",
@@ -640,7 +814,6 @@
       "label": "Messaging Topic Default TTL Seconds",
       "description": "The default time-to-live in seconds for messages in a topic",
       "configName": "messaging.topic.default.ttl.seconds",
-      "required": true,
       "configurableInWizard": false,
       "default": "604800",
       "type": "long",
@@ -651,18 +824,46 @@
       "label": "Metrics Data Table Retention Resolution 1 Seconds",
       "description": "Retention resolution in seconds of the 1-second resolution table; default retention period is 2 hours",
       "configName": "metrics.data.table.retention.resolution.1.seconds",
-      "required": true,
       "configurableInWizard": false,
       "default": 7200,
       "type": "long",
       "min": 1
     },
     {
+      "name": "metrics_kafka_meta_table",
+      "label": "Metrics Kafka Meta Table",
+      "description": "Name of the Kafka metrics meta table",
+      "configName": "metrics.kafka.meta.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics.kafka.meta",
+      "type": "string"
+    },
+    {
+      "name": "metrics_kafka_partition_size",
+      "label": "Metrics Kafka Partition Size",
+      "description": "Number of partitions for the Kafka metrics topic",
+      "configName": "metrics.kafka.partition.size",
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_kafka_topic_prefix",
+      "label": "Metrics Kafka Topic Prefix",
+      "description": "Topic prefix used to publish metrics in Kafka",
+      "configName": "metrics.kafka.topic.prefix",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics",
+      "type": "string"
+    },
+    {
       "name": "metrics_max_instances",
       "label": "Metrics Container Max Instances",
       "description": "Maximum number of instances for the metrics service",
       "configName": "metrics.max.instances",
-      "required": true,
       "configurableInWizard": false,
       "default": 5,
       "type": "long",
@@ -673,7 +874,6 @@
       "label": "Metrics Container Memory MB",
       "description": "Memory in megabytes for each metrics service instance",
       "configName": "metrics.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": 512,
       "type": "memory",
@@ -681,11 +881,40 @@
       "min": 512
     },
     {
+      "name": "metrics_messaging_fetcher_limit",
+      "label": "Metrics Messaging Fetcher Limit",
+      "description": "Maximum number of metrics messages to be fetched from the messaging fetcher at a time. It is also the maximum number of metric values to be persisted in the metrics store after the number of fetched messages reaches the limit.",
+      "configName": "metrics.messaging.fetcher.limit",
+      "configurableInWizard": false,
+      "default": 200,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_messaging_meta_table",
+      "label": "Metrics Messaging Meta Table",
+      "description": "Name of the messaging metrics meta table",
+      "configName": "metrics.messaging.meta.table",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics.messaging.meta",
+      "type": "string"
+    },
+    {
+      "name": "metrics_messaging_topic_num",
+      "label": "Metrics Messaging Topic Number",
+      "description": "Number of topics for metrics messages. This property also sets the number of threads used to fetch and process metrics in parallel from the messaging service. For a value of N, topics will be created for metrics with names beginning at ${metrics.topic.prefix}0, ${metrics.topic.prefix}1, up to ${metrics.topic.prefix}(N-1).",
+      "configName": "metrics.messaging.topic.num",
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "min": 1
+    },
+    {
       "name": "metrics_num_cores",
       "label": "Metrics Container Number of Virtual Cores",
       "description": "Number of virtual cores for the metrics service",
       "configName": "metrics.num.cores",
-      "required": true,
       "configurableInWizard": true,
       "default": 2,
       "type": "long",
@@ -696,7 +925,6 @@
       "label": "Metrics Container Instances",
       "description": "Number of instances for the metrics service",
       "configName": "metrics.num.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
@@ -707,7 +935,6 @@
       "label": "Metrics Processor Container Max Instances",
       "description": "Maximum number of instances for metrics processor service Apache Twill runnable",
       "configName": "metrics.processor.max.instances",
-      "required": true,
       "configurableInWizard": false,
       "default": 5,
       "type": "long",
@@ -718,7 +945,6 @@
       "label": "Metrics Processor Container Memory MB",
       "description": "Memory in megabytes for each metrics processor service Apache Twill runnable instance",
       "configName": "metrics.processor.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": 512,
       "type": "memory",
@@ -730,7 +956,6 @@
       "label": "Metrics Processor Container Number of Virtual Cores",
       "description": "Number of cores for metrics processor service Apache Twill runnable",
       "configName": "metrics.processor.num.cores",
-      "required": true,
       "configurableInWizard": 1,
       "default": 1,
       "type": "long",
@@ -741,18 +966,26 @@
       "label": "Metrics Processor Container Instances",
       "description": "Number of instances for metrics processor service Apache Twill runnable",
       "configName": "metrics.processor.num.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
       "min": 1
     },
     {
+      "name": "metrics_topic_prefix",
+      "label": "Metrics Topic Prefix",
+      "description": "Topic prefix used to publish metrics in messaging",
+      "configName": "metrics.topic.prefix",
+      "required": true,
+      "configurableInWizard": false,
+      "default": "metrics",
+      "type": "string"
+    },
+    {
       "name": "operational_stats_extensions_dir",
       "label": "Operational Stats Extensions Dir",
       "description": "Semicolon-separated list of local directories on the CDAP Master that are scanned for operational statistics extensions",
       "configName": "operational.stats.extensions.dir",
-      "required": true,
       "configurableInWizard": false,
       "default": [
         "${cdap.home}/master/ext/operations"
@@ -765,7 +998,6 @@
       "label": "Operational Stats Refresh Interval Secs",
       "description": "Number of seconds after which operational statistics should be refreshed",
       "configName": "operational.stats.refresh.interval.secs",
-      "required": true,
       "configurableInWizard": false,
       "default": "60",
       "type": "long",
@@ -776,7 +1008,6 @@
       "label": "Remote System Op Exec Threads",
       "description": "Number of Netty service executor threads for the remote system operation HTTP service",
       "configName": "remote.system.op.exec.threads",
-      "required": false,
       "configurableInWizard": false,
       "default": 20,
       "type": "long",
@@ -787,7 +1018,6 @@
       "label": "Remote System Op Service Bind Address",
       "description": "Remote system operation HTTP service bind address",
       "configName": "remote.system.op.service.bind.address",
-      "required": false,
       "configurableInWizard": false,
       "default": "0.0.0.0",
       "type": "string"
@@ -797,7 +1027,6 @@
       "label": "Remote System Op Worker Threads",
       "description": "Number of Netty service IO worker threads for the remote system operation HTTP service",
       "configName": "remote.system.op.worker.threads",
-      "required": false,
       "configurableInWizard": false,
       "default": 10,
       "type": "long",
@@ -828,7 +1057,6 @@
       "label": "Router Server Port",
       "description": "CDAP Router service port, for clients and webapps",
       "configName": "router.server.port",
-      "required": true,
       "configurableInWizard": true,
       "default": 11015,
       "type": "port"
@@ -838,7 +1066,6 @@
       "label": "Router SSL Server Port",
       "description": "CDAP Router service port for HTTPS, for clients and webapps",
       "configName": "router.ssl.server.port",
-      "required": false,
       "configurableInWizard": false,
       "default": 10443,
       "type": "port"
@@ -848,7 +1075,6 @@
       "label": "Scheduler Misfire Connection Timeout Milliseconds",
       "description": "The number of milliseconds by which a schedule execution can miss its next-fire-time and still run",
       "configName": "scheduler.misfire.threshold.ms",
-      "required": true,
       "configurableInWizard": false,
       "default": 60000,
       "type": "long",
@@ -859,7 +1085,6 @@
       "label": "Security Authorization Server Announce Address",
       "description": "CDAP Authentication service announce address, in the format of host:port. This is the address that clients should use to communicate with the Authentication Server. Leave empty to use the default value generated by the Authentication Server.",
       "configName": "security.auth.server.announce.address",
-      "required": true,
       "configurableInWizard": false,
       "default": "",
       "type": "string"
@@ -869,7 +1094,6 @@
       "label": "Security Authorization Admin Users",
       "description": "A comma-separated list of users for whom admin privileges are to be granted on the CDAP instance during CDAP startup, so that these users can create namespaces. These users are also granted admin privileges on the default namespace, so that they can manage privileges on the default namespace. This provides a method to bootstrap CDAP on an authorization-enabled cluster. The default is empty, in which case no users have access to creating namespaces or to managing privileges on the default namespace. In that scenario, authorization in CDAP has to be bootstrapped externally using interfaces provided by the configured authorization extension.",
       "configName": "security.authorization.admin.users",
-      "required": false,
       "configurableInWizard": false,
       "type": "string_array",
       "separator": ","
@@ -879,7 +1103,6 @@
       "label": "Security Authorization Cache Enabled",
       "description": "Determines if authorization policies can be cached by programs; defaults to true",
       "configName": "security.authorization.cache.enabled",
-      "required": false,
       "configurableInWizard": false,
       "default": true,
       "type": "boolean"
@@ -889,7 +1112,6 @@
       "label": "Security Authorization Cache Refresh Interval Seconds",
       "description": "The interval in seconds after which a background thread will refresh cached authorization policies. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.refresh.interval.secs",
-      "required": false,
       "configurableInWizard": false,
       "default": 50,
       "type": "long",
@@ -900,7 +1122,6 @@
       "label": "Security Authorization Cache TTL Seconds",
       "description": "The time-to-live in seconds for entries in the authorization cache used by programs. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.ttl.secs",
-      "required": false,
       "configurableInWizard": false,
       "default": 60,
       "type": "long",
@@ -911,7 +1132,6 @@
       "label": "Security Authorization Enabled",
       "description": "When set to true, all operations in CDAP are authorized using the authorizer implementation found at the property ${security.authorization.extension.jar.path}",
       "configName": "security.authorization.enabled",
-      "required": true,
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
@@ -921,7 +1141,6 @@
       "label": "Security Authorization Extension Jar Path",
       "description": "If an external authorization system is used for authorizing operations on CDAP entities, this property sets the path to the bundled JAR file containing the extension code. This jar is only used when authorization is enabled by setting ${security.authorization.enabled} to true.",
       "configName": "security.authorization.extension.jar.path",
-      "required": false,
       "configurableInWizard": false,
       "type": "string"
     },
@@ -930,7 +1149,6 @@
       "label": "Security Enabled",
       "description": "Determines if authentication is enabled for CDAP; if true, all requests to CDAP must provide a valid access token",
       "configName": "security.enabled",
-      "required": true,
       "configurableInWizard": false,
       "default": false,
       "type": "boolean"
@@ -940,7 +1158,6 @@
       "label": "Security Store Provider",
       "description": "Backend provider for the secure store; use 'none' if no secure store",
       "configName": "security.store.provider",
-      "required": false,
       "configurableInWizard": false,
       "type": "string_enum",
       "default": "none",
@@ -950,11 +1167,116 @@
       ]
     },
     {
+      "name": "service_retry_policy_base_delay_ms",
+      "label": "Service Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "service.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "service_retry_policy_max_delay_ms",
+      "label": "Service Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "service.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "service_retry_policy_max_retries",
+      "label": "Service Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "service.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 3,
+      "type": "long"
+    },
+    {
+      "name": "service_retry_policy_max_time_secs",
+      "label": "Service Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "service.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 10,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "service_retry_policy_type",
+      "label": "Service Retry Policy Type",
+      "description": "The type of retry policy for services",
+      "configName": "service.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "none",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "spark_retry_policy_base_delay_ms",
+      "label": "Spark Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "spark.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "spark_retry_policy_max_delay_ms",
+      "label": "Spark Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "spark.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "spark_retry_policy_max_retries",
+      "label": "Spark Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "spark.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "spark_retry_policy_max_time_secs",
+      "label": "Spark Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "spark.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "spark_retry_policy_type",
+      "label": "Spark Retry Policy Type",
+      "description": "The type of retry policy for Spark programs",
+      "configName": "spark.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
       "name": "ssl_internal_enabled",
       "label": "SSL Internal Enabled",
       "description": "Enable SSL between Router and App Fabric",
       "configName": "ssl.internal.enabled",
-      "required": true,
       "configurableInWizard": false,
       "default":false,
       "type": "boolean"
@@ -964,7 +1286,6 @@
       "label": "Stream Container Instances",
       "description": "Number of YARN container instances for the stream handler",
       "configName": "stream.container.instances",
-      "required": true,
       "configurableInWizard": true,
       "default": 1,
       "type": "long",
@@ -975,7 +1296,6 @@
       "label": "Stream Container Memory MB",
       "description": "Memory in megabytes for each YARN container that runs the stream handler",
       "configName": "stream.container.memory.mb",
-      "required": true,
       "configurableInWizard": true,
       "default": 512,
       "type": "memory",
@@ -987,18 +1307,98 @@
       "label": "Stream Container Number of Virtual Cores",
       "description": "Number of virtual core for the YARN container that runs the stream handler",
       "configName": "stream.container.num.cores",
-      "required": true,
       "configurableInWizard": true,
       "default": 2,
       "type": "long",
       "min": 1
     },
     {
+      "name": "system_log_process_retry_policy_base_delay_ms",
+      "label": "System Log Process Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.log.process.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_log_process_retry_policy_max_retries",
+      "label": "System Log Process Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.log.process.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1500,
+      "type": "long"
+    },
+    {
+      "name": "system_log_process_retry_policy_max_time_secs",
+      "label": "System Log Process Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.log.process.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 1500,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_log_process_retry_policy_type",
+      "label": "System Log Process Retry Policy Type",
+      "description": "The type of retry policy for log processing",
+      "configName": "system.log.process.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "fixed.delay"
+      ]
+    },
+    {
+      "name": "system_metrics_retry_policy_base_delay_ms",
+      "label": "System Metrics Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.metrics.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_metrics_retry_policy_max_retries",
+      "label": "System Metrics Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.metrics.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long"
+    },
+    {
+      "name": "system_metrics_retry_policy_max_time_secs",
+      "label": "System Metrics Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.metrics.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_metrics_retry_policy_type",
+      "label": "System Metrics Retry Policy Type",
+      "description": "The type of retry policy for metrics publishing",
+      "configName": "system.metrics.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "fixed.delay"
+      ]
+    },
+    {
       "name": "twill_java_reserved_memory_mb",
       "label": "Twill Java Reserved Memory Mb",
       "description": "Reserved non-heap memory in megabytes for Apache Twill container",
       "configName": "twill.java.reserved.memory.mb",
-      "required": true,
       "configurableInWizard": false,
       "default": 250,
       "type": "long"
@@ -1014,11 +1414,20 @@
       "type": "string"
     },
     {
+      "name": "twill_location_cache_dir",
+      "label": "Twill Cache Dir Location",
+      "description": "The relative directory name on the distributed file system for Apache Twill to cache generated files, to speed up launching applications. This directory is relative to ${root.namespace}/twill on the file system.",
+      "configName": "twill.location.cache.dir",
+      "required": true,
+      "configurableInWizard": false,
+      "default": ".cache",
+      "type": "string"
+    },
+    {
       "name": "twill_no_container_timeout",
       "label": "Twill No Container Timeout",
       "description": "Duration in milliseconds to wait for at least one container for Apache Twill runnable",
       "configName": "twill.no.container.timeout",
-      "required": true,
       "configurableInWizard": false,
       "default": 120000,
       "type": "long"
@@ -1033,12 +1442,119 @@
       "default": "/twill",
       "type": "string"
     },
+
+
+    {
+      "name": "worker_retry_policy_base_delay_ms",
+      "label": "Worker Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "worker.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "worker_retry_policy_max_delay_ms",
+      "label": "Worker Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "worker.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "worker_retry_policy_max_retries",
+      "label": "Worker Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "worker.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "worker_retry_policy_max_time_secs",
+      "label": "Worker Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "worker.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "worker_retry_policy_type",
+      "label": "Worker Retry Policy Type",
+      "description": "The type of retry policy for workers",
+      "configName": "worker.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "workflow_retry_policy_base_delay_ms",
+      "label": "Workflow Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "workflow.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "workflow_retry_policy_max_delay_ms",
+      "label": "Workflow Retry Policy Maximum Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "workflow.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 30000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "workflow_retry_policy_max_retries",
+      "label": "Workflow Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "workflow.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "workflow_retry_policy_max_time_secs",
+      "label": "Workflow Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "workflow.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 600,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "workflow_retry_policy_type",
+      "label": "Workflow Retry Policy Type",
+      "description": "The type of retry policy for workflows",
+      "configName": "workflow.retry.policy.type",
+      "configurableInWizard": false,
+      "type": "string_enum",
+      "default": "exponential.backoff",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
     {
       "name": "zookeeper_client_startup_timeout_millis",
       "label": "Zookeeper Client Startup Timeout Millis",
       "description": "Duration in milliseconds to wait for a successful connection to a server in the ZooKeeper quorum",
       "configName": "zookeeper.client.startup.timeout.millis",
-      "required": true,
       "configurableInWizard": false,
       "default": "60000",
       "type": "long",
@@ -1049,12 +1565,30 @@
       "label": "ZooKeeper Session Timeout Millis",
       "description": "ZooKeeper session timeout in milliseconds",
       "configName": "zookeeper.session.timeout.millis",
-      "required": true,
       "configurableInWizard": false,
       "default": 40000,
       "type": "long"
     }
   ],
+  "rollingRestart": {
+    "nonWorkerSteps": [
+      {
+        "roleName": "CDAP_AUTH_SERVER"
+      },
+      {
+        "roleName": "CDAP_KAFKA"
+      },
+      {
+        "roleName": "CDAP_MASTER"
+      },
+      {
+        "roleName": "CDAP_ROUTER"
+      },
+      {
+        "roleName": "CDAP_UI"
+      }
+    ]
+  },
   "roles": [
     {
       "name": "CDAP_ROUTER",
@@ -1077,7 +1611,6 @@
           "label": "Router Bind Port",
           "description": "CDAP Router service bind port",
           "configName": "router.bind.port",
-          "required": true,
           "configurableInWizard": true,
           "default": 11015,
           "type": "port"
@@ -1086,7 +1619,6 @@
           "name": "router_java_heapmax",
           "label": "Router Max Heapsize",
           "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
-          "required": "true",
           "type": "memory",
           "unit": "bytes",
           "min": 2147483648,
@@ -1098,7 +1630,6 @@
           "label": "Router SSL Bind Port",
           "description": "CDAP Router service bind port for HTTPS",
           "configName": "router.ssl.bind.port",
-          "required": true,
           "configurableInWizard": false,
           "default": 10443,
           "type": "port"
@@ -1108,7 +1639,6 @@
           "label": "Router User Service Fallback Strategy",
           "description": "If a RouteConfig is not found for a particular user service, this property is used to set the fallback routing strategy. Allowed options: \"random\", \"smallest\", \"largest\", or \"drop\". A string comparison of the versions of the user service is used for \"smallest\" or \"largest\". The \"drop\" option will not route the request to any service and will return \"service not found\".",
           "configName": "router.userservice.fallback.strategy",
-          "required": false,
           "configurableInWizard": false,
           "default": "random",
           "type": "string_enum",
@@ -1241,7 +1771,6 @@
           "name": "kafka_java_heapmax",
           "label": "Kafka Max Heapsize",
           "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
-          "required": "true",
           "type": "memory",
           "unit": "bytes",
           "min": 1073741824,
@@ -1253,7 +1782,6 @@
           "label": "Kafka Server Default Replication Factor",
           "description": "CDAP Kafka service replication factor; used to replicate Kafka messages across multiple machines to prevent data loss in the event of a hardware failure. The recommended setting is to run at least two CDAP Kafka servers. If you are running two CDAP Kafka servers, set this value to 2; otherwise, set it to the maximum number of tolerated machine failures plus one (assuming you have that number of machines).",
           "configName": "kafka.server.default.replication.factor",
-          "required": true,
           "configurableInWizard": false,
           "default": 1,
           "type": "long",
@@ -1274,7 +1802,6 @@
           "label": "Kafka Server Log Flush Interval Messages",
           "description": "The interval length at which will force an fsync of data written to the log",
           "configName": "kafka.server.log.flush.interval.messages",
-          "required": true,
           "configurableInWizard": false,
           "default": 10000,
           "type": "long",
@@ -1285,7 +1812,6 @@
           "label": "Kafka Server Log Retention Hours",
           "description": "The number of hours to keep a log file before deleting it",
           "configName": "kafka.server.log.retention.hours",
-          "required": true,
           "configurableInWizard": false,
           "default": 24,
           "type": "long",
@@ -1297,7 +1823,6 @@
           "label": "Kafka Server Number of Partitions",
           "description": "Default number of partitions for a topic",
           "configName": "kafka.server.num.partitions",
-          "required": true,
           "configurableInWizard": false,
           "default": 10,
           "type": "long",
@@ -1308,7 +1833,6 @@
           "label": "Kafka Server Port",
           "description": "CDAP Kafka service bind port",
           "configName": "kafka.server.port",
-          "required": true,
           "configurableInWizard": true,
           "default": 9092,
           "type": "port"
@@ -1318,7 +1842,6 @@
           "label": "Kafka Server Zookeeper Connection Timeout Milliseconds",
           "description": "Maximum time in milliseconds that the client will wait to establish a connection to Zookeeper",
           "configName": "kafka.server.zookeeper.connection.timeout.ms",
-          "required": true,
           "configurableInWizard": false,
           "default": 1000000,
           "type": "long",
@@ -1424,11 +1947,20 @@
       "pluralLabel": "CDAP Master Services",
       "parameters": [
         {
+          "name": "app_bind_port",
+          "label": "App Bind Port",
+          "description": "App Fabric service bind port; if 0 binds to a random port",
+          "configName": "app.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
+        },
+        {
           "name": "app_program_spark_yarn_client_rewrite_enabled",
           "label": "App Program Spark Yarn Client Rewrite Enabled",
           "description": "Specify whether to rewrite the yarn.client class in Spark to work around the issue SPARK-13441 in CDH clusters",
           "configName": "app.program.spark.yarn.client.rewrite.enabled",
-          "required": true,
           "configurableInWizard": false,
           "default": true,
           "type": "boolean"
@@ -1438,10 +1970,39 @@
           "label": "App SSL Bind Port",
           "description": "App Fabric service bind port",
           "configName": "app.ssl.bind.port",
-          "required": true,
           "configurableInWizard": false,
-          "default": "30443",
+          "default": 30443,
           "type": "port"
+        },
+        {
+          "name": "data_tx_bind_port",
+          "label": "Transaction Client Bind Port",
+          "description": "Transaction service bind port; if 0 binds to a random port",
+          "configName": "data.tx.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
+        },
+        {
+          "name": "dataset_executor_bind_port",
+          "label": "Dataset Executor Bind Port",
+          "description": "Dataset executor bind port; if 0 binds to a random port",
+          "configName": "dataset.executor.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
+        },
+        {
+          "name": "explore_service_bind_port",
+          "label": "Explore Service Bind Port",
+          "description": "CDAP Explore service bind port; if 0 binds to a random port",
+          "configName": "explore.service.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
         },
         {
           "name": "log_kafka_topic",
@@ -1453,12 +2014,167 @@
           "default": "logs.user-v2",
           "type": "string"
         },
+	{
+	  "name": "log_pipeline_cdap_dir_permissions",
+	  "label": "Log Pipeline CDAP Directory Permissions",
+	  "description": "Permissions to use for directories created by the system log appender",
+	  "configName": "log.pipeline.cdap.dir.permissions",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "700",
+	  "type": "string"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_max_lifetime_ms",
+	  "label": "Log Pipeline CDAP File Maximum Lifetime Milliseconds",
+	  "description": "Maximum time in milliseconds a file is kept open by the system log appender",
+	  "configName": "log.pipeline.cdap.file.max.lifetime.ms",
+	  "configurableInWizard": false,
+	  "default": 21600000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_max_size_bytes",
+	  "label": "Log Pipeline CDAP File Maximum Size Bytes",
+	  "description": "Maximum size in bytes of a file kept open by the system log appender",
+	  "configName": "log.pipeline.cdap.file.max.size.bytes",
+	  "configurableInWizard": false,
+	  "default": 104857600,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_permissions",
+	  "label": "Log Pipeline CDAP File Permissions",
+	  "description": "Permissions to set for files created by the system log appender",
+	  "configName": "log.pipeline.cdap.file.permissions",
+	  "required": true,
+	  "configurableInWizard": false,
+	  "default": "600",
+	  "type": "string"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_sync_interval_bytes",
+	  "label": "Log Pipeline CDAP File Sync Interval Bytes",
+	  "description": "Number of bytes for the sync interval setting of the Avro file written by the system log appender",
+	  "configName": "log.pipeline.cdap.file.sync.interval.bytes",
+	  "configurableInWizard": false,
+	  "default": 10485760,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_process_pipeline_auto_buffer_ratio",
+	  "label": "Log Process Pipeline Auto Buffer Ratio",
+	  "description": "The ratio of total memory used for determining processing pipeline buffer size. This property is only used if ${log.process.pipeline.buffer.size} is set to zero and the value should be greater than zero and less than one.",
+	  "configName": "log.process.pipeline.auto.buffer.ratio",
+	  "configurableInWizard": false,
+	  "default": 0.7,
+	  "type": "double",
+	  "min": 0,
+	  "max": 1
+	},
+	{
+	  "name": "log_process_pipeline_buffer_size",
+	  "label": "Log Process Pipeline Buffer Size",
+	  "description": "The internal buffer size in bytes for each log processing pipeline. Setting it to zero means the system will determine it dynamically based on the container size as given by ${log.saver.container.memory.mb}.",
+	  "configName": "log.process.pipeline.buffer.size",
+	  "configurableInWizard": false,
+	  "default": 0,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_process_pipeline_checkpoint_interval_ms",
+	  "label": "Log Process Pipeline Checkpoint Interval Milliseconds",
+	  "description": "The time between log processing pipeline checkpoints in milliseconds",
+	  "configName": "log.process.pipeline.checkpoint.interval.ms",
+	  "configurableInWizard": false,
+	  "default": 10000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_process_pipeline_config_dir",
+	  "label": "Log Process Pipeline Config Directory",
+	  "description": "A local directory on the CDAP Master that is scanned for log processing pipeline configurations. Each pipeline is defined by a file in the logback XML format, with \".xml\" as the file name extension.",
+	  "configName": "log.process.pipeline.config.dir",
+	  "configurableInWizard": false,
+	  "default": "/opt/cdap/master/ext/logging/config",
+	  "type": "path",
+	  "pathType": "localDataDir"
+	},
+	{
+	  "name": "log_process_pipeline_event_delay_ms",
+	  "label": "Log Process Pipeline Event Delay Milliseconds",
+	  "description": "The time a log event stays in the log processing pipeline buffer before writing out to log appenders in milliseconds. A longer delay will result in better time ordering of log events before presenting to log appenders but will consume more memory.",
+	  "configName": "log.process.pipeline.event.delay.ms",
+	  "configurableInWizard": false,
+	  "default": 2000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_process_pipeline_kafka_fetch_size",
+	  "label": "Log Process Pipeline Kafka Fetch Size",
+	  "description": "The size of the buffer for fetching log events from Kafka per topic partition in bytes",
+	  "configName": "log.process.pipeline.kafka.fetch.size",
+	  "configurableInWizard": false,
+	  "default": 1048576,
+	  "type": "long",
+	  "unit": "bytes"
+	},
+	{
+	  "name": "log_process_pipeline_lib_dir",
+	  "label": "Log Process Pipeline Library Directory",
+	  "description": "Semicolon-separated list of local directories on the CDAP Master scanned for additional library JAR files to be included for log processing",
+	  "configName": "log.process.pipeline.lib.dir",
+	  "configurableInWizard": false,
+	  "default": [
+	    "/opt/cdap/master/ext/logging/lib"
+	  ],
+	  "type": "path_array",
+	  "separator": ";",
+	  "pathType": "localDataDir"
+	},
+	{
+	  "name": "log_process_pipeline_logger_cache_size",
+	  "label": "Log Process Pipeline Logger Cache Size",
+	  "description": "The number of loggers that each log processing pipeline will cache.",
+	  "configName": "log.process.pipeline.logger.cache.size",
+	  "configurableInWizard": false,
+	  "default": 1000,
+	  "type": "long"
+	},
+	{
+	  "name": "log_process_pipeline_logger_cache_expiration_ms",
+	  "label": "Log Process Pipeline Logger Cache Expiration Milliseconds",
+	  "description": "Logger cache entry expiration time in milliseconds.",
+	  "configName": "log.process.pipeline.logger.cache.expiration.ms",
+	  "configurableInWizard": false,
+	  "default": 300000,
+	  "type": "long",
+	  "unit": "milliseconds"
+	},
+	{
+	  "name": "log_publish_partition_key",
+	  "label": "Log Publish Partition Key",
+	  "description": "Publish logs from an application or a program to the same partition. Valid values are \"application\" or \"program\". If set to \"application\", logs from all the programs of an application go to the same partition. If set to \"program\", logs from the same program go to the same partition. Changes to this property requires restarting of all CDAP applications.",
+	  "configName": "log.publish.partition.key",
+	  "configurableInWizard": false,
+	  "type": "string_enum",
+	  "default": "program",
+	  "validValues": [
+	    "application",
+	    "program"
+	  ]
+	},
         {
           "name": "master_collect_containers_log",
           "label": "Master Collect Container Logs",
           "description": "Determines if master service container logs are streamed back to the CDAP Master process log",
           "configName": "master.collect.containers.log",
-          "required": true,
           "configurableInWizard": false,
           "default": true,
           "type": "boolean"
@@ -1468,7 +2184,6 @@
           "label": "Master Collect Application Container Logs Level",
           "description": "The log level of application container logs that are streamed back to the CDAP Master process log. The levels supported are [ ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF ].",
           "configName": "master.collect.app.containers.log.level",
-          "required": true,
           "configurableInWizard": false,
           "default": "ERROR",
           "type": "string_enum",
@@ -1486,7 +2201,6 @@
           "name": "master_java_heapmax",
           "label": "Master Max Heapsize",
           "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
-          "required": "true",
           "type": "memory",
           "unit": "bytes",
           "min": 2147483648,
@@ -1494,11 +2208,29 @@
           "scaleFactor": 1.3
         },
         {
+          "name": "master_manage_hbase_coprocessors",
+          "label": "Master Manage HBase Coprocessors",
+          "description": "Whether CDAP Master should manage HBase coprocessors. This should only be set to false if you are managing coprocessors yourself in order to support rolling HBase upgrades.",
+          "configName": "master.manage.hbase.coprocessors",
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
+        },
+        {
+          "name": "master_services_bind_address",
+          "label": "Master Services Bind Address",
+          "description": "Bind address for app fabric service and dataset service",
+          "configName": "master.services.bind.address",
+          "required": true,
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
           "name": "master_startup_checks_enabled",
           "label": "Master Startup Checks Enabled",
           "description": "Whether checks should be run before startup to determine if the CDAP Master can be run correctly. Which checks are run is determined by the ${master.startup.checks.packages} and ${master.startup.checks.classes} settings. If any checks fail, the CDAP Master will fail to start instead of waiting for the problem to be fixed. This setting only affects Distributed CDAP.",
           "configName": "master.startup.checks.enabled",
-          "required": true,
           "configurableInWizard": false,
           "default": true,
           "type": "boolean"
@@ -1518,7 +2250,6 @@
           "label": "Master Startup Checks Classes",
           "description": "Comma-separated list of classnames for checks that will be run before the CDAP Master starts up. If any of the checks fails, the CDAP Master will not start up. Checks will only be run if ${master.startup.checks.enabled} is set to true.",
           "configName": "master.startup.checks.classes",
-          "required": false,
           "configurableInWizard": false,
           "default": "",
           "type": "string"
@@ -1528,7 +2259,6 @@
           "label": "Master Startup Service Timeout Seconds",
           "description": "Timeout in seconds for master services to wait for their dependent services to be available. For example, the dataset executor master service requires the transaction service, and will wait for the transaction service to become available while it is starting up. If the timeout is hit, the service will fail to start and the master service will shut itself down. If set to 0 or below, master services will not wait for their dependent services to start before starting themselves.",
           "configName": "master.startup.service.timeout.seconds",
-          "required": true,
           "configurableInWizard": false,
           "default": 600,
           "type": "long",
@@ -1545,14 +2275,51 @@
           "type": "string"
         },
         {
-          "name": "notification_kafka_topic",
-          "label": "Notification Kafka Topic",
-          "description": "Kafka topic name used to publish notifications",
-          "configName": "notification.kafka.topic",
+          "name": "metadata_service_bind_port",
+          "label": "Metadata Service Bind Port",
+          "description": "Metadata HTTP service bind port; if 0 binds to a random port",
+          "configName": "metadata.service.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
+        },
+        {
+          "name": "metrics_query_bind_port",
+          "label": "Metrics Query Bind Port",
+          "description": "Metrics Query service bind port",
+          "configName": "metrics.query.bind.port",
+          "configurableInWizard": false,
+          "default": 45005,
+          "type": "port"
+        },
+        {
+          "name": "notification_topic",
+          "label": "Notification Topic",
+          "description": "Topic name used to publish notifications",
+          "configName": "notification.topic",
           "required": true,
           "configurableInWizard": false,
           "default": "notifications",
           "type": "string"
+        },
+        {
+          "name": "security_keytab_path",
+          "label": "Security Keytab Path",
+          "description": "The location of kerberos keytabs used for impersonation. The location can contain ${name} which will be replaced by the short user name of the principal being impersonated.",
+          "configName": "security.keytab.path",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
+          "name": "stream_bind_port",
+          "label": "Stream Bind Port",
+          "description": "Stream HTTP service bind port; if 0 binds to a random port",
+          "configName": "stream.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
         }
       ],
       "configWriter": {
@@ -1575,20 +2342,12 @@
                 "value": "{{LOCAL_DIR}}/kafka-logs"
               },
               {
-                "key": "app.bind.address",
-                "value": "{{HOSTNAME}}"
-              },
-              {
                 "key": "cdap.master.kerberos.keytab",
                 "value": "{{CDAP_MASTER_KERBEROS_KEYTAB}}"
               },
               {
                 "key": "cdap.master.kerberos.principal",
                 "value": "{{CDAP_MASTER_KERBEROS_PRINCIPAL}}"
-              },
-              {
-                "key": "dataset.service.bind.address",
-                "value": "{{HOSTNAME}}"
               },
               {
                 "key": "app.adapter.dir",
@@ -1773,7 +2532,6 @@
           "label": "CDAP UI Bind Port",
           "description": "CDAP UI bind port",
           "configName": "dashboard.bind.port",
-          "required": true,
           "configurableInWizard": true,
           "default": 11011,
           "type": "port"
@@ -1783,7 +2541,6 @@
           "label": "Dashboard Router Check Timeout Seconds",
           "description": "Interval in seconds that the CDAP UI waits before exiting when unable to connect to the CDAP Router service on startup; use a timeout of 0 to wait indefinitely",
           "configName": "dashboard.router.check.timeout.secs",
-          "required": true,
           "configurableInWizard": false,
           "default": 180,
           "type": "long",
@@ -1794,7 +2551,6 @@
           "label": "Dashboard SSL Bind Port",
           "description": "CDAP UI bind port for HTTPS",
           "configName": "dashboard.ssl.bind.port",
-          "required": true,
           "configurableInWizard": false,
           "default": 9443,
           "type": "port"
@@ -1804,10 +2560,18 @@
           "label": "Dashboard SSL Disable Cert Check",
           "description": "True to disable SSL certificate check from the CDAP UI",
           "configName": "dashboard.ssl.disable.cert.check",
-          "required": true,
           "configurableInWizard": false,
           "default": false,
           "type": "boolean"
+        },
+        {
+          "name": "market_base_url",
+          "label": "Market Base Url",
+          "description": "The base URL of the Cask Market used by the CDAP UI for the Cask Market RESTful API. The default value shown is that of the public Cask Market.",
+          "configName": "market.base.url",
+          "configurableInWizard": false,
+          "default": "http://market.cask.co/v1",
+          "type": "uri"
         }
       ],
       "configWriter": {
@@ -1874,7 +2638,6 @@
           "name": "auth_java_heapmax",
           "label": "Auth Server Max Heapsize",
           "description": "Maximum size for the Java Process heap. Passed to Java -Xmx. Measured in bytes.",
-          "required": "true",
           "type": "memory",
           "unit": "bytes",
           "min": 1073741824,
@@ -1896,7 +2659,6 @@
           "label": "Security Auth Server Bind Port",
           "description": "CDAP Authentication service bind port",
           "configName": "security.auth.server.bind.port",
-          "required": true,
           "configurableInWizard": false,
           "default": 10009,
           "type": "port"
@@ -1906,7 +2668,6 @@
           "label": "Security Auth Server SSL Bind Port",
           "description": "CDAP Authentication service bind port for HTTPS",
           "configName": "security.auth.server.ssl.bind.port",
-          "required": true,
           "configurableInWizard": false,
           "default": 10010,
           "type": "port"
@@ -1916,7 +2677,6 @@
           "label": "Security Authentication Basic Realm File",
           "description": "Username and password file to use when basic authentication is configured",
           "configName": "security.authentication.basic.realmfile",
-          "required": false,
           "configurableInWizard": false,
           "default": "",
           "type": "path",
@@ -1927,7 +2687,6 @@
           "label": "Security Authentication Handler Debug",
           "description": "Set to true to enable debugging",
           "configName": "security.authentication.handler.debug",
-          "required": true,
           "configurableInWizard": false,
           "default": true,
           "type": "boolean"
@@ -1937,7 +2696,6 @@
           "label": "Security Authentication Handler Hostname",
           "description": "LDAP server host",
           "configName": "security.authentication.handler.hostname",
-          "required": true,
           "configurableInWizard": false,
           "default": "",
           "type": "string"
@@ -1947,7 +2705,6 @@
           "label": "Security Authentication Handler Port",
           "description": "LDAP server port",
           "configName": "security.authentication.handler.port",
-          "required": true,
           "configurableInWizard": false,
           "default": "389",
           "type": "port"
@@ -1957,7 +2714,6 @@
           "label": "Security Authentication Handler userBaseDn",
           "description": "Distinguished Name of the root for user account entries in the LDAP directory",
           "configName": "security.authentication.handler.userBaseDn",
-          "required": true,
           "configurableInWizard": false,
           "default": "",
           "type": "string"
@@ -1967,7 +2723,6 @@
           "label": "Security Authentication Handler userObjectClass",
           "description": "LDAP Object class used to store user entries",
           "configName": "security.authentication.handler.userObjectClass",
-          "required": true,
           "configurableInWizard": false,
           "default": "",
           "type": "string"
@@ -1977,7 +2732,6 @@
           "label": "Security Authentication Handler userRdnAttribute",
           "description": "LDAP Object attribute for username when search by role DN",
           "configName": "security.authentication.handler.userRdnAttribute",
-          "required": true,
           "configurableInWizard": false,
           "default": "",
           "type": "string"
@@ -1987,7 +2741,6 @@
           "label": "Security Authentication Handler Class Name",
           "description": "Name of the authentication implementation to use to validate user credentials",
           "configName": "security.authentication.handlerClassName",
-          "required": true,
           "configurableInWizard": false,
           "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
           "type": "string_enum",
@@ -2002,7 +2755,6 @@
           "label": "Security Authentication Login Module Class Name",
           "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for ${security.authentication.handlerClassName}",
           "configName": "security.authentication.loginmodule.className",
-          "required": true,
           "configurableInWizard": false,
           "default": "",
           "type": "string"
