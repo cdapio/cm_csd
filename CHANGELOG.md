@@ -1,6 +1,9 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.1.1 (Feb 28, 2017)
+- Update to v2 market url ( Issues: #151 )
+
 v4.1.0 (Feb 27, 2017)
 ---------------------
 - Adds CDAP coprocessor check to Master startup ( Issues: #135, 138, 139 )

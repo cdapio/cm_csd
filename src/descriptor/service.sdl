@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "4.1.1-SNAPSHOT",
+  "version": "4.1.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -2570,7 +2570,7 @@
           "description": "The base URL of the Cask Market used by the CDAP UI for the Cask Market RESTful API. The default value shown is that of the public Cask Market.",
           "configName": "market.base.url",
           "configurableInWizard": false,
-          "default": "http://market.cask.co/v1",
+          "default": "http://market.cask.co/v2",
           "type": "uri"
         }
       ],
