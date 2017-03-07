@@ -2135,7 +2135,7 @@
 	    "/opt/cdap/master/ext/logging/lib"
 	  ],
 	  "type": "path_array",
-	  "separator": ";",
+	  "separator": ",",
 	  "pathType": "localDataDir"
 	},
 	{
