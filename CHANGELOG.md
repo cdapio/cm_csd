@@ -1,7 +1,14 @@
 CDAP CSD CHANGELOG
 ==================
 
+
+v4.1.2 (Mar 14, 2017)
+---------------------
+- Fixes an issue with the log.process.pipeline.lib.dir delimiter ( Issues: #152 [CDAP-8897](https://issues.cask.co/browse/CDAP-8897) )
+- Adds optional authentication parameters ( Issues: #153 [CDAP-8891](https://issues.cask.co/browse/CDAP-8891) )
+
 v4.1.1 (Feb 28, 2017)
+---------------------
 - Update to v2 market url ( Issues: #151 )
 
 v4.1.0 (Feb 27, 2017)
