@@ -2128,14 +2128,14 @@
 	{
 	  "name": "log_process_pipeline_lib_dir",
 	  "label": "Log Process Pipeline Library Directory",
-	  "description": "Semicolon-separated list of local directories on the CDAP Master scanned for additional library JAR files to be included for log processing",
+	  "description": "Comma-separated list of local directories on the CDAP Master scanned for additional library JAR files to be included for log processing",
 	  "configName": "log.process.pipeline.lib.dir",
 	  "configurableInWizard": false,
 	  "default": [
 	    "/opt/cdap/master/ext/logging/lib"
 	  ],
 	  "type": "path_array",
-	  "separator": ";",
+	  "separator": ",",
 	  "pathType": "localDataDir"
 	},
 	{
@@ -2570,7 +2570,7 @@
           "description": "The base URL of the Cask Market used by the CDAP UI for the Cask Market RESTful API. The default value shown is that of the public Cask Market.",
           "configName": "market.base.url",
           "configurableInWizard": false,
-          "default": "http://market.cask.co/v1",
+          "default": "http://market.cask.co/v2",
           "type": "uri"
         }
       ],
@@ -2683,6 +2683,22 @@
           "pathType": "localDataFile"
         },
         {
+          "name": "security_authentication_handler_bindDn",
+          "label": "Security Authentication Handler BindDn",
+          "description": "The Distinguished Name used to bind to the LDAP server and search the directory",
+          "configName": "security.authentication.handler.bindDn",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_bindPassword",
+          "label": "Security Authentication Handler BindPassword",
+          "description": "The password used to bind to the LDAP server",
+          "configName": "security.authentication.handler.bindPassword",
+          "configurableInWizard": false,
+          "type": "password"
+        },
+        {
           "name": "security_authentication_handler_debug",
           "label": "Security Authentication Handler Debug",
           "description": "Set to true to enable debugging",
@@ -2710,6 +2726,38 @@
           "type": "port"
         },
         {
+          "name": "security_authentication_handler_roleBaseDn",
+          "label": "Security Authentication Handler RoleBaseDn",
+          "description": "Distinguished Name of the root of the LDAP tree to search for group memberships",
+          "configName": "security.authentication.handler.roleBaseDn",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_roleMemberAttribute",
+          "label": "Security Authentication Handler RoleMemberAttribute",
+          "description": "LDAP Object attribute specifying the group members",
+          "configName": "security.authentication.handler.roleMemberAttribute",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_roleNameAttribute",
+          "label": "Security Authentication Handler RoleNameAttribute",
+          "description": "LDAP Object attribute specifying the group name",
+          "configName": "security.authentication.handler.roleNameAttribute",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_roleObjectClass",
+          "label": "Security Authentication Handler RoleObjectClass",
+          "description": "LDAP Object class used to store group entries",
+          "configName": "security.authentication.handler.roleObjectClass",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
           "name": "security_authentication_handler_userBaseDn",
           "label": "Security Authentication Handler userBaseDn",
           "description": "Distinguished Name of the root for user account entries in the LDAP directory",
@@ -2719,12 +2767,28 @@
           "type": "string"
         },
         {
+          "name": "security_authentication_handler_userIdAttribute",
+          "label": "Security Authentication Handler UserIdAttribute",
+          "description": "LDAP Object attribute containing the username",
+          "configName": "security.authentication.handler.userIdAttribute",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
           "name": "security_authentication_handler_userObjectClass",
           "label": "Security Authentication Handler userObjectClass",
           "description": "LDAP Object class used to store user entries",
           "configName": "security.authentication.handler.userObjectClass",
           "configurableInWizard": false,
           "default": "",
+          "type": "string"
+        },
+        {
+          "name": "security_authentication_handler_userPasswordAttribute",
+          "label": "Security Authentication Handler UserPasswordAttribute",
+          "description": "LDAP Object attribute containing the user password",
+          "configName": "security.authentication.handler.userPasswordAttribute",
+          "configurableInWizard": false,
           "type": "string"
         },
         {
@@ -2765,7 +2829,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location", "security_authentication_handler_bindDn", "security_authentication_handler_bindPassword" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -2792,7 +2856,7 @@
           {
             "filename": "cdap-security.xml",
             "configFormat": "hadoop_xml",
-            "includedParams": [ "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ]
+            "includedParams": [ "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location", "security_authentication_handler_bindDn", "security_authentication_handler_bindPassword" ]
           }
         ],
         "peerConfigGenerators": [
