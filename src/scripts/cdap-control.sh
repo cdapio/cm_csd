@@ -233,6 +233,12 @@ if [ ${MAIN_CLASS} ]; then
   # CDAP-7556: we must construct the CLASSPATH to include our dependencies' configuration first
   # Dependency service configs will be in ${CONF_DIR}/[service]-conf/ directories
   for d in $(ls -1d ${CONF_DIR}/*-conf/); do
+    if [[ "$d" == *spark-conf/ ]] && [[ ${SPARK_MAJOR_VERSION} -eq 2 ]]; then
+      continue
+    fi
+    if [[ "$d" == *spark2-conf/ ]] && [[ ${SPARK_MAJOR_VERSION} -ne 2 ]]; then
+      continue
+    fi
     if [[ -n ${CLASSPATH} ]]; then
       CLASSPATH="${CLASSPATH}:${d}"
     else
@@ -268,8 +274,14 @@ if [ ${MAIN_CLASS} ]; then
     # Include appropriate hbase_compat module in classpath
     cdap_set_hbase
 
+    # if no spark is avaiable, compat is still spark1
+    export SPARK_COMPAT="spark1_2.10"
     # If a user has selected a dependency on Spark, CM will generate spark-conf directory in CWD
-    if [ -d "spark-conf" ]; then
+    # spark-conf may also be there if Hive depends on spark and CDAP depends on Hive
+    if [ -d "spark2-conf" ] && [[ ${SPARK_MAJOR_VERSION} -eq 2 ]]; then
+      export SPARK_HOME=${CDH_SPARK2_HOME}
+      export SPARK_COMPAT="spark2_2.11"
+    elif [ -d "spark-conf" ]; then
       export SPARK_HOME=${CDH_SPARK_HOME}
     fi
 
@@ -324,6 +336,7 @@ if [ ${MAIN_CLASS} ]; then
     -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
     -Duser.dir=${LOCAL_DIR} \
     -Dcdap.home=${CDAP_HOME} \
+    -Dapp.program.spark.compat=${SPARK_COMPAT} \
     -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}
 
 elif [ ${MAIN_CMD} ]; then
