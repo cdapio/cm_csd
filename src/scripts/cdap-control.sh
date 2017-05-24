@@ -237,6 +237,7 @@ if [ ${MAIN_CLASS} ]; then
       continue
     fi
     if [[ "$d" == *spark2-conf/ ]] && [[ ${SPARK_MAJOR_VERSION} -ne 2 ]]; then
+      echo "WARNING: Spark 2 dependency detected but SPARK_MAJOR_VERSION not set to 2. Defaulting to Spark 1. Please set SPARK_MAJOR_VERSION=2 in the Service Environment Safety Valve to use Spark 2"
       continue
     fi
     if [[ -n ${CLASSPATH} ]]; then
@@ -274,7 +275,7 @@ if [ ${MAIN_CLASS} ]; then
     # Include appropriate hbase_compat module in classpath
     cdap_set_hbase
 
-    # if no spark is avaiable, compat is still spark1
+    # if no spark is available, compat is still spark1
     export SPARK_COMPAT="spark1_2.10"
     # If a user has selected a dependency on Spark, CM will generate spark-conf directory in CWD
     # spark-conf may also be there if Hive depends on spark and CDAP depends on Hive
