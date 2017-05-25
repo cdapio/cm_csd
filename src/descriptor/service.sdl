@@ -786,20 +786,6 @@
       "type": "string"
     },
     {
-      "name": "messaging_system_topics",
-      "label": "Messaging System Topics",
-      "description": "A comma-separated list of topics that are always available in the system namespace. Multiple topics sharing the same prefix and distinguished by different numerical suffixes can be specified with the syntax <common.prefix>:<total.topic.number>, where the <total.topic.number> is the total number of topics sharing the <common.prefix>, and the numerical suffixes will range from 0 to <total.topic.number> - 1).",
-      "configName": "messaging.system.topics",
-      "configurableInWizard": false,
-      "type": "string_array",
-      "default": [
-        "${audit.topic}",
-        "${metrics.topic.prefix}:${metrics.messaging.topic.num}",
-        "${notification.topic}"
-      ],
-      "separator": ","
-    },
-    {
       "name": "messaging_table_expiration_seconds",
       "label": "Messaging Table Expiration Seconds",
       "description": "Number of seconds after which the messaging table cache will expire",
