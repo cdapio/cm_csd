@@ -17,7 +17,8 @@
   },
   "parcel": {
     "repoUrl": "http://repository.cask.co/parcels/cdap/4.1/",
-    "requiredTags": [ "cdh", "cdap" ]
+    "requiredTags": [ "cdh", "cdap" ],
+    "optionalTags" : ["spark2"]
   },
   "icon": "images/icon.png",
   "serviceDependencies": [
@@ -26,7 +27,8 @@
     {"name": "YARN", "required": "true"},
     {"name": "HBASE", "required": "true"},
     {"name": "HIVE", "required": "false"},
-    {"name": "SPARK_ON_YARN", "required": "false"}
+    {"name": "SPARK_ON_YARN", "required": "false"},
+    {"name": "SPARK2_ON_YARN", "required": "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_UI"
