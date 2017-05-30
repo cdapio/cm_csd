@@ -152,7 +152,8 @@
       "configurableInWizard": true,
       "type": "string_array",
       "default": [
-        "${cdap.home}/master/artifacts"
+        "${cdap.home}/master/artifacts",
+        "${cdap.home}/master/artifacts/${app.program.spark.compat}"
       ],
       "separator": ";"
     },
