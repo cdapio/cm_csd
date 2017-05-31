@@ -158,6 +158,15 @@
       "separator": ";"
     },
     {
+      "name": "app_program_spark_compat",
+      "label": "App Program Spark Compat",
+      "description": "The Spark compatibility version, if Spark is available. Must be either 'spark1_2.10' or 'spark2_2.11'. In distributed mode, this will be overridden by the detected Spark version. In standalone mode, this can be set to the desired version of Spark.",
+      "configName": "app.program.spark.compat",
+      "configurableInWizard": true,
+      "default": "park1_2.10",
+      "type": "string"
+    },
+    {
       "name": "app_program_runtime_extensions_dir",
       "label": "App Program Runtime Extensions Dir",
       "description": "Semicolon-separated list of local directories that are scanned for program runtime extensions",
@@ -249,6 +258,15 @@
       ]
     },
     {
+      "name": "data_event_topic",
+      "label": "data.event.topic",
+      "description": "Topic name for publishing data events to the messaging system",
+      "configName": "data.event.topic",
+      "configurableInWizard": true,
+      "default": "dataevent",
+      "type": "string"
+    },
+    {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
       "description": "Maximum number of transaction service instances",
@@ -307,6 +325,16 @@
       "configurableInWizard": false,
       "default": true,
       "type": "boolean"
+    },
+    {
+      "name": "Transaction Client Grace Period",
+      "label": "data_tx_grace_period",
+      "description": "Time in seconds used to pad transaction maximum lifetime while pruning",
+      "configName": "data.tx.grace.period",
+      "configurableInWizard": true,
+      "default": 86400,
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "data_tx_prune_state_table",
@@ -650,6 +678,16 @@
       "configName": "master.services.scheduler.queue",
       "configurableInWizard": false,
       "type": "string"
+    },
+    {
+      "name": "messaging_cache_size_mb",
+      "label": "Messaging Cache Size",
+      "description": "Memory in megabytes for the cache size used by the messaging service for caching recently-published messages. Currently, only topics listed in the ${messaging.system.topics} configuration have caching enabled. Set it to 0 to disable caching.",
+      "configName": "messaging.cache.size.mb",
+      "configurableInWizard": true,
+      "default": "30",
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "messaging_container_instances",
@@ -1088,23 +1126,13 @@
       "separator": ","
     },
     {
-      "name": "security_authorization_cache_enabled",
-      "label": "Security Authorization Cache Enabled",
-      "description": "Determines if authorization policies can be cached by programs; defaults to true",
-      "configName": "security.authorization.cache.enabled",
-      "configurableInWizard": false,
-      "default": true,
-      "type": "boolean"
-    },
-    {
-      "name": "security_authorization_cache_refresh_interval_secs",
-      "label": "Security Authorization Cache Refresh Interval Seconds",
-      "description": "The interval in seconds after which a background thread will refresh cached authorization policies. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
-      "configName": "security.authorization.cache.refresh.interval.secs",
-      "configurableInWizard": false,
-      "default": 50,
-      "type": "long",
-      "unit": "seconds"
+      "name": "security_authorization_cache_max_entries",
+      "label": "Security Authorization Cache Max Entries",
+      "description": "Number of entries to hold in the container authorization cache. If set to 0, no caching will be performed.",
+      "configName": "security.authorization.cache.max.entries",
+      "configurableInWizard": true,
+      "default": 100000,
+      "type": "long"
     },
     {
       "name": "security_authorization_cache_ttl_secs",
@@ -1112,7 +1140,7 @@
       "description": "The time-to-live in seconds for entries in the authorization cache used by programs. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
       "configName": "security.authorization.cache.ttl.secs",
       "configurableInWizard": false,
-      "default": 60,
+      "default": 300,
       "type": "long",
       "unit": "seconds"
     },
@@ -1132,6 +1160,15 @@
       "configName": "security.authorization.extension.jar.path",
       "configurableInWizard": false,
       "type": "string"
+    },
+    {
+      "name": "security_authorization_propagate_privileges",
+      "label": "Security Authorization Propagate Privileges",
+      "description": "Allows the propagation of privileges to descendants. If set to 'true', then having a privilege on an entity will allow the user to perform actions on all the descendants of that entity. For example, if set to 'true', then having READ on a namespace will allow a user to READ all datasets in that namespace. If set to 'false', then users will need privileges on each entity an action is performed on.",
+      "configName": "security.authorization.propagate.privileges",
+      "configurableInWizard": true,
+      "default": true,
+      "type": "boolean"
     },
     {
       "name": "security_enabled",
@@ -1302,6 +1339,15 @@
       "min": 1
     },
     {
+      "name": "stream_size_event_topic",
+      "label": "Stream Size Event Topic",
+      "description": "Topic name for publishing time events from stream size scheduler to the messaging system",
+      "configName": "stream.size.event.topic",
+      "configurableInWizard": true,
+      "default": "streamsizeevent",
+      "type": "string"
+    },
+    {
       "name": "system_log_process_retry_policy_base_delay_ms",
       "label": "System Log Process Retry Policy Base Delay Milliseconds",
       "description": "The base delay between retries in milliseconds",
@@ -1382,6 +1428,15 @@
       "validValues": [
         "fixed.delay"
       ]
+    },
+    {
+      "name": "time_event_topic",
+      "label": "Time Event Topic",
+      "description": "Topic name for publishing time events from time scheduler to the messaging system",
+      "configName": "time.event.topic",
+      "configurableInWizard": true,
+      "default": "timeevent",
+      "type": "string"
     },
     {
       "name": "twill_java_reserved_memory_mb",
