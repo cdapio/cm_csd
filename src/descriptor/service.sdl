@@ -672,7 +672,7 @@
     },
     {
       "name": "messaging_cache_size_mb",
-      "label": "Messaging Cache Size",
+      "label": "Messaging Cache Size MB",
       "description": "Memory in megabytes for the cache size used by the messaging service for caching recently-published messages. Currently, only topics listed in the ${messaging.system.topics} configuration have caching enabled. Set it to 0 to disable caching.",
       "configName": "messaging.cache.size.mb",
       "configurableInWizard": false,
