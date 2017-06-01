@@ -407,7 +407,8 @@
       "default": "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
       "validValues": [
         "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
-        "co.cask.cdap.data.tools.HBaseQueueDebugger"
+        "co.cask.cdap.data.tools.HBaseQueueDebugger",
+        "co.cask.cdap.data.tools.JobQueueDebugger"
       ]
     },
     {
