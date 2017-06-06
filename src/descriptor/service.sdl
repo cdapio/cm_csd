@@ -531,6 +531,15 @@
       ]
     },
     {
+      "name": "hbase_version_resolution_strategy",
+      "label": "HBase Version Resolution Strategy",
+      "description": "Determines how to behave when the HBase version on a cluster is an unsupported value. The default value of 'auto.strict' will require that the HBase version match a supported value, and CDAP Master will not start if the HBase version is unsupported. Set to "auto.latest" to use the latest HBase version available on the cluster with an unsupported HBase version.",
+      "configName": "hbase.version.resolution.strategy",
+      "configurableInWizard": false,
+      "type": "string",
+      "default": "auto.strict"
+    },
+    {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
       "description": "Root directory for HDFS files written by CDAP",
@@ -549,6 +558,15 @@
       "configurableInWizard": false,
       "default": "cdap",
       "type": "string"
+    },
+    {
+      "name": "hive_version_resolution_strategy",
+      "label": "Hive Version Resolution Strategy",
+      "description": "Determines how to behave when the Hive version on a cluster is an unsupported value. The default value of 'auto.strict' will require that the Hive version matches a supported value; if Explore is enabled, CDAP Master will then not start if the Hive version is unsupported. Set to "auto.latest" to use the latest Hive version of CDAP modules available on the cluster with an unsupported Hive version. This property is ignored for supported versions of Hive or if Explore has been disabled by setting ${explore.enabled} to false.",
+      "configName": "hive.version.resolution.strategy",
+      "configurableInWizard": false,
+      "type": "string",
+      "default": "auto.strict"
     },
     {
       "name": "kerberos_auth_enabled",
@@ -1129,7 +1147,7 @@
     {
       "name": "security_authorization_cache_ttl_secs",
       "label": "Security Authorization Cache TTL Seconds",
-      "description": "The time-to-live in seconds for entries in the authorization cache used by programs. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "description": "The time-to-live in seconds for entries in the authorization cache used by programs and system services outside of CDAP Master.",
       "configName": "security.authorization.cache.ttl.secs",
       "configurableInWizard": false,
       "default": 300,
