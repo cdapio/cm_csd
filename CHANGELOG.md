@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.2.1 (June 7, 2017)
+---------------------
+- Update parcel repo ( Issues: #165 )
+
 v4.2.0 (June 6, 2017)
 ---------------------
 - Update start script to handle spark2 ( Issues: #156 [CDAP-11586](https://issues.cask.co/browse/CDAP-11586) )
