@@ -1,6 +1,12 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.2.0 (June 6, 2017)
+---------------------
+- Update start script to handle spark2 ( Issues: #156 [CDAP-11586](https://issues.cask.co/browse/CDAP-11586) )
+- Adds configurations for CDAP 4.2 release ( Issues: #157 #159 #160 #162 [CDAP-11531](https://issues.cask.co/browse/CDAP-11531) )
+- Adds optional tag & service dependencies on spark 2 ( Issues: #158 [CDAP-11606](https://issues.cask.co/browse/CDAP-11606) )
+- Adds JobQueue debug tool ( Issues: #161 [CDAP-11515](https://issues.cask.co/browse/CDAP-11515) )
 
 v4.1.2 (Mar 14, 2017)
 ---------------------
@@ -32,7 +38,7 @@ v4.0.0 (Dec 16, 2016)
 - Adds capability to run a CDAP debugger utility from the Actions menu ( Issues: #122 [CDAP-5632](https://issues.cask.co/browse/CDAP-5632) )
 - Adds CM enhanced JVM support for CDAP services, **Requires CM 5.7 or above** ( Issues: #123 [CDAP-7555](https://issues.cask.co/browse/CDAP-7555) )
 - Fixes an issue where CDAP would not pickup latest configuration changes ( Issues: #124 [CDAP-7556](https://issues.cask.co/browse/CDAP-7556) )
-- Adds configurations for CDAP 4.0 release ( Issues: #125 #127 [CDAP-7796](https://issues.cask.co/browse/CDAP-7556) ) 
+- Adds configurations for CDAP 4.0 release ( Issues: #125 #127 [CDAP-7796](https://issues.cask.co/browse/CDAP-7556) )
 
 v3.6.0 (Oct 4, 2016)
 --------------------
