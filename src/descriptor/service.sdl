@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "4.2.0-SNAPSHOT",
+  "version": "4.2.1",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -16,8 +16,9 @@
     }
   },
   "parcel": {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/4.1/",
-    "requiredTags": [ "cdh", "cdap" ]
+    "repoUrl": "http://repository.cask.co/parcels/cdap/4.2/",
+    "requiredTags": [ "cdh", "cdap" ],
+    "optionalTags" : ["spark2"]
   },
   "icon": "images/icon.png",
   "serviceDependencies": [
@@ -26,7 +27,8 @@
     {"name": "YARN", "required": "true"},
     {"name": "HBASE", "required": "true"},
     {"name": "HIVE", "required": "false"},
-    {"name": "SPARK_ON_YARN", "required": "false"}
+    {"name": "SPARK_ON_YARN", "required": "false"},
+    {"name": "SPARK2_ON_YARN", "required": "false"}
   ],
   "rolesWithExternalLinks": [
     "CDAP_UI"
@@ -147,10 +149,11 @@
       "label": "App Artifact Dir",
       "description": "Semicolon-separated list of local directories scanned for system artifacts to add to the artifact repository",
       "configName": "app.artifact.dir",
-      "configurableInWizard": true,
+      "configurableInWizard": false,
       "type": "string_array",
       "default": [
-        "${cdap.home}/master/artifacts"
+        "${cdap.home}/master/artifacts",
+        "${cdap.home}/master/artifacts/${app.program.spark.compat}"
       ],
       "separator": ";"
     },
@@ -246,6 +249,15 @@
       ]
     },
     {
+      "name": "data_event_topic",
+      "label": "Data Event Topic",
+      "description": "Topic name for publishing data events to the messaging system",
+      "configName": "data.event.topic",
+      "configurableInWizard": false,
+      "default": "dataevent",
+      "type": "string"
+    },
+    {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
       "description": "Maximum number of transaction service instances",
@@ -304,6 +316,16 @@
       "configurableInWizard": false,
       "default": true,
       "type": "boolean"
+    },
+    {
+      "name": "data_tx_grace_period",
+      "label": "Transaction Client Grace Period",
+      "description": "Time in seconds used to pad transaction maximum lifetime while pruning",
+      "configName": "data.tx.grace.period",
+      "configurableInWizard": false,
+      "default": 86400,
+      "type": "long",
+      "unit": "seconds"
     },
     {
       "name": "data_tx_prune_state_table",
@@ -385,7 +407,8 @@
       "default": "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
       "validValues": [
         "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
-        "co.cask.cdap.data.tools.HBaseQueueDebugger"
+        "co.cask.cdap.data.tools.HBaseQueueDebugger",
+        "co.cask.cdap.data.tools.JobQueueDebugger"
       ]
     },
     {
@@ -508,6 +531,15 @@
       ]
     },
     {
+      "name": "hbase_version_resolution_strategy",
+      "label": "HBase Version Resolution Strategy",
+      "description": "Determines how to behave when the HBase version on a cluster is an unsupported value. The default value of 'auto.strict' will require that the HBase version match a supported value, and CDAP Master will not start if the HBase version is unsupported. Set to \"auto.latest\" to use the latest HBase version available on the cluster with an unsupported HBase version.",
+      "configName": "hbase.version.resolution.strategy",
+      "configurableInWizard": false,
+      "type": "string",
+      "default": "auto.strict"
+    },
+    {
       "name": "hdfs_namespace",
       "label": "HDFS Namespace",
       "description": "Root directory for HDFS files written by CDAP",
@@ -526,6 +558,15 @@
       "configurableInWizard": false,
       "default": "cdap",
       "type": "string"
+    },
+    {
+      "name": "hive_version_resolution_strategy",
+      "label": "Hive Version Resolution Strategy",
+      "description": "Determines how to behave when the Hive version on a cluster is an unsupported value. The default value of 'auto.strict' will require that the Hive version matches a supported value; if Explore is enabled, CDAP Master will then not start if the Hive version is unsupported. Set to \"auto.latest\" to use the latest Hive version of CDAP modules available on the cluster with an unsupported Hive version. This property is ignored for supported versions of Hive or if Explore has been disabled by setting ${explore.enabled} to false.",
+      "configName": "hive.version.resolution.strategy",
+      "configurableInWizard": false,
+      "type": "string",
+      "default": "auto.strict"
     },
     {
       "name": "kerberos_auth_enabled",
@@ -647,6 +688,16 @@
       "configName": "master.services.scheduler.queue",
       "configurableInWizard": false,
       "type": "string"
+    },
+    {
+      "name": "messaging_cache_size_mb",
+      "label": "Messaging Cache Size MB",
+      "description": "Memory in megabytes for the cache size used by the messaging service for caching recently-published messages. Currently, only topics listed in the ${messaging.system.topics} configuration have caching enabled. Set it to 0 to disable caching.",
+      "configName": "messaging.cache.size.mb",
+      "configurableInWizard": false,
+      "default": "30",
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "messaging_container_instances",
@@ -784,20 +835,6 @@
       "configurableInWizard": false,
       "default": "tms.payload",
       "type": "string"
-    },
-    {
-      "name": "messaging_system_topics",
-      "label": "Messaging System Topics",
-      "description": "A comma-separated list of topics that are always available in the system namespace. Multiple topics sharing the same prefix and distinguished by different numerical suffixes can be specified with the syntax <common.prefix>:<total.topic.number>, where the <total.topic.number> is the total number of topics sharing the <common.prefix>, and the numerical suffixes will range from 0 to <total.topic.number> - 1).",
-      "configName": "messaging.system.topics",
-      "configurableInWizard": false,
-      "type": "string_array",
-      "default": [
-        "${audit.topic}",
-        "${metrics.topic.prefix}:${metrics.messaging.topic.num}",
-        "${notification.topic}"
-      ],
-      "separator": ","
     },
     {
       "name": "messaging_table_expiration_seconds",
@@ -1099,31 +1136,21 @@
       "separator": ","
     },
     {
-      "name": "security_authorization_cache_enabled",
-      "label": "Security Authorization Cache Enabled",
-      "description": "Determines if authorization policies can be cached by programs; defaults to true",
-      "configName": "security.authorization.cache.enabled",
+      "name": "security_authorization_cache_max_entries",
+      "label": "Security Authorization Cache Max Entries",
+      "description": "Number of entries to hold in the container authorization cache. If set to 0, no caching will be performed.",
+      "configName": "security.authorization.cache.max.entries",
       "configurableInWizard": false,
-      "default": true,
-      "type": "boolean"
-    },
-    {
-      "name": "security_authorization_cache_refresh_interval_secs",
-      "label": "Security Authorization Cache Refresh Interval Seconds",
-      "description": "The interval in seconds after which a background thread will refresh cached authorization policies. It is recommended to keep this value slightly lower than ${security.authorization.cache.ttl.secs}, so that the cached authorization policies do not expire unless they have been explicitly revoked. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
-      "configName": "security.authorization.cache.refresh.interval.secs",
-      "configurableInWizard": false,
-      "default": 50,
-      "type": "long",
-      "unit": "seconds"
+      "default": 100000,
+      "type": "long"
     },
     {
       "name": "security_authorization_cache_ttl_secs",
       "label": "Security Authorization Cache TTL Seconds",
-      "description": "The time-to-live in seconds for entries in the authorization cache used by programs. This setting only takes effect if ${security.authorization.cache.enabled} is set to true.",
+      "description": "The time-to-live in seconds for entries in the authorization cache used by programs and system services outside of CDAP Master.",
       "configName": "security.authorization.cache.ttl.secs",
       "configurableInWizard": false,
-      "default": 60,
+      "default": 300,
       "type": "long",
       "unit": "seconds"
     },
@@ -1143,6 +1170,15 @@
       "configName": "security.authorization.extension.jar.path",
       "configurableInWizard": false,
       "type": "string"
+    },
+    {
+      "name": "security_authorization_propagate_privileges",
+      "label": "Security Authorization Propagate Privileges",
+      "description": "Allows the propagation of privileges to descendants. If set to 'true', then having a privilege on an entity will allow the user to perform actions on all the descendants of that entity. For example, if set to 'true', then having READ on a namespace will allow a user to READ all datasets in that namespace. If set to 'false', then users will need privileges on each entity an action is performed on.",
+      "configName": "security.authorization.propagate.privileges",
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
     },
     {
       "name": "security_enabled",
@@ -1313,6 +1349,15 @@
       "min": 1
     },
     {
+      "name": "stream_size_event_topic",
+      "label": "Stream Size Event Topic",
+      "description": "Topic name for publishing time events from stream size scheduler to the messaging system",
+      "configName": "stream.size.event.topic",
+      "configurableInWizard": false,
+      "default": "streamsizeevent",
+      "type": "string"
+    },
+    {
       "name": "system_log_process_retry_policy_base_delay_ms",
       "label": "System Log Process Retry Policy Base Delay Milliseconds",
       "description": "The base delay between retries in milliseconds",
@@ -1393,6 +1438,15 @@
       "validValues": [
         "fixed.delay"
       ]
+    },
+    {
+      "name": "time_event_topic",
+      "label": "Time Event Topic",
+      "description": "Topic name for publishing time events from time scheduler to the messaging system",
+      "configName": "time.event.topic",
+      "configurableInWizard": false,
+      "default": "timeevent",
+      "type": "string"
     },
     {
       "name": "twill_java_reserved_memory_mb",
