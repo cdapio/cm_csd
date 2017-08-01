@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.2.2 (June 13, 2017)
+----------------------
+- Add cdap-env.sh to gateway role ( Issues: #168 [CDAP-11900](https://issues.cask.co/browse/CDAP-11900) )
+
 v4.2.1 (June 7, 2017)
 ---------------------
 - Update parcel repo ( Issues: #165 )
