@@ -56,6 +56,10 @@ function substitute_cdap_site_tokens {
   fi
 }
 
+# Source CSD build version
+[[ -e scripts/build-env.sh ]] && source scripts/build-env.sh
+echo "CSD_VERSION: ${CSD_VERSION}"
+
 # Determine relevant CDAP component paths from sourced parcel variables
 case ${SERVICE} in
   (auth-server)
