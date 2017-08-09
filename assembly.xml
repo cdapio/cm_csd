@@ -20,10 +20,20 @@
         <format>jar</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
+    <files>
+      <file>
+        <source>${project.basedir}/src/scripts/build-env.sh</source>
+        <outputDirectory>/scripts</outputDirectory>
+        <filtered>true</filtered>
+      </file>
+    </files>
     <fileSets>
       <fileSet>
         <directory>${project.basedir}/src</directory>
         <outputDirectory>/</outputDirectory>
+        <excludes>
+          <exclude>build-env.sh</exclude>
+        </excludes>
         </fileSet>
      </fileSets>
 </assembly>
