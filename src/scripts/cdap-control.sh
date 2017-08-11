@@ -216,6 +216,29 @@ if [ "${cdap_principal}" != "" ]; then
   acquire_kerberos_tgt cdap.keytab
 fi
 
+# Extract CDAP major and minor versions
+__cdap_maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
+__cdap_min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
+
+# Extract CSD major and minor versions
+__csd_maj_version=$(echo ${CSD_VERSION} | cut -d. -f1)
+__csd_min_version=$(echo ${CSD_VERSION} | cut -d. -f2)
+
+# Check compatibility between CSD and Parcel between maj.min versions
+if [[ "${CSD_COMPATIBILITY_CHECK_ENABLED}" == "true" ]]; then
+  compare_versions ${__csd_maj_version}.${__csd_min_version} ${__cdap_maj_version}.${__cdap_min_version}
+  __ret=$?
+  if [[ ${__ret} -gt 0 ]]; then
+    # CDAP Parcel version is greater than CSD
+    echo "ERROR: Detected Parcel version ${CDAP_VERSION} is newer than CSD version ${CSD_VERSION}. Please upgrade the CDAP CSD. This check can be disabled via the csd.compatibility.check.enabled configuration in Cloudera Manager."
+    exit 1
+  else
+    echo "CSD/Parcel compatibility confirmed"
+  fi
+else
+  echo "CSD/Parcel compatibility check disabled"
+fi
+
 # Debug info
 echo "CDAP_HOME: ${CDAP_HOME}"
 echo "CDAP_VERSION: ${CDAP_VERSION}"
@@ -301,14 +324,10 @@ if [ ${MAIN_CLASS} ]; then
 
     echo "Using SPARK_HOME: ${SPARK_HOME}"
 
-    # Extract CDAP major and minor versions
-    __maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
-    __min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
-
     # Build and upload coprocessor jars, if we are starting master
     if [[ "${MAIN_CLASS}" == "co.cask.cdap.data.runtime.main.MasterServiceMain" ]]; then
       # Run only if CDAP_VERSION >= 4.1
-      if [[ __maj_version -gt 4 ]] || [[ __maj_version -ge 4 && __min_version -ge 1 ]]; then
+      if [[ __cdap_maj_version -gt 4 ]] || [[ __cdap_maj_version -ge 4 && __cdap_min_version -ge 1 ]]; then
         echo "$(date) Ensuring required HBase coprocessors are on HDFS"
         cdap_setup_coprocessors </dev/null 2>&1 || die "Could not setup coprocessors."
       fi
@@ -316,7 +335,7 @@ if [ ${MAIN_CLASS} ]; then
 
     if [[ "${STARTUP_CHECKS_ENABLED}" == "true" ]]; then
       # Run only if CDAP_VERSION >= 3.3
-      if [[ __maj_version -gt 3 ]] || [[ __maj_version -ge 3 && __min_version -ge 3 ]]; then
+      if [[ __cdap_maj_version -gt 3 ]] || [[ __cdap_maj_version -ge 3 && __cdap_min_version -ge 3 ]]; then
         echo "Running startup checks -- this may take a few minutes"
         echo "Checks can be disabled using the master.startup.checks.enabled configuration option"
         "${JAVA}" "${JAVA_HEAPMAX}" \

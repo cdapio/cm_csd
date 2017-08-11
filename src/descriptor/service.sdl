@@ -109,7 +109,7 @@
         {
           "filename": "cdap-conf/cdap-site.xml",
           "configFormat": "hadoop_xml",
-          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args" ]
+          "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args", "csd_compatibility_check_enabled" ]
         }
       ],
       "peerConfigGenerators": [
@@ -193,6 +193,15 @@
       "configurableInWizard": false,
       "default": "audit",
       "type": "string"
+    },
+    {
+      "name": "csd_compatibility_check_enabled",
+      "label": "CSD Compatibility Check Enabled",
+      "description": "Whether to enforce that the installed CDAP CSD version is compatible with the CDAP Parcel. If this check fails, CDAP processes will fail to start.",
+      "configName": "csd.compatibility.check.enabled",
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
     },
     {
       "name": "cdap_java_opts",
@@ -1715,7 +1724,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location" ],
+            "excludedParams": [ "cdap_java_opts", "router_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location", "csd_compatibility_check_enabled" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1817,7 +1826,8 @@
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}"
+          "ROUTER_JAVA_HEAPMAX": "-Xmx${router_java_heapmax}",
+          "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
         }
       }
     },
@@ -1923,7 +1933,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "kafka_java_heapmax", "debugger_utility_class", "debugger_utility_args", "csd_compatibility_check_enabled" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -1996,7 +2006,8 @@
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-          "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}"
+          "KAFKA_JAVA_HEAPMAX": "-Xmx${kafka_java_heapmax}",
+          "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
         }
       }
     },
@@ -2387,7 +2398,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "master_java_heapmax", "debugger_utility_class", "debugger_utility_args" ],
+            "excludedParams": [ "cdap_java_opts", "master_java_heapmax", "debugger_utility_class", "debugger_utility_args", "csd_compatibility_check_enabled" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -2492,7 +2503,8 @@
               "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
               "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
             }
           }
         },
@@ -2510,7 +2522,8 @@
               "KAFKA_PROPERTIES" : "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
               "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
             }
           }
         },
@@ -2528,7 +2541,8 @@
               "KAFKA_PROPERTIES": "kafka.properties",
               "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
               "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}"
+              "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
+              "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
             }
           }
         },
@@ -2548,7 +2562,8 @@
               "CDAP_JAVA_OPTS": "${cdap_java_opts}",
               "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
               "MAIN_CLASS": "${debugger_utility_class}",
-              "MAIN_CLASS_ARGS": "${debugger_utility_args}"
+              "MAIN_CLASS_ARGS": "${debugger_utility_args}",
+              "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
             }
           }
         }
@@ -2562,7 +2577,8 @@
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "CDAP_JAVA_OPTS": "${cdap_java_opts}",
           "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
-          "STARTUP_CHECKS_ENABLED": "${master_startup_checks_enabled}"
+          "STARTUP_CHECKS_ENABLED": "${master_startup_checks_enabled}",
+          "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
         }
       }
     },
@@ -2639,7 +2655,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args", "ssl_server_certificate_location", "ssl_server_privatekey_location" ],
+            "excludedParams": [ "cdap_java_opts", "debugger_utility_class", "debugger_utility_args", "ssl_server_certificate_location", "ssl_server_privatekey_location", "csd_compatibility_check_enabled" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -2681,7 +2697,8 @@
         "environmentVariables": {
           "EXPLORE_ENABLED": "${explore_enabled}",
           "KAFKA_PROPERTIES": "kafka.properties",
-          "KERBEROS_ENABLED": "${kerberos_auth_enabled}"
+          "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
+          "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
         }
       }
     },
@@ -2889,7 +2906,7 @@
           {
             "filename": "cdap-site.xml",
             "configFormat": "hadoop_xml",
-            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location", "security_authentication_handler_bindDn", "security_authentication_handler_bindPassword" ],
+            "excludedParams": [ "cdap_java_opts", "auth_java_heapmax", "debugger_utility_class", "debugger_utility_args", "ssl_server_keystore_keypassword", "ssl_server_keystore_password", "ssl_server_keystore_location", "security_authentication_handler_bindDn", "security_authentication_handler_bindPassword", "csd_compatibility_check_enabled" ],
             "additionalConfigs": [
               {
                 "key": "zookeeper.quorum",
@@ -2991,7 +3008,8 @@
           "KAFKA_PROPERTIES": "kafka.properties",
           "KERBEROS_ENABLED": "${kerberos_auth_enabled}",
           "CDAP_JAVA_OPTS": "${cdap_java_opts}",
-          "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}"
+          "AUTH_JAVA_HEAPMAX": "-Xmx${auth_java_heapmax}",
+          "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
         }
       }
     }
