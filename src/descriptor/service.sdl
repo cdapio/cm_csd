@@ -697,6 +697,69 @@
       ]
     },
     {
+      "name": "program_message_retry_policy_base_delay_ms",
+      "label": "Program Message Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "program.message.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": "1000",
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "program_message_retry_policy_max_delay_ms",
+      "label": "Program Message Retry Policy Max Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "program.message.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": "3000",
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "program_message_retry_policy_max_retries",
+      "label": "Program Message Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "program.message.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": "1000",
+      "type": "long"
+    },
+    {
+      "name": "program_message_retry_policy_max_time_secs",
+      "label": "Program Message Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "program.message.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": "600",
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "program_message_retry_policy_type",
+      "label": "Program Message Retry Policy Type",
+      "description": "The type of retry policy for programs. Allowed options:\"none\", \"fixed.delay\", or \"exponential.backoff\".",
+      "configName": "program.message.retry.policy.type",
+      "configurableInWizard": false,
+      "default": "fixed.delay",
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "program_status_event_topic",
+      "label": "Program Status Event Topic",
+      "description": "Topic name for publishing program status events from program runners to the messaging system",
+      "configName": "program.status.event.topic",
+      "configurableInWizard": false,
+      "default": "programstatusevent",
+      "type": "string"
+    },
+    {
       "name": "master_services_scheduler_queue",
       "label": "Master Services Scheduler Queue",
       "description": "Scheduler queue for CDAP Master Services",
@@ -860,15 +923,6 @@
       "default": "300",
       "type": "long",
       "unit": "seconds"
-    },
-    {
-      "name": "messaging_table_hbase_split_policy",
-      "label": "Messaging Table Hbase Split Policy",
-      "description": "The class name that controls the HBase table region split policy. Ideally, auto-splitting should be disabled for HBase tables used by the messaging system.",
-      "configName": "messaging.table.hbase.split.policy",
-      "configurableInWizard": false,
-      "default": "org.apache.hadoop.hbase.regionserver.DisabledRegionSplitPolicy",
-      "type": "string"
     },
     {
       "name": "messaging_topic_default_ttl_seconds",
@@ -1189,15 +1243,6 @@
       "type": "string"
     },
     {
-      "name": "security_authorization_admin_users",
-      "label": "Security Authorization Admin Users",
-      "description": "A comma-separated list of users for whom admin privileges are to be granted on the CDAP instance during CDAP startup, so that these users can create namespaces. These users are also granted admin privileges on the default namespace, so that they can manage privileges on the default namespace. This provides a method to bootstrap CDAP on an authorization-enabled cluster. The default is empty, in which case no users have access to creating namespaces or to managing privileges on the default namespace. In that scenario, authorization in CDAP has to be bootstrapped externally using interfaces provided by the configured authorization extension.",
-      "configName": "security.authorization.admin.users",
-      "configurableInWizard": false,
-      "type": "string_array",
-      "separator": ","
-    },
-    {
       "name": "security_authorization_cache_max_entries",
       "label": "Security Authorization Cache Max Entries",
       "description": "Number of entries to hold in the container authorization cache. If set to 0, no caching will be performed.",
@@ -1232,6 +1277,18 @@
       "configName": "security.authorization.extension.jar.path",
       "configurableInWizard": false,
       "type": "string"
+    },
+    {
+      "name": "security_authorization_extension_extra_classpath",
+      "label": "Security Authorization Extension Extra Classpath",
+      "description": "Extra Java classpath for CDAP security extension.",
+      "configName": "security.authorization.extension.extra.classpath",
+      "configurableInWizard": false,
+      "type": "string_array",
+      "default": [
+        ""
+      ],
+      "separator": ":"
     },
     {
       "name": "security_enabled",
