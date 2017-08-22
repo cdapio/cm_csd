@@ -333,16 +333,6 @@
       "type": "boolean"
     },
     {
-      "name": "data_tx_grace_period",
-      "label": "Transaction Client Grace Period",
-      "description": "Time in seconds used to pad transaction maximum lifetime while pruning",
-      "configName": "data.tx.grace.period",
-      "configurableInWizard": false,
-      "default": 86400,
-      "type": "long",
-      "unit": "seconds"
-    },
-    {
       "name": "data_tx_prune_state_table",
       "label": "Transaction Client Prune State Table",
       "description": "Table used to store intermediate state when invalid transaction list pruning is enabled",
@@ -715,16 +705,6 @@
       "unit": "megabytes"
     },
     {
-      "name": "messaging_container_instances",
-      "label": "Messaging Container Instances",
-      "description": "Number of instances for the messaging service",
-      "configName": "messaging.container.instances",
-      "configurableInWizard": true,
-      "default": "1",
-      "type": "long",
-      "min": 1
-    },
-    {
       "name": "messaging_container_memory_mb",
       "label": "Messaging Container Memory MB",
       "description": "Memory in megabytes for each messaging service instance",
@@ -792,16 +772,6 @@
       "configurableInWizard": false,
       "default": "30",
       "type": "long"
-    },
-    {
-      "name": "messaging_max_instances",
-      "label": "Messaging Max Instances",
-      "description": "Maximum number of instances for the messaging service",
-      "configName": "messaging.max.instances",
-      "configurableInWizard": false,
-      "default": "1",
-      "type": "long",
-      "max": 1
     },
     {
       "name": "messaging_message_table_hbase_splits",
