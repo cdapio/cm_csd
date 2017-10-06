@@ -27,6 +27,7 @@
     {"name": "YARN", "required": "true"},
     {"name": "HBASE", "required": "true"},
     {"name": "HIVE", "required": "false"},
+    {"name": "SENTRY", "required": "false"},
     {"name": "SPARK_ON_YARN", "required": "false"},
     {"name": "SPARK2_ON_YARN", "required": "false"}
   ],
