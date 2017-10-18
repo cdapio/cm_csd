@@ -1,6 +1,12 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.3.0 (Aug 25, 2017)
+---------------------
+- Adds compatibility check for CDAP Parcel ( Issues: #172 #173 [CDAP-4874](https://issues.cask.co/browse/CDAP-4874) )
+- Adds configurations for CDAP 4.3 release ( Issues: #175 [CDAP-12235](https://issues.cask.co/browse/CDAP-12235) )
+- Removes configurations which are designated final ( Issues: #176 [CDAP-11944](https://issues.cask.co/browse/CDAP-11944) )
+
 v4.2.2 (June 13, 2017)
 ----------------------
 - Add cdap-env.sh to gateway role ( Issues: #168 [CDAP-11900](https://issues.cask.co/browse/CDAP-11900) )

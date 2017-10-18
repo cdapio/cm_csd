@@ -27,6 +27,7 @@
     {"name": "YARN", "required": "true"},
     {"name": "HBASE", "required": "true"},
     {"name": "HIVE", "required": "false"},
+    {"name": "SENTRY", "required": "false"},
     {"name": "SPARK_ON_YARN", "required": "false"},
     {"name": "SPARK2_ON_YARN", "required": "false"}
   ],
@@ -687,6 +688,69 @@
       ]
     },
     {
+      "name": "program_message_retry_policy_base_delay_ms",
+      "label": "Program Message Retry Policy Base Delay Milliseconds",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "program.message.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": "1000",
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "program_message_retry_policy_max_delay_ms",
+      "label": "Program Message Retry Policy Max Delay Milliseconds",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "program.message.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": "3000",
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "program_message_retry_policy_max_retries",
+      "label": "Program Message Retry Policy Maximum Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "program.message.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": "1000",
+      "type": "long"
+    },
+    {
+      "name": "program_message_retry_policy_max_time_secs",
+      "label": "Program Message Retry Policy Maximum Time Seconds",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "program.message.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": "600",
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "program_message_retry_policy_type",
+      "label": "Program Message Retry Policy Type",
+      "description": "The type of retry policy for programs. Allowed options:\"none\", \"fixed.delay\", or \"exponential.backoff\".",
+      "configName": "program.message.retry.policy.type",
+      "configurableInWizard": false,
+      "default": "fixed.delay",
+      "type": "string_enum",
+      "default": "fixed.delay",
+      "validValues": [
+        "none",
+        "fixed.delay",
+        "exponential.backoff"
+      ]
+    },
+    {
+      "name": "program_status_event_topic",
+      "label": "Program Status Event Topic",
+      "description": "Topic name for publishing program status events from program runners to the messaging system",
+      "configName": "program.status.event.topic",
+      "configurableInWizard": false,
+      "default": "programstatusevent",
+      "type": "string"
+    },
+    {
       "name": "master_services_scheduler_queue",
       "label": "Master Services Scheduler Queue",
       "description": "Scheduler queue for CDAP Master Services",
@@ -842,12 +906,41 @@
       "unit": "seconds"
     },
     {
+      "name": "messaging_twill_java_heap_memory_ratio",
+      "label": "Messaging Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the messaging service container",
+      "configName": "messaging.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "messaging_twill_java_reserved_memory_mb",
+      "label": "Messaging Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the messaging service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "messaging.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 512,
+      "type": "memory",
+      "unit": "megabytes"
+    },
+    {
       "name": "metrics_data_table_retention_resolution_1_seconds",
       "label": "Metrics Data Table Retention Resolution 1 Seconds",
       "description": "Retention resolution in seconds of the 1-second resolution table; default retention period is 2 hours",
       "configName": "metrics.data.table.retention.resolution.1.seconds",
       "configurableInWizard": false,
       "default": 7200,
+      "type": "long",
+      "min": 1
+    },
+    {
+      "name": "metrics_hbase_max_scan_threads",
+      "label": "Metrics Hbase Max Scan Threads",
+      "description": "Maximum number of threads used for scanning HBase tables",
+      "configName": "metrics.hbase.max.scan.threads",
+      "configurableInWizard": false,
+      "default": 96,
       "type": "long",
       "min": 1
     },
@@ -1004,6 +1097,15 @@
       "type": "string"
     },
     {
+      "name": "metrics_v2_table_scan_enabled",
+      "label": "Metrics V2 Table Scan Enabled",
+      "description": "Enable or disable scanning v2 metrics tables. By default set to false.",
+      "configName": "metrics.v2.table.scan.enabled",
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
+    },
+    {
       "name": "operational_stats_extensions_dir",
       "label": "Operational Stats Extensions Dir",
       "description": "Semicolon-separated list of local directories on the CDAP Master that are scanned for operational statistics extensions",
@@ -1112,15 +1214,6 @@
       "type": "string"
     },
     {
-      "name": "security_authorization_admin_users",
-      "label": "Security Authorization Admin Users",
-      "description": "A comma-separated list of users for whom admin privileges are to be granted on the CDAP instance during CDAP startup, so that these users can create namespaces. These users are also granted admin privileges on the default namespace, so that they can manage privileges on the default namespace. This provides a method to bootstrap CDAP on an authorization-enabled cluster. The default is empty, in which case no users have access to creating namespaces or to managing privileges on the default namespace. In that scenario, authorization in CDAP has to be bootstrapped externally using interfaces provided by the configured authorization extension.",
-      "configName": "security.authorization.admin.users",
-      "configurableInWizard": false,
-      "type": "string_array",
-      "separator": ","
-    },
-    {
       "name": "security_authorization_cache_max_entries",
       "label": "Security Authorization Cache Max Entries",
       "description": "Number of entries to hold in the container authorization cache. If set to 0, no caching will be performed.",
@@ -1157,13 +1250,16 @@
       "type": "string"
     },
     {
-      "name": "security_authorization_propagate_privileges",
-      "label": "Security Authorization Propagate Privileges",
-      "description": "Allows the propagation of privileges to descendants. If set to 'true', then having a privilege on an entity will allow the user to perform actions on all the descendants of that entity. For example, if set to 'true', then having READ on a namespace will allow a user to READ all datasets in that namespace. If set to 'false', then users will need privileges on each entity an action is performed on.",
-      "configName": "security.authorization.propagate.privileges",
+      "name": "security_authorization_extension_extra_classpath",
+      "label": "Security Authorization Extension Extra Classpath",
+      "description": "Extra Java classpath for CDAP security extension.",
+      "configName": "security.authorization.extension.extra.classpath",
       "configurableInWizard": false,
-      "default": true,
-      "type": "boolean"
+      "type": "string_array",
+      "default": [
+        ""
+      ],
+      "separator": ":"
     },
     {
       "name": "security_enabled",
@@ -1434,13 +1530,23 @@
       "type": "string"
     },
     {
+      "name": "twill_java_heap_memory_ratio",
+      "label": "Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for Apache Twill container",
+      "configName": "twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
       "name": "twill_java_reserved_memory_mb",
       "label": "Twill Java Reserved Memory Mb",
       "description": "Reserved non-heap memory in megabytes for Apache Twill container",
       "configName": "twill.java.reserved.memory.mb",
       "configurableInWizard": false,
       "default": 250,
-      "type": "long"
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "twill_jvm_gc_opts",
@@ -1481,8 +1587,6 @@
       "default": "/twill",
       "type": "string"
     },
-
-
     {
       "name": "worker_retry_policy_base_delay_ms",
       "label": "Worker Retry Policy Base Delay Milliseconds",
@@ -1996,6 +2100,15 @@
           "default": 0,
           "type": "long",
           "max": 65535
+        },
+        {
+          "name": "app_program_metrics_enabled",
+          "label": "App Program Metrics Enabled",
+          "description": "Enable or disable emitting metrics from user application programs, by default set to true.",
+          "configName": "app.program.metrics.enabled",
+          "configurableInWizard": false,
+          "default": true,
+          "type": "boolean"
         },
         {
           "name": "app_program_spark_yarn_client_rewrite_enabled",
