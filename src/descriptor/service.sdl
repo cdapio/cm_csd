@@ -369,7 +369,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the transaction client service container",
       "configName": "data.tx.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -429,7 +429,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the dataset executor service container",
       "configName": "dataset.executor.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -517,7 +517,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the explore service container",
       "configName": "explore.executor.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -697,7 +697,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the log saver service container",
       "configName": "log.saver.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -1168,7 +1168,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the metrics processor service container",
       "configName": "metrics.processor.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -1197,7 +1197,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the metrics service container",
       "configName": "metrics.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -1558,7 +1558,7 @@
       "description": "The minimum ratio of heap to non-heap memory for the stream service container",
       "configName": "stream.twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
@@ -1658,7 +1658,7 @@
       "description": "The minimum ratio of heap to non-heap memory for all launched Apache Twill containers. Container-specific settings also exist for CDAP system containers.",
       "configName": "twill.java.heap.memory.ratio",
       "configurableInWizard": false,
-      "default": "0.7",
+      "default": "0.6",
       "type": "double"
     },
     {
