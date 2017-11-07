@@ -299,7 +299,7 @@
       "description": "Memory in megabytes for each transaction service instance",
       "configName": "data.tx.memory.mb",
       "configurableInWizard": true,
-      "default": 512,
+      "default": 1024,
       "type": "memory",
       "unit": "megabytes",
       "min": 512
@@ -364,6 +364,25 @@
       "unit": "seconds"
     },
     {
+      "name": "data_tx_twill_java_heap_memory_ratio",
+      "label": "Transaction Client Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the transaction client service container",
+      "configName": "data.tx.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "data_tx_twill_java_reserved_memory_mb",
+      "label": "Transaction Client Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the transaction client service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "data.tx.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 300,
+      "type": "memory",
+      "unit": "megabytes"
+    },
+    {
       "name": "dataset_executor_container_instances",
       "label": "Dataset Executor Container Instances",
       "description": "Number of dataset executor instances",
@@ -379,7 +398,7 @@
       "description": "Memory in megabytes for each dataset executor instance",
       "configName": "dataset.executor.container.memory.mb",
       "configurableInWizard": true,
-      "default": 512,
+      "default": 1024,
       "type": "memory",
       "unit": "megabytes",
       "min": 512
@@ -403,6 +422,25 @@
       "default": 5,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "dataset_executor_twill_java_heap_memory_ratio",
+      "label": "Dataset Executor Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the dataset executor service container",
+      "configName": "dataset.executor.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "dataset_executor_twill_java_reserved_memory_mb",
+      "label": "Dataset Executor Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the dataset executor service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "dataset.executor.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 300,
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "debugger_utility_class",
@@ -472,6 +510,25 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "explore_executor_twill_java_heap_memory_ratio",
+      "label": "Explore Executor Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the explore service container",
+      "configName": "explore.executor.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "explore_executor_twill_java_reserved_memory_mb",
+      "label": "Explore Executor Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the explore service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "explore.executor.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 300,
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "explore_http_timeout",
@@ -596,7 +653,7 @@
     {
       "name": "log_saver_container_memory_mb",
       "label": "Log Saver Container Memory MB",
-      "description": "Memory in megabytes for each log saver instance to run in YARN. This is explicitly set differently than ${master.service.memory.mb} as log saver requires more memory to run than the Master service.",
+      "description": "Memory in megabytes for each log saver instance to run in YARN.",
       "configName": "log.saver.container.memory.mb",
       "configurableInWizard": true,
       "default": "1024",
@@ -633,6 +690,25 @@
       "default": 1,
       "type": "long",
       "min": 1
+    },
+    {
+      "name": "log_saver_twill_java_heap_memory_ratio",
+      "label": "Log Saver Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the log saver service container",
+      "configName": "log.saver.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "log_saver_twill_java_reserved_memory_mb",
+      "label": "Log Saver Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the log saver service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "log.saver.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 300,
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "mapreduce_retry_policy_base_delay_ms",
@@ -774,7 +850,7 @@
       "description": "Memory in megabytes for each messaging service instance",
       "configName": "messaging.container.memory.mb",
       "configurableInWizard": true,
-      "default": "512",
+      "default": "1024",
       "unit": "megabytes",
       "type": "memory",
       "min": 512
@@ -990,7 +1066,7 @@
       "description": "Memory in megabytes for each metrics service instance",
       "configName": "metrics.memory.mb",
       "configurableInWizard": true,
-      "default": 512,
+      "default": 1024,
       "type": "memory",
       "unit": "megabytes",
       "min": 512
@@ -1061,7 +1137,7 @@
       "description": "Memory in megabytes for each metrics processor service Apache Twill runnable instance",
       "configName": "metrics.processor.memory.mb",
       "configurableInWizard": true,
-      "default": 512,
+      "default": 1024,
       "type": "memory",
       "unit": "megabytes",
       "min": 512
@@ -1087,6 +1163,25 @@
       "min": 1
     },
     {
+      "name": "metrics_processor_twill_java_heap_memory_ratio",
+      "label": "Metrics Processor Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the metrics processor service container",
+      "configName": "metrics.processor.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "metrics_processor_twill_java_reserved_memory_mb",
+      "label": "Metrics Processor Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the metrics processor service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "metrics.processor.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 300,
+      "type": "memory",
+      "unit": "megabytes"
+    },
+    {
       "name": "metrics_topic_prefix",
       "label": "Metrics Topic Prefix",
       "description": "Topic prefix used to publish metrics in messaging",
@@ -1095,6 +1190,25 @@
       "configurableInWizard": false,
       "default": "metrics",
       "type": "string"
+    },
+    {
+      "name": "metrics_twill_java_heap_memory_ratio",
+      "label": "Metrics Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the metrics service container",
+      "configName": "metrics.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
+    },
+    {
+      "name": "metrics_twill_java_reserved_memory_mb",
+      "label": "Metrics Twill Java Reserved Memory Mb",
+      "description": "Desired reserved non-heap memory in megabytes for the metrics service container. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size.",
+      "configName": "metrics.twill.java.reserved.memory.mb",
+      "configurableInWizard": false,
+      "default": 300,
+      "type": "memory",
+      "unit": "megabytes"
     },
     {
       "name": "metrics_v2_table_scan_enabled",
@@ -1414,7 +1528,7 @@
       "description": "Memory in megabytes for each YARN container that runs the stream handler",
       "configName": "stream.container.memory.mb",
       "configurableInWizard": true,
-      "default": 512,
+      "default": 1024,
       "type": "memory",
       "unit": "megabytes",
       "min": 512
@@ -1437,6 +1551,15 @@
       "configurableInWizard": false,
       "default": "streamsizeevent",
       "type": "string"
+    },
+    {
+      "name": "stream_twill_java_heap_memory_ratio",
+      "label": "Stream Twill Java Heap Memory Ratio",
+      "description": "The minimum ratio of heap to non-heap memory for the stream service container",
+      "configName": "stream.twill.java.heap.memory.ratio",
+      "configurableInWizard": false,
+      "default": "0.6",
+      "type": "double"
     },
     {
       "name": "system_log_process_retry_policy_base_delay_ms",
@@ -1532,7 +1655,7 @@
     {
       "name": "twill_java_heap_memory_ratio",
       "label": "Twill Java Heap Memory Ratio",
-      "description": "The minimum ratio of heap to non-heap memory for Apache Twill container",
+      "description": "The minimum ratio of heap to non-heap memory for all launched Apache Twill containers. Container-specific settings also exist for CDAP system containers.",
       "configName": "twill.java.heap.memory.ratio",
       "configurableInWizard": false,
       "default": "0.6",
@@ -1541,10 +1664,10 @@
     {
       "name": "twill_java_reserved_memory_mb",
       "label": "Twill Java Reserved Memory Mb",
-      "description": "Reserved non-heap memory in megabytes for Apache Twill container",
+      "description": "Desired reserved non-heap memory in megabytes for all launched Apache Twill containers. The actual value is bounded by the ${twill.java.heap.memory.ratio} setting of the container memory size. Container-specific settings also exist for CDAP system containers.",
       "configName": "twill.java.reserved.memory.mb",
       "configurableInWizard": false,
-      "default": 250,
+      "default": 300,
       "type": "memory",
       "unit": "megabytes"
     },
