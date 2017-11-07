@@ -2504,6 +2504,9 @@
           "MASTER_JAVA_HEAPMAX": "-Xmx${master_java_heapmax}",
           "STARTUP_CHECKS_ENABLED": "${master_startup_checks_enabled}"
         }
+      },
+      "stopRunner": {
+        "timeout": "300000"
       }
     },
     {
