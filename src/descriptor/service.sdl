@@ -2693,6 +2693,9 @@
           "STARTUP_CHECKS_ENABLED": "${master_startup_checks_enabled}",
           "CSD_COMPATIBILITY_CHECK_ENABLED": "${csd_compatibility_check_enabled}"
         }
+      },
+      "stopRunner": {
+        "timeout": "300000"
       }
     },
     {
