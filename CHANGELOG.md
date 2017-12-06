@@ -1,6 +1,11 @@
 CDAP CSD CHANGELOG
 ==================
 
+v4.3.1 (Dec 5, 2017)
+--------------------
+- Add optional dependency on Sentry ( Issues: #178 )
+- Add configurable graceful shutdown timeout ( Issues: #181 #183 [CDAP-12721](https://issues.cask.co/browse/CDAP-12721) )
+
 v4.3.0 (Aug 25, 2017)
 ---------------------
 - Adds compatibility check for CDAP Parcel ( Issues: #172 #173 [CDAP-4874](https://issues.cask.co/browse/CDAP-4874) )
