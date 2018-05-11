@@ -208,7 +208,7 @@
       "name": "cdap_java_opts",
       "label": "Additional Java Options",
       "description": "Additional Java Options passed on the command line",
-      "default": "-XX:+UseConcMarkSweepGC -XX:MaxPermSize=256m",
+      "default": "-XX:+UseG1GC",
       "type": "string"
     },
     {
@@ -1678,7 +1678,7 @@
       "configName": "twill.jvm.gc.opts",
       "required": true,
       "configurableInWizard": false,
-      "default": "-verbose:gc -Xloggc:<LOG_DIR>/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1M",
+      "default": "-XX:+UseG1GC -verbose:gc -Xloggc:<LOG_DIR>/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1M",
       "type": "string"
     },
     {
