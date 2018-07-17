@@ -360,7 +360,6 @@ if [ ${MAIN_CLASS} ]; then
     -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
     -Duser.dir=${LOCAL_DIR} \
     -Dcdap.home=${CDAP_HOME} \
-    -Dapp.program.spark.compat=${SPARK_COMPAT} \
     -cp ${CLASSPATH} ${MAIN_CLASS} ${MAIN_CLASS_ARGS}
 
 elif [ ${MAIN_CMD} ]; then
