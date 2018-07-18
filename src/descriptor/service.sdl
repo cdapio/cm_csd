@@ -765,7 +765,7 @@
     {
       "name": "program_heartbeat_interval_seconds",
       "label": "Program Heartbeat Interval",
-      "description": "Interval of heartbeat sent from program while its running, default 30 minutes",
+      "description": "Interval of heartbeat sent from program while it's running, default 30 minutes",
       "configName": "program.heartbeat.interval.seconds",
       "configurableInWizard": false,
       "default": 1800,
@@ -774,7 +774,7 @@
     },
     {
       "name": "program_heartbeat_table_ttl_seconds",
-      "label": "Program Heartbeat table ttl",
+      "label": "Program Heartbeat table TTL",
       "description": "TTL duration for program heartbeat table, by default 30 days",
       "configName": "program.heartbeat.table.ttl.seconds",
       "configurableInWizard": false,
@@ -844,6 +844,59 @@
       "configurableInWizard": false,
       "default": "programstatusevent",
       "type": "string"
+    },
+    {
+      "name": "system_metadata_retry_policy_base_delay_ms",
+      "label": "System Metadata Retry Policy Base Delay",
+      "description": "The base delay between retries in milliseconds",
+      "configName": "system.metadata.retry.policy.base.delay.ms",
+      "configurableInWizard": false,
+      "default": 100,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_metadata_retry_policy_max_delay_ms",
+      "label": "System Metadata Retry Policy Max Delay",
+      "description": "The maximum delay between retries in milliseconds",
+      "configName": "system.metadata.retry.policy.max.delay.ms",
+      "configurableInWizard": false,
+      "default": 2000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "system_metadata_retry_policy_max_retries",
+      "label": "System Metadata Retry Policy Max Retries",
+      "description": "The maximum number of retries to attempt before aborting",
+      "configName": "system.metadata.retry.policy.max.retries",
+      "configurableInWizard": false,
+      "default": 1000,
+      "type": "long"
+    },
+    {
+      "name": "system_metadata_retry_policy_max_time_secs",
+      "label": "System Metadata Retry Policy Max Time",
+      "description": "The maximum elapsed time in seconds before retries are aborted",
+      "configName": "system.metadata.retry.policy.max.time.secs",
+      "configurableInWizard": false,
+      "default": 120,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "system_metadata_retry_policy_type",
+      "label": "System Metadata Retry Policy type",
+      "description": "The type of retry policy for workers. Allowed options: 'none', 'fixed.delay', or 'exponential.backoff'.",
+      "configName": "system.metadata.retry.policy.type",
+      "configurableInWizard": false,
+      "default": "exponential.backoff",
+      "type": "string_enum",
+      "validValues": [
+            "none",
+            "fixed.delay",
+            "exponential.backoff"
+          ]
     },
     {
       "name": "master_services_scheduler_queue",
@@ -1684,7 +1737,7 @@
     },
     {
       "name": "system_runtime_monitor_retry_policy_max_time_secs",
-      "label": "System Runtime Monitor Retry Policy Max Time Secs",
+      "label": "System Runtime Monitor Retry Policy Max Time",
       "description": "The maximum elapsed time in seconds before retries are aborted",
       "configName": "system.runtime.monitor.retry.policy.max.time.secs",
       "configurableInWizard": false,
@@ -1741,7 +1794,7 @@
       "configName": "twill.jvm.gc.opts",
       "required": true,
       "configurableInWizard": false,
-      "default": "-XX:+UseG1GC -verbose:gc -Xloggc:&lt;LOG_DIR&gt;/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1M",
+      "default": "-XX:+UseG1GC -verbose:gc -Xloggc:<LOG_DIR>/gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=10 -XX:GCLogFileSize=1M",
       "type": "string"
     },
     {
@@ -1931,7 +1984,7 @@
           "description": "Determine if access audit log is enabled",
           "configName": "router.audit.log.enabled",
           "configurableInWizard": false,
-          "default": "true",
+          "default": "false",
           "type": "boolean"
         },
         {
@@ -2308,7 +2361,7 @@
         {
           "name": "app_program_runtime_monitor_polltime_ms",
           "label": "App Program Runtime Monitor Polltime",
-          "description": "Polling time in millis to poll updates from a runtime",
+          "description": "Polling time in milliseconds to poll updates from a runtime",
           "configName": "app.program.runtime.monitor.polltime.ms",
           "configurableInWizard": false,
           "default": 2000,
@@ -2318,7 +2371,7 @@
         {
           "name": "app_program_runtime_monitor_batch_limit",
           "label": "App Program Runtime Monitor Batch Limit",
-          "description": "Number of events to fetch from a runtime in each poll call.",
+          "description": "Number of events to fetch from a runtime in each poll call",
           "configName": "app.program.runtime.monitor.batch.limit",
           "configurableInWizard": false,
           "default": 1000,
@@ -2328,11 +2381,18 @@
         {
           "name": "app_program_runtime_monitor_topics_configs",
           "label": "App Program Runtime Monitor Topics Configs",
-          "description": "A comma-separated list of topics config to be monitored by runtime monitor.",
+          "description": "A comma-separated list of topic config to be monitored by runtime monitor",
           "configName": "app.program.runtime.monitor.topics.configs",
           "configurableInWizard": false,
-          "default": "audit.topic,data.event.topic,metadata.messaging.topic,metrics.topic.prefix:${metrics.messaging.topic.num},program.status.event.topic",
-          "type": "string"
+          "default": [
+            "audit.topic",
+            "data.event.topic",
+            "metadata.messaging.topic",
+            "metrics.topic.prefix:${metrics.messaging.topic.num}",
+            "program.status.event.topic"
+          ],
+          "separator": ",",
+          "type": "string_array"
         },
         {
           "name": "app_program_runtime_monitor_graceful_shutdown_ms",
@@ -2347,11 +2407,11 @@
         {
           "name": "app_program_runtime_monitor_server_port",
           "label": "App Program Runtime Monitor Server Port",
-          "description": "CDAP Runtime monitor server bind port",
+          "description": "CDAP Runtime monitor server port",
           "configName": "app.program.runtime.monitor.server.port",
-          "configurableInWizard": false,
+          "configurableInWizard": true,
           "default": 443,
-          "type": "long",
+          "type": "port",
           "max": 65535
         },
         {
@@ -2768,59 +2828,6 @@
           "default": 0,
           "type": "long",
           "max": 65535
-        },
-        {
-          "name": "system_metadata_retry_policy_base_delay_ms",
-          "label": "System Metadata Retry Policy Base Delay",
-          "description": "The base delay between retries in milliseconds",
-          "configName": "system.metadata.retry.policy.base.delay.ms",
-          "configurableInWizard": false,
-          "default": 100,
-          "type": "long",
-          "unit": "milliseconds"
-        },
-        {
-          "name": "system_metadata_retry_policy_max_delay_ms",
-          "label": "System Metadata Retry Policy Max Delay",
-          "description": "The maximum delay between retries in milliseconds",
-          "configName": "system.metadata.retry.policy.max.delay.ms",
-          "configurableInWizard": false,
-          "default": 2000,
-          "type": "long",
-          "unit": "milliseconds"
-        },
-        {
-          "name": "system_metadata_retry_policy_max_retries",
-          "label": "System Metadata Retry Policy Max Retries",
-          "description": "The maximum number of retries to attempt before aborting",
-          "configName": "system.metadata.retry.policy.max.retries",
-          "configurableInWizard": false,
-          "default": 1000,
-          "type": "long"
-        },
-        {
-          "name": "system_metadata_retry_policy_max_time_secs",
-          "label": "System Metadata Retry Policy Max Time",
-          "description": "The maximum elapsed time in seconds before retries are aborted",
-          "configName": "system.metadata.retry.policy.max.time.secs",
-          "configurableInWizard": false,
-          "default": 120,
-          "type": "long",
-          "unit": "seconds"
-        },
-        {
-          "name": "system_metadata_retry_policy_type",
-          "label": "System Metadata Retry Policy type",
-          "description": "The type of retry policy for workers. Allowed options: 'none', 'fixed.delay', or 'exponential.backoff'.",
-          "configName": "system.metadata.retry.policy.type",
-          "configurableInWizard": false,
-          "default": "exponential.backoff",
-          "type": "string_enum",
-          "validValues": [
-                "none",
-                "fixed.delay",
-                "exponential.backoff"
-              ]
         }
       ],
       "configWriter": {
