@@ -2805,7 +2805,7 @@
           "configName": "runtime.extensions.dir",
           "configurableInWizard": false,
           "default": [
-            "/opt/cdap/master/ext/runtimeproviders"
+            "${cdap.home}/master/ext/runtimeproviders"
           ],
           "separator": ";",
           "type": "string_array"
