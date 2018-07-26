@@ -2577,7 +2577,7 @@
 	  "description": "A local directory on the CDAP Master that is scanned for log processing pipeline configurations. Each pipeline is defined by a file in the logback XML format, with \".xml\" as the file name extension.",
 	  "configName": "log.process.pipeline.config.dir",
 	  "configurableInWizard": false,
-	  "default": "/opt/cdap/master/ext/logging/config",
+	  "default": "${cdap.home}/master/ext/logging/config",
 	  "type": "path",
 	  "pathType": "localDataDir"
 	},
@@ -2608,7 +2608,7 @@
 	  "configName": "log.process.pipeline.lib.dir",
 	  "configurableInWizard": false,
 	  "default": [
-	    "/opt/cdap/master/ext/logging/lib"
+	    "${cdap.home}/master/ext/logging/lib"
 	  ],
 	  "type": "path_array",
 	  "separator": ",",
@@ -2805,7 +2805,7 @@
           "configName": "runtime.extensions.dir",
           "configurableInWizard": false,
           "default": [
-            "/opt/cdap/master/ext/runtimeproviders"
+            "${cdap.home}/master/ext/runtimeproviders"
           ],
           "separator": ";",
           "type": "string_array"
