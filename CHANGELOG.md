@@ -1,6 +1,13 @@
 CDAP CSD CHANGELOG
 ==================
 
+v5.0.0 (Jul 30, 2018)
+---------------------
+- Update default configurations for better usability ( Issues: #187 [CDAP-12767](https://issues.cask.co/browse/CDAP-12767) )
+- Update default JVM options for JDK 8 ( Issues: #191 )
+- Update default twill JVM options for JDK 8 ( Issues: #192 [CDAP-13416](https://issues.cask.co/browse/CDAP-13416) )
+- Add configurations for CDAP 5.0 release ( Issues: #193 #194 #195 [CDAP-13708](https://issues.cask.co/browse/CDAP-13708) )
+
 v4.3.1 (Dec 5, 2017)
 --------------------
 - Add optional dependency on Sentry ( Issues: #178 )
