@@ -464,16 +464,6 @@
       "default": "help"
     },
     {
-      "name": "bootstrap_file",
-      "label": "Bootstrap File",
-      "description": "File that contains bootstrap steps that should be executed on a new CDAP instance as well as steps that should be executed on every restart of CDAP. Bootstrap steps include operations like loading system artifacts, creating the native profile, and creating the data prep application.",
-      "configName": "bootstrap.file",
-      "configurableInWizard": false,
-      "default": "/opt/cdap/master/bootstrap/distributed.json",
-      "type": "path",
-      "pathType": "localDataFile"
-    },
-    {
       "name": "enable_unrecoverable_reset",
       "label": "Enable Unrecoverable Reset",
       "description": "Determines if resetting CDAP should be enabled. **WARNING: Enabling this option makes it possible to delete all applications and data; NO RECOVERY IS POSSIBLE!**",
@@ -1330,7 +1320,7 @@
     },
     {
       "name": "scheduler_job_queue_num_partitions",
-      "label": "Scheduler Job Number of Partitions",
+      "label": "Scheduler Job Queue Number Partitions",
       "description": "Number of partitions in the scheduler's job queue. This is the same as the number of constraint checker threads started by the scheduler.",
       "configName": "scheduler.job.queue.num.partitions",
       "configurableInWizard": false,
@@ -1729,16 +1719,6 @@
       "configurableInWizard": false,
       "default": "/twill",
       "type": "string"
-    },
-    {
-      "name": "ui_theme_file",
-      "label": "UI Theme File",
-      "description": "File containing the theme to be used in UI",
-      "configName": "ui.theme.file",
-      "configurableInWizard": false,
-      "default": "${cdap.home}/ui/server/config/themes/default.json",
-      "type": "path",
-      "pathType": "localDataFile"
     },
     {
       "name": "worker_retry_policy_base_delay_ms",
@@ -2280,6 +2260,15 @@
           "configurableInWizard": false,
           "default": 30443,
           "type": "port"
+        },
+        {
+          "name": "bootstrap_file",
+          "label": "Bootstrap File",
+          "description": "File that contains bootstrap steps that should be executed on a new CDAP instance as well as steps that should be executed on every restart of CDAP. Bootstrap steps include operations like loading system artifacts, creating the native profile, and creating the data prep application.",
+          "configName": "bootstrap.file",
+          "configurableInWizard": false,
+          "default": "${cdap.home}/master/bootstrap/distributed.json",
+          "type": "string"
         },
         {
           "name": "data_tx_bind_port",
@@ -2887,6 +2876,15 @@
           "configurableInWizard": false,
           "default": "http://market.cask.co/v2",
           "type": "uri"
+        },
+        {
+          "name": "ui_theme_file",
+          "label": "UI Theme File",
+          "description": "File containing the theme to be used in UI",
+          "configName": "ui.theme.file",
+          "configurableInWizard": false,
+          "default": "ui/server/config/themes/default.json",
+          "type": "string"
         }
       ],
       "configWriter": {
