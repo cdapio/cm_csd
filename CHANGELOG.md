@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v5.1.0 (Oct 11, 2018)
+---------------------
+- Add configurations for CDAP 5.1 release ( Issues: #199 [CDAP-14495](https://issues.cask.co/browse/CDAP-14495) )
+
 v5.0.0 (Jul 30, 2018)
 ---------------------
 - Update default configurations for better usability ( Issues: #187 [CDAP-12767](https://issues.cask.co/browse/CDAP-12767) )
