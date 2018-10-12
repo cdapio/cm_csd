@@ -32,7 +32,7 @@
         <directory>${project.basedir}/src</directory>
         <outputDirectory>/</outputDirectory>
         <excludes>
-          <exclude>build-env.sh</exclude>
+          <exclude>scripts/build-env.sh</exclude>
         </excludes>
         </fileSet>
      </fileSets>
