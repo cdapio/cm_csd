@@ -60,6 +60,17 @@ function substitute_cdap_site_tokens {
 [[ -e scripts/build-env.sh ]] && source scripts/build-env.sh
 echo "CSD_VERSION: ${CSD_VERSION}"
 
+# Parse CDAP version from CDAP_HOME (exported in CDAP parcel)
+CDAP_VERSION=${VERSION:-$(basename ${CDAP_HOME} | cut -d- -f2)}
+
+# Extract CDAP major and minor versions
+__cdap_maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
+__cdap_min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
+
+# Extract CSD major and minor versions
+__csd_maj_version=$(echo ${CSD_VERSION} | cut -d. -f1)
+__csd_min_version=$(echo ${CSD_VERSION} | cut -d. -f2)
+
 # Determine relevant CDAP component paths from sourced parcel variables
 case ${SERVICE} in
   (auth-server)
@@ -112,7 +123,12 @@ case ${SERVICE} in
       fi
     fi
     export NODE_ENV=production
-    MAIN_CMD_ARGS="${CDAP_HOME}/ui/server.js"
+    # UI Entry point renamed in 6.0
+    if [[ ${__cdap_maj_version} -lt 6 ]]; then
+      MAIN_CMD_ARGS="${CDAP_HOME}/ui/server.js"
+    else
+      MAIN_CMD_ARGS="${CDAP_HOME}/ui/index.js"
+    fi
     ;;
   (client)
     CLIENT_CONF_DIR=${CONF_DIR}/cdap-conf
@@ -182,9 +198,6 @@ fn_exists cdap_set_hbase || cdap_set_hbase() { set_hbase ${*}; }
 # Redefine cdap_kinit to be a no-op. CM handles kinit for us
 cdap_kinit() { return 0; }
 
-# Parse CDAP version from CDAP_HOME (exported in CDAP parcel)
-CDAP_VERSION=${VERSION:-$(basename ${CDAP_HOME} | cut -d- -f2)}
-
 # Token replacement in CM-generated cdap-site.xml
 # Hostname
 HOSTNAME=`hostname -f`
@@ -215,14 +228,6 @@ if [ "${cdap_principal}" != "" ]; then
   export SCM_KERBEROS_PRINCIPAL=${cdap_principal}
   acquire_kerberos_tgt cdap.keytab
 fi
-
-# Extract CDAP major and minor versions
-__cdap_maj_version=$(echo ${CDAP_VERSION} | cut -d. -f1)
-__cdap_min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
-
-# Extract CSD major and minor versions
-__csd_maj_version=$(echo ${CSD_VERSION} | cut -d. -f1)
-__csd_min_version=$(echo ${CSD_VERSION} | cut -d. -f2)
 
 # Check compatibility between CSD and Parcel between maj.min versions
 if [[ "${CSD_COMPATIBILITY_CHECK_ENABLED}" == "true" ]]; then
