@@ -349,7 +349,7 @@
       "configName": "data.tx.pruning.plugin.class",
       "required": true,
       "configurableInWizard": false,
-      "default": "co.cask.data2.txprune.DefaultHBaseTransactionPruningPlugin",
+      "default": "io.cdap.data2.txprune.DefaultHBaseTransactionPruningPlugin",
       "type": "string"
     },
     {
@@ -447,11 +447,11 @@
       "description": "CDAP Debugger Utility Class to run from the Actions menu",
       "configurableInWizard": false,
       "type": "string_enum",
-      "default": "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
+      "default": "io.cdap.cdap.data.tools.SimpleHBaseQueueDebugger",
       "validValues": [
-        "co.cask.cdap.data.tools.SimpleHBaseQueueDebugger",
-        "co.cask.cdap.data.tools.HBaseQueueDebugger",
-        "co.cask.cdap.data.tools.JobQueueDebugger"
+        "io.cdap.cdap.data.tools.SimpleHBaseQueueDebugger",
+        "io.cdap.cdap.data.tools.HBaseQueueDebugger",
+        "io.cdap.cdap.data.tools.JobQueueDebugger"
       ]
     },
     {
@@ -2145,7 +2145,7 @@
           },
           {
             "key": "disableChattyLoggerCDAP",
-            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+            "value": "<logger name=\"io.cdap.cdap\" level=\"INFO\"/>"
           }
         ]
       },
@@ -2334,7 +2334,7 @@
           },
           {
             "key": "disableChattyLoggerCDAP",
-            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+            "value": "<logger name=\"io.cdap.cdap\" level=\"INFO\"/>"
           }
         ]
       },
@@ -2745,7 +2745,7 @@
           "configName": "master.startup.checks.packages",
           "required": true,
           "configurableInWizard": false,
-          "default": "co.cask.cdap.master.startup",
+          "default": "io.cdap.cdap.master.startup",
           "type": "string"
         },
         {
@@ -2947,7 +2947,7 @@
           },
           {
             "key": "disableChattyLoggerCDAP",
-            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+            "value": "<logger name=\"io.cdap.cdap\" level=\"INFO\"/>"
           }
         ]
       },
@@ -3358,18 +3358,18 @@
           "description": "Name of the authentication implementation to use to validate user credentials",
           "configName": "security.authentication.handlerClassName",
           "configurableInWizard": false,
-          "default": "co.cask.cdap.security.server.BasicAuthenticationHandler",
+          "default": "io.cdap.cdap.security.server.BasicAuthenticationHandler",
           "type": "string_enum",
           "validValues": [
-            "co.cask.cdap.security.server.BasicAuthenticationHandler",
-            "co.cask.cdap.security.server.LDAPAuthenticationHandler",
-            "co.cask.cdap.security.server.JASPIAuthenticationHandler"
+            "io.cdap.cdap.security.server.BasicAuthenticationHandler",
+            "io.cdap.cdap.security.server.LDAPAuthenticationHandler",
+            "io.cdap.cdap.security.server.JASPIAuthenticationHandler"
           ]
         },
         {
           "name": "security_authentication_loginmodule_className",
           "label": "Security Authentication Login Module Class Name",
-          "description": "JAAS LoginModule implementation to use when co.cask.security.server.JAASAuthenticationHandler is configured for ${security.authentication.handlerClassName}",
+          "description": "JAAS LoginModule implementation to use when io.cdap.security.server.JAASAuthenticationHandler is configured for ${security.authentication.handlerClassName}",
           "configName": "security.authentication.loginmodule.className",
           "configurableInWizard": false,
           "default": "",
@@ -3462,7 +3462,7 @@
           },
           {
             "key": "disableChattyLoggerCDAP",
-            "value": "<logger name=\"co.cask.cdap\" level=\"INFO\"/>"
+            "value": "<logger name=\"io.cdap.cdap\" level=\"INFO\"/>"
           }
         ]
       },
