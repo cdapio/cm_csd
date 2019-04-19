@@ -71,12 +71,19 @@ __cdap_min_version=$(echo ${CDAP_VERSION} | cut -d. -f2)
 __csd_maj_version=$(echo ${CSD_VERSION} | cut -d. -f1)
 __csd_min_version=$(echo ${CSD_VERSION} | cut -d. -f2)
 
+# CDAP 6.0 renamed the package second-level domain
+if [[ ${__cdap_maj_version} -lt 6 ]]; then
+  PKG_SLD="co.cask"
+else
+  PKG_SLD="io.cdap"
+fi
+
 # Determine relevant CDAP component paths from sourced parcel variables
 case ${SERVICE} in
   (auth-server)
     COMPONENT_HOME=${CDAP_AUTH_SERVER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_AUTH_SERVER_CONF_SCRIPT}
-    MAIN_CLASS=co.cask.cdap.security.runtime.AuthenticationServerMain
+    MAIN_CLASS=${PKG_SLD}.cdap.security.runtime.AuthenticationServerMain
     MAIN_CLASS_ARGS=
     JAVA_HEAP_VAR=AUTH_JAVA_HEAPMAX
     AUTH_JAVA_HEAPMAX=${AUTH_JAVA_HEAPMAX:--Xmx1024m}
@@ -85,7 +92,7 @@ case ${SERVICE} in
   (kafka-server)
     COMPONENT_HOME=${CDAP_KAFKA_SERVER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_KAFKA_SERVER_CONF_SCRIPT}
-    MAIN_CLASS=co.cask.cdap.kafka.run.KafkaServerMain
+    MAIN_CLASS=${PKG_SLD}.cdap.kafka.run.KafkaServerMain
     MAIN_CLASS_ARGS=
     JAVA_HEAP_VAR=KAFKA_JAVA_HEAPMAX
     KAFKA_JAVA_HEAPMAX=${KAFKA_JAVA_HEAPMAX:--Xmx1024m}
@@ -93,7 +100,7 @@ case ${SERVICE} in
   (master)
     COMPONENT_HOME=${CDAP_MASTER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_MASTER_CONF_SCRIPT}
-    MAIN_CLASS=co.cask.cdap.data.runtime.main.MasterServiceMain
+    MAIN_CLASS=${PKG_SLD}.cdap.data.runtime.main.MasterServiceMain
     MAIN_CLASS_ARGS="start"
     JAVA_HEAP_VAR=MASTER_JAVA_HEAPMAX
     MASTER_JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
@@ -102,7 +109,7 @@ case ${SERVICE} in
   (router)
     COMPONENT_HOME=${CDAP_ROUTER_HOME}
     COMPONENT_CONF_SCRIPT=${CDAP_ROUTER_CONF_SCRIPT}
-    MAIN_CLASS=co.cask.cdap.gateway.router.RouterMain
+    MAIN_CLASS=${PKG_SLD}.cdap.gateway.router.RouterMain
     MAIN_CLASS_ARGS=
     JAVA_HEAP_VAR=ROUTER_JAVA_HEAPMAX
     ROUTER_JAVA_HEAPMAX=${ROUTER_JAVA_HEAPMAX:--Xmx1024m}
@@ -139,7 +146,7 @@ case ${SERVICE} in
   (upgrade_hbase)
     # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
-    MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
+    MAIN_CLASS=${PKG_SLD}.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade_hbase force"
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
@@ -147,7 +154,7 @@ case ${SERVICE} in
   (upgrade)
     # The upgrade tool is run as master, but with an overridden $MAIN_CLASS and $MAIN_CLASS_ARGS
     COMPONENT_HOME=${CDAP_MASTER_HOME}
-    MAIN_CLASS=co.cask.cdap.data.tools.UpgradeTool
+    MAIN_CLASS=${PKG_SLD}.cdap.data.tools.UpgradeTool
     MAIN_CLASS_ARGS="upgrade force"
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
@@ -155,7 +162,7 @@ case ${SERVICE} in
   (postupgrade)
     # A post-upgrade step to correct any pending flow metrics. Kafka server must be running
     COMPONENT_HOME=${CDAP_MASTER_HOME}
-    MAIN_CLASS=co.cask.cdap.data.tools.flow.FlowQueuePendingCorrector
+    MAIN_CLASS=${PKG_SLD}.cdap.data.tools.flow.FlowQueuePendingCorrector
     MAIN_CLASS_ARGS=""
     # Set heap max, normally set in COMPONENT_CONF_SCRIPT
     JAVA_HEAPMAX=${MASTER_JAVA_HEAPMAX:--Xmx1024m}
@@ -330,7 +337,7 @@ if [ ${MAIN_CLASS} ]; then
     echo "Using SPARK_HOME: ${SPARK_HOME}"
 
     # Build and upload coprocessor jars, if we are starting master
-    if [[ "${MAIN_CLASS}" == "co.cask.cdap.data.runtime.main.MasterServiceMain" ]]; then
+    if [[ "${MAIN_CLASS}" == "${PKG_SLD}.cdap.data.runtime.main.MasterServiceMain" ]]; then
       # Run only if CDAP_VERSION >= 4.1
       if [[ __cdap_maj_version -gt 4 ]] || [[ __cdap_maj_version -ge 4 && __cdap_min_version -ge 1 ]]; then
         echo "$(date) Ensuring required HBase coprocessors are on HDFS"
@@ -348,7 +355,7 @@ if [ ${MAIN_CLASS} ]; then
           -Dexplore.classpath=${EXPLORE_CLASSPATH} ${CDAP_JAVA_OPTS} \
           -Dcdap.home=${CDAP_HOME} \
           -cp ${CLASSPATH} \
-          co.cask.cdap.master.startup.MasterStartupTool 2>&1
+          ${PKG_SLD}.cdap.master.startup.MasterStartupTool 2>&1
         if [ $? -ne 0 ]; then
           echo "Master startup checks failed. Please check the CDAP Master Role logs to address issues"
           exit 1
