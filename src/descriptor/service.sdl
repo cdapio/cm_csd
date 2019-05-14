@@ -2430,6 +2430,15 @@
           "max": 65535
         },
         {
+          "name": "dataset executor bind address",
+          "label": "Dataset Executor Bind Address",
+          "description": "Dataset executor HTTP service bind address",
+          "configName": "dataset.executor.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
           "name": "dataset_executor_bind_port",
           "label": "Dataset Executor Bind Port",
           "description": "Dataset executor bind port; if 0 binds to a random port",
