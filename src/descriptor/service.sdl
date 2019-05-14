@@ -923,6 +923,15 @@
       "type": "string"
     },
     {
+      "name": "master_environment_extensions_dir",
+      "label": "Master Environment Extensions Dir",
+      "description": "Semicolon-separated list of local directories that are scanned for CDAP Master environment providers.",
+      "configName": "master.environment.extensions.dir",
+      "configurableInWizard": false,
+      "default": "${cdap.home}/master/ext/environments",
+      "type": "string"
+    },
+    {
       "name": "messaging_cache_size_mb",
       "label": "Messaging Cache Size MB",
       "description": "Memory in megabytes for the cache size used by the messaging service for caching recently-published messages. Currently, only topics listed in the ${messaging.system.topics} configuration have caching enabled. Set it to 0 to disable caching.",
