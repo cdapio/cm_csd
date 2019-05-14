@@ -272,7 +272,67 @@
       "default": "dataevent",
       "type": "string"
     },
-
+    {
+      "name": "data storage implementation",
+      "label": "Data Storage Implementation",
+      "description": "The database implementation CDAP will use.",
+      "configName": "data.storage.implementation",
+      "configurableInWizard": false,
+      "default": "nosql",
+      "type": "string"
+    },
+    {
+      "name": "data storage sql jdbc driver external",
+      "label": "Data Storage Sql Jdbc Driver External",
+      "description": "Indicates whether the JDBC driver has to be loaded from an external directory. If true, then the JDBC driver directory has to be specified using 'data.storage.sql.jdbc.driver.directory'. If false, then the JDBC driver is present in the CDAP classpath. This config can only be used when the storage implementation is postgresql.",
+      "configName": "data.storage.sql.jdbc.driver.external",
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "data storage sql jdbc driver directory",
+      "label": "Data Storage Sql Jdbc Driver Directory",
+      "description": "The base directory for storing JDBC driver jars. Sub-directory with the name that matches with the value of 'data.storage.implementation' setting will be searched for the corresponding JDBC driver and dependencies jars to connect to the configured sql instance. The JDBC driver class to load has to be specified using 'data.storage.sql.jdbc.driver.name'. This config can only be used when the storage implementation is postgresql.",
+      "configName": "data.storage.sql.jdbc.driver.directory",
+      "configurableInWizard": false,
+      "default": "${cdap.home}/master/ext/jdbc",
+      "type": "string"
+    },
+    {
+      "name": "data storage sql jdbc driver name",
+      "label": "Data Storage Sql Jdbc Driver Name",
+      "description": "The jdbc driver class name to connect to the sql instance. The jdbc url, username, password, connection properties can be set using cdap-security.xml.",
+      "configName": "data.storage.sql.jdbc.driver.name",
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "data storage sql jdbc connection url",
+      "label": "Data Storage Sql Jdbc Connection Url",
+      "description": "The jdbc url to connect to the sql instance. No sensitive information should be provided using the jdbc url. The username and password can be specified in cdap-security.xml. For non-sensitive properties, it can be specified by adding a property with name prefixed with 'data.storage.sql.jdbc.property.', followed by the sql property name.",
+      "configName": "data.storage.sql.jdbc.connection.url",
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "data storage sql jdbc connection pool size",
+      "label": "Data Storage Sql Jdbc Connection Pool Size",
+      "description": "The max number of connections for the sql connection pool.",
+      "configName": "data.storage.sql.jdbc.connection.pool.size",
+      "configurableInWizard": false,
+      "default": 800,
+      "type": "long"
+    },
+    {
+      "name": "data tx enabled",
+      "label": "Data Tx Enabled",
+      "description": "Determines if the transaction service is enabled.",
+      "configName": "data.tx.enabled",
+      "configurableInWizard": true,
+      "default": true,
+      "type": "boolean"
+    },
     {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
