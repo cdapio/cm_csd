@@ -540,59 +540,6 @@
       "unit": "seconds"
     },
     {
-      "name": "flow_retry_policy_base_delay_ms",
-      "label": "Flow Retry Policy Base Delay Milliseconds",
-      "description": "The base delay between retries in milliseconds",
-      "configName": "flow.retry.policy.base.delay.ms",
-      "configurableInWizard": false,
-      "default": 100,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "flow_retry_policy_max_delay_ms",
-      "label": "Flow Retry Policy Maximum Delay Milliseconds",
-      "description": "The maximum delay between retries in milliseconds",
-      "configName": "flow.retry.policy.max.delay.ms",
-      "configurableInWizard": false,
-      "default": 1000,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "flow_retry_policy_max_retries",
-      "label": "Flow Retry Policy Maximum Retries",
-      "description": "The maximum number of retries to attempt before aborting",
-      "configName": "flow.retry.policy.max.retries",
-      "configurableInWizard": false,
-      "default": 3,
-      "type": "long"
-    },
-    {
-      "name": "flow_retry_policy_max_time_secs",
-      "label": "Flow Retry Policy Maximum Time Seconds",
-      "description": "The maximum elapsed time in seconds before retries are aborted",
-      "configName": "flow.retry.policy.max.time.secs",
-      "configurableInWizard": false,
-      "default": 10,
-      "type": "long",
-      "unit": "seconds"
-    },
-    {
-      "name": "flow_retry_policy_type",
-      "label": "Flow Retry Policy Type",
-      "description": "The type of retry policy for flows",
-      "configName": "flow.retry.policy.type",
-      "configurableInWizard": false,
-      "type": "string_enum",
-      "default": "none",
-      "validValues": [
-        "none",
-        "fixed.delay",
-        "exponential.backoff"
-      ]
-    },
-    {
       "name": "hbase_version_resolution_strategy",
       "label": "HBase Version Resolution Strategy",
       "description": "Determines how to behave when the HBase version on a cluster is an unsupported value. The default value of 'auto.strict' will require that the HBase version match a supported value, and CDAP Master will not start if the HBase version is unsupported. Set to \"auto.latest\" to use the latest HBase version available on the cluster with an unsupported HBase version.",
@@ -1081,16 +1028,6 @@
       "unit": "megabytes"
     },
     {
-      "name": "metrics_data_table_retention_resolution_1_seconds",
-      "label": "Metrics Data Table Retention Resolution 1 Seconds",
-      "description": "Retention resolution in seconds of the 1-second resolution table; default retention period is 2 hours",
-      "configName": "metrics.data.table.retention.resolution.1.seconds",
-      "configurableInWizard": false,
-      "default": 7200,
-      "type": "long",
-      "min": 1
-    },
-    {
       "name": "metrics_hbase_max_scan_threads",
       "label": "Metrics Hbase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
@@ -1099,16 +1036,6 @@
       "default": 96,
       "type": "long",
       "min": 1
-    },
-    {
-      "name": "metrics_kafka_meta_table",
-      "label": "Metrics Kafka Meta Table",
-      "description": "Name of the Kafka metrics meta table",
-      "configName": "metrics.kafka.meta.table",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "metrics.kafka.meta",
-      "type": "string"
     },
     {
       "name": "metrics_kafka_partition_size",
@@ -1603,46 +1530,6 @@
       "type": "boolean"
     },
     {
-      "name": "stream_container_instances",
-      "label": "Stream Container Instances",
-      "description": "Number of YARN container instances for the stream handler",
-      "configName": "stream.container.instances",
-      "configurableInWizard": true,
-      "default": 1,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "stream_container_memory_mb",
-      "label": "Stream Container Memory MB",
-      "description": "Memory in megabytes for each YARN container that runs the stream handler",
-      "configName": "stream.container.memory.mb",
-      "configurableInWizard": true,
-      "default": 1024,
-      "type": "memory",
-      "unit": "megabytes",
-      "min": 512
-    },
-    {
-      "name": "stream_container_num_cores",
-      "label": "Stream Container Number of Virtual Cores",
-      "description": "Number of virtual core for the YARN container that runs the stream handler",
-      "configName": "stream.container.num.cores",
-      "configurableInWizard": true,
-      "default": 2,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "stream_twill_java_heap_memory_ratio",
-      "label": "Stream Twill Java Heap Memory Ratio",
-      "description": "The minimum ratio of heap to non-heap memory for the stream service container",
-      "configName": "stream.twill.java.heap.memory.ratio",
-      "configurableInWizard": false,
-      "default": "0.6",
-      "type": "double"
-    },
-    {
       "name": "system_log_process_retry_policy_base_delay_ms",
       "label": "System Log Process Retry Policy Base Delay Milliseconds",
       "description": "The base delay between retries in milliseconds",
@@ -2042,21 +1929,6 @@
           "configurableInWizard": false,
           "default": 10443,
           "type": "port"
-        },
-        {
-          "name": "router_userservice_fallback_strategy",
-          "label": "Router User Service Fallback Strategy",
-          "description": "If a RouteConfig is not found for a particular user service, this property is used to set the fallback routing strategy. Allowed options: \"random\", \"smallest\", \"largest\", or \"drop\". A string comparison of the versions of the user service is used for \"smallest\" or \"largest\". The \"drop\" option will not route the request to any service and will return \"service not found\".",
-          "configName": "router.userservice.fallback.strategy",
-          "configurableInWizard": false,
-          "default": "random",
-          "type": "string_enum",
-          "validValues": [
-            "random",
-            "smallest",
-            "largest",
-            "drop"
-          ]
         }
       ],
       "configWriter": {
@@ -2366,6 +2238,15 @@
           "default": 0,
           "type": "long",
           "max": 65535
+        },
+        {
+          "name": "app_max_concurrent_runs",
+          "label": "App Max Concurrent Runs",
+          "description": "Maximum number of concurrent program runs allowed; set to -1 for unlimited",
+          "configName": "app.max.concurrent.runs",
+          "configurableInWizard": false,
+          "default": -1,
+          "type": "long",
         },
         {
           "name": "app_program_metrics_enabled",
@@ -2816,16 +2697,6 @@
           "max": 65535
         },
         {
-          "name": "notification_topic",
-          "label": "Notification Topic",
-          "description": "Topic name used to publish notifications",
-          "configName": "notification.topic",
-          "required": true,
-          "configurableInWizard": false,
-          "default": "notifications",
-          "type": "string"
-        },
-        {
           "name": "runtime_extensions_dir",
           "label": "Runtime Extensions Dir",
           "description": "Semicolon-separated list of local directories on the CDAP Master that are scanned for program runtime extensions",
@@ -2844,16 +2715,6 @@
           "configName": "security.keytab.path",
           "configurableInWizard": false,
           "type": "string"
-        },
-        {
-          "name": "stream_bind_port",
-          "label": "Stream Bind Port",
-          "description": "Stream HTTP service bind port; if 0 binds to a random port",
-          "configName": "stream.bind.port",
-          "configurableInWizard": false,
-          "default": 0,
-          "type": "long",
-          "max": 65535
         }
       ],
       "configWriter": {
