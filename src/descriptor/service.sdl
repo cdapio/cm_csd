@@ -272,6 +272,7 @@
       "default": "dataevent",
       "type": "string"
     },
+
     {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
@@ -2387,6 +2388,23 @@
           "default": 0,
           "type": "long",
           "max": 65535
+        },
+        {
+          "name": "app program log appender extensions dir",
+          "label": "App Program Log Appender Extensions Dir",
+          "description": "Directory for log appender jars",
+          "configName": "app.program.log.appender.extensions.dir",
+          "configurableInWizard": false,
+          "default": "${cdap.home}/master/ext/log/appenders",
+          "type": "string"
+        },
+        {
+          "name": "app program log appender provider",
+          "label": "App Program Log Appender Provider",
+          "description": "Provider for log appender. The log appender provided by this provider will be loaded in each program container",
+          "configName": "app.program.log.appender.provider",
+          "configurableInWizard": false,
+          "type": "string"
         },
         {
           "name": "log_kafka_topic",
