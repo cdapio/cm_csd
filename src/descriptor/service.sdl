@@ -273,7 +273,7 @@
       "type": "string"
     },
     {
-      "name": "data storage implementation",
+      "name": "data_storage_implementation",
       "label": "Data Storage Implementation",
       "description": "The database implementation CDAP will use.",
       "configName": "data.storage.implementation",
@@ -282,7 +282,7 @@
       "type": "string"
     },
     {
-      "name": "data storage sql jdbc driver external",
+      "name": "data_storage_sql_jdbc_driver_external",
       "label": "Data Storage Sql Jdbc Driver External",
       "description": "Indicates whether the JDBC driver has to be loaded from an external directory. If true, then the JDBC driver directory has to be specified using 'data.storage.sql.jdbc.driver.directory'. If false, then the JDBC driver is present in the CDAP classpath. This config can only be used when the storage implementation is postgresql.",
       "configName": "data.storage.sql.jdbc.driver.external",
@@ -291,7 +291,7 @@
       "type": "boolean"
     },
     {
-      "name": "data storage sql jdbc driver directory",
+      "name": "data_storage_sql_jdbc_driver_directory",
       "label": "Data Storage Sql Jdbc Driver Directory",
       "description": "The base directory for storing JDBC driver jars. Sub-directory with the name that matches with the value of 'data.storage.implementation' setting will be searched for the corresponding JDBC driver and dependencies jars to connect to the configured sql instance. The JDBC driver class to load has to be specified using 'data.storage.sql.jdbc.driver.name'. This config can only be used when the storage implementation is postgresql.",
       "configName": "data.storage.sql.jdbc.driver.directory",
@@ -300,7 +300,7 @@
       "type": "string"
     },
     {
-      "name": "data storage sql jdbc driver name",
+      "name": "data_storage_sql_jdbc_driver_name",
       "label": "Data Storage Sql Jdbc Driver Name",
       "description": "The jdbc driver class name to connect to the sql instance. The jdbc url, username, password, connection properties can be set using cdap-security.xml.",
       "configName": "data.storage.sql.jdbc.driver.name",
@@ -308,7 +308,7 @@
       "type": "string"
     },
     {
-      "name": "data storage sql jdbc connection url",
+      "name": "data_storage_sql_jdbc_connection_url",
       "label": "Data Storage Sql Jdbc Connection Url",
       "description": "The jdbc url to connect to the sql instance. No sensitive information should be provided using the jdbc url. The username and password can be specified in cdap-security.xml. For non-sensitive properties, it can be specified by adding a property with name prefixed with 'data.storage.sql.jdbc.property.', followed by the sql property name.",
       "configName": "data.storage.sql.jdbc.connection.url",
@@ -316,7 +316,7 @@
       "type": "string"
     },
     {
-      "name": "data storage sql jdbc connection pool size",
+      "name": "data_storage_sql_jdbc_connection_pool_size",
       "label": "Data Storage Sql Jdbc Connection Pool Size",
       "description": "The max number of connections for the sql connection pool.",
       "configName": "data.storage.sql.jdbc.connection.pool.size",
@@ -325,7 +325,7 @@
       "type": "long"
     },
     {
-      "name": "data tx enabled",
+      "name": "data_tx_enabled",
       "label": "Data Tx Enabled",
       "description": "Determines if the transaction service is enabled.",
       "configName": "data.tx.enabled",
@@ -2430,7 +2430,7 @@
           "max": 65535
         },
         {
-          "name": "dataset executor bind address",
+          "name": "dataset_executor_bind_address",
           "label": "Dataset Executor Bind Address",
           "description": "Dataset executor HTTP service bind address",
           "configName": "dataset.executor.bind.address",
@@ -2459,7 +2459,7 @@
           "max": 65535
         },
         {
-          "name": "app program log appender extensions dir",
+          "name": "app_program_log_appender_extensions_dir",
           "label": "App Program Log Appender Extensions Dir",
           "description": "Directory for log appender jars",
           "configName": "app.program.log.appender.extensions.dir",
@@ -2468,7 +2468,7 @@
           "type": "string"
         },
         {
-          "name": "app program log appender provider",
+          "name": "app_program_log_appender_provider",
           "label": "App Program Log Appender Provider",
           "description": "Provider for log appender. The log appender provided by this provider will be loaded in each program container",
           "configName": "app.program.log.appender.provider",
