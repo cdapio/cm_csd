@@ -2485,6 +2485,61 @@
           "default": "logs.user-v2",
           "type": "string"
         },
+        {
+          "name": "log_buffer_base_dir",
+          "label": "Log Buffer Base Dir",
+          "description": "Base directory for logs buffer",
+          "configName": "log.buffer.base.dir",
+          "configurableInWizard": false,
+          "default": "${local.data.dir}/logs.buffer",
+          "type": "string"
+        },
+        {
+          "name": "log_buffer_max_file_size_bytes",
+          "label": "Log Buffer Max File Size Bytes",
+          "description": "Maximum size in bytes of a log buffer file",
+          "configName": "log.buffer.max.file.size.bytes",
+          "configurableInWizard": false,
+          "default": 104857600,
+          "type": "long"
+        },
+        {
+          "name": "log_buffer_server_bind_address",
+          "label": "Log Buffer Server Bind Address",
+          "description": "Log buffer HTTP service bind address",
+          "configName": "log.buffer.server.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "log_buffer_server_bind_port",
+          "label": "Log Buffer Server Bind Port",
+          "description": "Log buffer HTTP service bind port",
+          "configName": "log.buffer.server.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "long",
+          "max": 65535
+        },
+        {
+          "name": "log_buffer_recovery_batch_size",
+          "label": "Log Buffer Recovery Batch Size",
+          "description": "Log buffer recovery batch size in number of log events read. This will be used to recover logs in batches from log buffer upon log service restart",
+          "configName": "log.buffer.recovery.batch.size",
+          "configurableInWizard": false,
+          "default": 5000,
+          "type": "long",
+        },
+        {
+          "name": "log_queue_size",
+          "label": "Log Queue Size",
+          "description": "The buffer size used in Log Appender",
+          "configName": "log.queue.size",
+          "configurableInWizard": false,
+          "default": 512,
+          "type": "long",
+        },
 	{
 	  "name": "log_pipeline_cdap_dir_permissions",
 	  "label": "Log Pipeline CDAP Directory Permissions",
@@ -2535,6 +2590,15 @@
 	  "type": "long",
 	  "unit": "bytes"
 	},
+	{
+  	"name": "log_pipeline_cdap_file_cleanup_batch_size",
+  	"label": "Log Pipeline Cdap File Cleanup Batch Size",
+  	"description": "Batch size to clean up log metadata table.",
+  	"configName": "log.pipeline.cdap.file.cleanup.batch.size",
+  	"configurableInWizard": false,
+  	"default": 10000,
+  	"type": "long",
+  },
 	{
 	  "name": "log_process_pipeline_auto_buffer_ratio",
 	  "label": "Log Process Pipeline Auto Buffer Ratio",
@@ -2641,6 +2705,25 @@
 	    "program"
 	  ]
 	},
+	{
+  	"name": "log_query_server_bind_address",
+  	"label": "Log Query Server Bind Address",
+  	"description": "Log query HTTP service bind address",
+  	"configName": "log.query.server.bind.address",
+  	"configurableInWizard": false,
+  	"default": "0.0.0.0",
+  	"type": "string"
+  },
+  {
+    "name": "log_query_server_bind_port",
+    "label": "Log Query Server Bind Port",
+    "description": "Log query HTTP service bind port",
+    "configName": "log.query.server.bind.port",
+    "configurableInWizard": false,
+    "default": 0,
+    "type": "long",
+    "max": 65536
+  },
         {
           "name": "master_collect_containers_log",
           "label": "Master Collect Container Logs",
