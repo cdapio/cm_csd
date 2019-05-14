@@ -1117,6 +1117,73 @@
       "max": 65536
     },
     {
+      "name": "metrics_bind_address",
+      "label": "Metrics Bind Address",
+      "description": "Metrics query HTTP service bind address",
+      "configName": "metrics.bind.addresst",
+      "configurableInWizard": false,
+      "default": "0.0.0.0",
+      "type": "string",
+    },
+    {
+      "name": "metrics_bind_port",
+      "label": "Metrics Bind Port",
+      "description": "Metrics query HTTP service bind port; if 0, binds to a random port ",
+      "configName": "metrics.bind.port",
+      "configurableInWizard": false,
+      "default": 0,
+      "type": "long",
+      "max": 65536
+    },
+    {
+      "name": "metrics_admin_topic",
+      "label": "Metrics Admin Topic",
+      "description": "Topic name for publishing metrics administrative events to the messaging system",
+      "configName": "metrics.admin.topic",
+      "configurableInWizard": false,
+      "default": "metricsadmin",
+      "type": "string",
+    },
+    {
+      "name": "metrics_admin_poll_delay_millis",
+      "label": "Metrics Admin Poll Delay Millis",
+      "description": "The delay in milliseconds to check again for new metrics administrative events after it detects there was no event.",
+      "configName": "metrics.admin.poll.delay.millis",
+      "configurableInWizard": false,
+      "default": 2000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "metrics_minimum_resolution_seconds",
+      "label": "Metrics Minimum Resolution Seconds",
+      "description": "Minimum metrics resolution in seconds, this value should be less than 60 seconds, otherwise the minimum metrics resolution will be 60 seconds.",
+      "configName": "metrics.minimum.resolution.seconds",
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "metrics_data_table_retention_minimum_resolution_seconds",
+      "label": "Metrics Data Table Retention Minimum Resolution Seconds",
+      "description": "Retention resolution in seconds of the minimum resolution table; default retention period is 2 hours, this retention will not be applied if the minimum resolution is greater than or equal to 60.",
+      "configName": "metrics.data.table.retention.minimum.resolution.seconds",
+      "configurableInWizard": false,
+      "default": 7200,
+      "type": "long",
+      "unit": "seconds"
+    },
+    {
+      "name": "metrics_meta_table",
+      "label": "Metrics Meta Table",
+      "description": "Name of the metrics meta table.",
+      "configName": "metrics.meta.table",
+      "configurableInWizard": false,
+      "default": "metrics.meta",
+      "type": "string",
+    },
+    {
       "name": "metrics_hbase_max_scan_threads",
       "label": "Metrics Hbase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
@@ -1502,6 +1569,15 @@
         "none",
         "kms"
       ]
+    },
+    {
+      "name": "security_store_extensions_dir",
+      "label": "Security Store Extensions Dir",
+      "description": "Semicolon-separated list of local directories that are scanned for secure store extensions.",
+      "configName": "security.store.extensions.dir",
+      "configurableInWizard": false,
+      "default": "${cdap.home}/master/ext/securestores",
+      "type": "string",
     },
     {
       "name": "service_retry_policy_base_delay_ms",
