@@ -2875,6 +2875,15 @@
           "unit": "milliseconds"
         },
         {
+          "name": "metadata_messaging_retries_on_conflict",
+          "label": "Metadata Messaging Retries On Conflict",
+          "description": "The maximal number of times a metadata message will be processed if it repeatedly causes a conflict exception. After this, the mesaage will be discarded.",
+          "configName": "metadata.messaging.retries.on.conflict",
+          "configurableInWizard": false,
+          "default": 100,
+          "type": "long",
+        },
+        {
           "name": "metadata_service_bind_address",
           "label": "Metadata Service Bind Address",
           "description": "Metadata HTTP service bind address",
