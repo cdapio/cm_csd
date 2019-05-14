@@ -1184,6 +1184,15 @@
       "type": "string",
     },
     {
+      "name": "structured_table_time_metrics_enabled",
+      "label": "Structured Table Time Metrics Enabled",
+      "description": "Option to turn on the time metrics for the structured table operations.",
+      "configName": "structured.table.time.metrics.enabled",
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean",
+    },
+    {
       "name": "metrics_hbase_max_scan_threads",
       "label": "Metrics Hbase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
@@ -3265,7 +3274,7 @@
           "description": "File containing the theme to be used in UI",
           "configName": "ui.theme.file",
           "configurableInWizard": false,
-          "default": "ui/server/config/themes/default.json",
+          "default": "server/config/themes/default.json",
           "type": "string"
         }
       ],
