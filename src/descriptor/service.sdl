@@ -1098,6 +1098,25 @@
       "unit": "megabytes"
     },
     {
+      "name": "messaging_http_server_bind_address",
+      "label": "Messaging Http Server Bind Address",
+      "description": " Messaging HTTP server bind address",
+      "configName": "messaging.http.server.bind.address",
+      "configurableInWizard": false,
+      "default": "0.0.0.0",
+      "type": "string"
+    },
+    {
+      "name": "messaging_http_server_bind_port",
+      "label": "Messaging Http Server Bind Port",
+      "description": "Messaging HTTP service bind port; if 0, binds to a random port",
+      "configName": "messaging.http.server.bind.port",
+      "configurableInWizard": false,
+      "default": 0,
+      "type": "long",
+      "max": 65536
+    },
+    {
       "name": "metrics_hbase_max_scan_threads",
       "label": "Metrics Hbase Max Scan Threads",
       "description": "Maximum number of threads used for scanning HBase tables",
