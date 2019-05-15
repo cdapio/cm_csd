@@ -329,7 +329,7 @@
       "label": "Data Tx Enabled",
       "description": "Determines if the transaction service is enabled.",
       "configName": "data.tx.enabled",
-      "configurableInWizard": true,
+      "configurableInWizard": false,
       "default": true,
       "type": "boolean"
     },
@@ -923,15 +923,6 @@
       "type": "string"
     },
     {
-      "name": "master_environment_extensions_dir",
-      "label": "Master Environment Extensions Dir",
-      "description": "Semicolon-separated list of local directories that are scanned for CDAP Master environment providers.",
-      "configName": "master.environment.extensions.dir",
-      "configurableInWizard": false,
-      "default": "${cdap.home}/master/ext/environments",
-      "type": "string"
-    },
-    {
       "name": "messaging_cache_size_mb",
       "label": "Messaging Cache Size MB",
       "description": "Memory in megabytes for the cache size used by the messaging service for caching recently-published messages. Currently, only topics listed in the ${messaging.system.topics} configuration have caching enabled. Set it to 0 to disable caching.",
@@ -1098,44 +1089,6 @@
       "unit": "megabytes"
     },
     {
-      "name": "messaging_http_server_bind_address",
-      "label": "Messaging Http Server Bind Address",
-      "description": " Messaging HTTP server bind address",
-      "configName": "messaging.http.server.bind.address",
-      "configurableInWizard": false,
-      "default": "0.0.0.0",
-      "type": "string"
-    },
-    {
-      "name": "messaging_http_server_bind_port",
-      "label": "Messaging Http Server Bind Port",
-      "description": "Messaging HTTP service bind port; if 0, binds to a random port",
-      "configName": "messaging.http.server.bind.port",
-      "configurableInWizard": false,
-      "default": 0,
-      "type": "long",
-      "max": 65536
-    },
-    {
-      "name": "metrics_bind_address",
-      "label": "Metrics Bind Address",
-      "description": "Metrics query HTTP service bind address",
-      "configName": "metrics.bind.addresst",
-      "configurableInWizard": false,
-      "default": "0.0.0.0",
-      "type": "string",
-    },
-    {
-      "name": "metrics_bind_port",
-      "label": "Metrics Bind Port",
-      "description": "Metrics query HTTP service bind port; if 0, binds to a random port ",
-      "configName": "metrics.bind.port",
-      "configurableInWizard": false,
-      "default": 0,
-      "type": "long",
-      "max": 65536
-    },
-    {
       "name": "metrics_admin_topic",
       "label": "Metrics Admin Topic",
       "description": "Topic name for publishing metrics administrative events to the messaging system",
@@ -1162,7 +1115,8 @@
       "configurableInWizard": false,
       "default": 1,
       "type": "long",
-      "unit": "seconds"
+      "unit": "seconds",
+      "max": 60
     },
     {
       "name": "metrics_data_table_retention_minimum_resolution_seconds",
@@ -1181,7 +1135,7 @@
       "configName": "metrics.meta.table",
       "configurableInWizard": false,
       "default": "metrics.meta",
-      "type": "string",
+      "type": "string"
     },
     {
       "name": "structured_table_time_metrics_enabled",
@@ -1190,7 +1144,7 @@
       "configName": "structured.table.time.metrics.enabled",
       "configurableInWizard": false,
       "default": false,
-      "type": "boolean",
+      "type": "boolean"
     },
     {
       "name": "metrics_hbase_max_scan_threads",
@@ -1585,8 +1539,11 @@
       "description": "Semicolon-separated list of local directories that are scanned for secure store extensions.",
       "configName": "security.store.extensions.dir",
       "configurableInWizard": false,
-      "default": "${cdap.home}/master/ext/securestores",
-      "type": "string",
+      "default": [
+      	"${cdap.home}/master/ext/securestores"
+      ],
+   	  "type": "string_array",
+      "separator": ";"
     },
     {
       "name": "service_retry_policy_base_delay_ms",
@@ -2614,7 +2571,8 @@
           "configName": "log.buffer.max.file.size.bytes",
           "configurableInWizard": false,
           "default": 104857600,
-          "type": "long"
+          "type": "memory",
+          "unit": "bytes"
         },
         {
           "name": "log_buffer_server_bind_address",
@@ -2632,8 +2590,8 @@
           "configName": "log.buffer.server.bind.port",
           "configurableInWizard": false,
           "default": 0,
-          "type": "long",
-          "max": 65535
+          "type": "port",
+          "zeroAllowed": true
         },
         {
           "name": "log_buffer_recovery_batch_size",
@@ -2684,6 +2642,15 @@
 	  "unit": "bytes"
 	},
 	{
+	  "name": "log_pipeline_cdap_file_cleanup_batch_size",
+	  "label": "Log Pipeline Cdap File Cleanup Batch Size",
+	  "description": "Batch size to clean up log metadata table.",
+	  "configName": "log.pipeline.cdap.file.cleanup.batch.size",
+	  "configurableInWizard": false,
+	  "default": 10000,
+	  "type": "long"
+	},
+	{
 	  "name": "log_pipeline_cdap_file_permissions",
 	  "label": "Log Pipeline CDAP File Permissions",
 	  "description": "Permissions to set for files created by the system log appender",
@@ -2703,15 +2670,6 @@
 	  "type": "long",
 	  "unit": "bytes"
 	},
-	{
-  	"name": "log_pipeline_cdap_file_cleanup_batch_size",
-  	"label": "Log Pipeline Cdap File Cleanup Batch Size",
-  	"description": "Batch size to clean up log metadata table.",
-  	"configName": "log.pipeline.cdap.file.cleanup.batch.size",
-  	"configurableInWizard": false,
-  	"default": 10000,
-  	"type": "long",
-  },
 	{
 	  "name": "log_process_pipeline_auto_buffer_ratio",
 	  "label": "Log Process Pipeline Auto Buffer Ratio",
@@ -2818,25 +2776,6 @@
 	    "program"
 	  ]
 	},
-	{
-  	"name": "log_query_server_bind_address",
-  	"label": "Log Query Server Bind Address",
-  	"description": "Log query HTTP service bind address",
-  	"configName": "log.query.server.bind.address",
-  	"configurableInWizard": false,
-  	"default": "0.0.0.0",
-  	"type": "string"
-  },
-  {
-    "name": "log_query_server_bind_port",
-    "label": "Log Query Server Bind Port",
-    "description": "Log query HTTP service bind port",
-    "configName": "log.query.server.bind.port",
-    "configurableInWizard": false,
-    "default": 0,
-    "type": "long",
-    "max": 65536
-  },
         {
           "name": "master_collect_containers_log",
           "label": "Master Collect Container Logs",
@@ -2987,6 +2926,76 @@
           "default": 0,
           "type": "long",
           "max": 65535
+        },
+        {
+          "name": "messaging_http_server_bind_address",
+          "label": "Messaging Http Server Bind Address",
+          "description": " Messaging HTTP server bind address",
+          "configName": "messaging.http.server.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "messaging_http_server_bind_port",
+          "label": "Messaging Http Server Bind Port",
+          "description": "Messaging HTTP service bind port; if 0, binds to a random port",
+          "configName": "messaging.http.server.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "metrics_bind_address",
+          "label": "Metrics Bind Address",
+          "description": "Metrics query HTTP service bind address",
+          "configName": "metrics.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string",
+        },
+        {
+          "name": "metrics_bind_port",
+          "label": "Metrics Bind Port",
+          "description": "Metrics query HTTP service bind port; if 0, binds to a random port ",
+          "configName": "metrics.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "log_query_server_bind_address",
+          "label": "Log Query Server Bind Address",
+          "description": "Log query HTTP service bind address",
+          "configName": "log.query.server.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "log_query_server_bind_port",
+          "label": "Log Query Server Bind Port",
+          "description": "Log query HTTP service bind port",
+          "configName": "log.query.server.bind.port",
+          "configurableInWizard": false,
+          "type": "string_enum",
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "master_environment_extensions_dir",
+          "label": "Master Environment Extensions Dir",
+          "description": "Semicolon-separated list of local directories that are scanned for CDAP Master environment providers.",
+          "configName": "master.environment.extensions.dir",
+          "configurableInWizard": false,
+          "default": [
+           "${cdap.home}/master/ext/environments"
+          ],
+          "type": "string_array",
+          "separator": ";"
         },
         {
           "name": "runtime_extensions_dir",
