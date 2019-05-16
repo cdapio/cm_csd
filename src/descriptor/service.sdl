@@ -843,7 +843,6 @@
       "description": "The type of retry policy for programs. Allowed options:\"none\", \"fixed.delay\", or \"exponential.backoff\".",
       "configName": "program.message.retry.policy.type",
       "configurableInWizard": false,
-      "default": "fixed.delay",
       "type": "string_enum",
       "default": "fixed.delay",
       "validValues": [
@@ -1095,7 +1094,7 @@
       "configName": "metrics.admin.topic",
       "configurableInWizard": false,
       "default": "metricsadmin",
-      "type": "string",
+      "type": "string"
     },
     {
       "name": "metrics_admin_poll_delay_millis",
@@ -1542,7 +1541,7 @@
       "default": [
       	"${cdap.home}/master/ext/securestores"
       ],
-   	  "type": "string_array",
+      "type": "string_array",
       "separator": ";"
     },
     {
@@ -2377,7 +2376,7 @@
           "configName": "app.max.concurrent.runs",
           "configurableInWizard": false,
           "default": -1,
-          "type": "long",
+          "type": "long"
         },
         {
           "name": "app_program_metrics_enabled",
@@ -2600,7 +2599,7 @@
           "configName": "log.buffer.recovery.batch.size",
           "configurableInWizard": false,
           "default": 5000,
-          "type": "long",
+          "type": "long"
         },
         {
           "name": "log_queue_size",
@@ -2609,7 +2608,7 @@
           "configName": "log.queue.size",
           "configurableInWizard": false,
           "default": 512,
-          "type": "long",
+          "type": "long"
         },
 	{
 	  "name": "log_pipeline_cdap_dir_permissions",
@@ -2905,7 +2904,7 @@
           "configName": "metadata.messaging.retries.on.conflict",
           "configurableInWizard": false,
           "default": 100,
-          "type": "long",
+          "type": "long"
         },
         {
           "name": "metadata_service_bind_address",
@@ -2953,12 +2952,12 @@
           "configName": "metrics.bind.address",
           "configurableInWizard": false,
           "default": "0.0.0.0",
-          "type": "string",
+          "type": "string"
         },
         {
           "name": "metrics_bind_port",
           "label": "Metrics Bind Port",
-          "description": "Metrics query HTTP service bind port; if 0, binds to a random port ",
+          "description": "Metrics query HTTP service bind port; if 0, binds to a random port",
           "configName": "metrics.bind.port",
           "configurableInWizard": false,
           "default": 0,
@@ -2980,7 +2979,6 @@
           "description": "Log query HTTP service bind port",
           "configName": "log.query.server.bind.port",
           "configurableInWizard": false,
-          "type": "string_enum",
           "default": 0,
           "type": "port",
           "zeroAllowed": true
