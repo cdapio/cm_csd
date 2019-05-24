@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "6.0.0-SNAPSHOT",
+  "version": "6.1.0-SNAPSHOT",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -273,6 +273,67 @@
       "type": "string"
     },
     {
+      "name": "data_storage_implementation",
+      "label": "Data Storage Implementation",
+      "description": "The database implementation CDAP will use.",
+      "configName": "data.storage.implementation",
+      "configurableInWizard": false,
+      "default": "nosql",
+      "type": "string"
+    },
+    {
+      "name": "data_storage_sql_jdbc_driver_external",
+      "label": "Data Storage Sql Jdbc Driver External",
+      "description": "Indicates whether the JDBC driver has to be loaded from an external directory. If true, then the JDBC driver directory has to be specified using 'data.storage.sql.jdbc.driver.directory'. If false, then the JDBC driver is present in the CDAP classpath. This config can only be used when the storage implementation is postgresql.",
+      "configName": "data.storage.sql.jdbc.driver.external",
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
+      "name": "data_storage_sql_jdbc_driver_directory",
+      "label": "Data Storage Sql Jdbc Driver Directory",
+      "description": "The base directory for storing JDBC driver jars. Sub-directory with the name that matches with the value of 'data.storage.implementation' setting will be searched for the corresponding JDBC driver and dependencies jars to connect to the configured sql instance. The JDBC driver class to load has to be specified using 'data.storage.sql.jdbc.driver.name'. This config can only be used when the storage implementation is postgresql.",
+      "configName": "data.storage.sql.jdbc.driver.directory",
+      "configurableInWizard": false,
+      "default": "${cdap.home}/master/ext/jdbc",
+      "type": "string"
+    },
+    {
+      "name": "data_storage_sql_jdbc_driver_name",
+      "label": "Data Storage Sql Jdbc Driver Name",
+      "description": "The jdbc driver class name to connect to the sql instance. The jdbc url, username, password, connection properties can be set using cdap-security.xml.",
+      "configName": "data.storage.sql.jdbc.driver.name",
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "data_storage_sql_jdbc_connection_url",
+      "label": "Data Storage Sql Jdbc Connection Url",
+      "description": "The jdbc url to connect to the sql instance. No sensitive information should be provided using the jdbc url. The username and password can be specified in cdap-security.xml. For non-sensitive properties, it can be specified by adding a property with name prefixed with 'data.storage.sql.jdbc.property.', followed by the sql property name.",
+      "configName": "data.storage.sql.jdbc.connection.url",
+      "configurableInWizard": false,
+      "type": "string"
+    },
+    {
+      "name": "data_storage_sql_jdbc_connection_pool_size",
+      "label": "Data Storage Sql Jdbc Connection Pool Size",
+      "description": "The max number of connections for the sql connection pool.",
+      "configName": "data.storage.sql.jdbc.connection.pool.size",
+      "configurableInWizard": false,
+      "default": 800,
+      "type": "long"
+    },
+    {
+      "name": "data_tx_enabled",
+      "label": "Data Tx Enabled",
+      "description": "Determines if the transaction service is enabled.",
+      "configName": "data.tx.enabled",
+      "configurableInWizard": false,
+      "default": true,
+      "type": "boolean"
+    },
+    {
       "name": "data_tx_max_instances",
       "label": "Transaction Client Max Instances",
       "description": "Maximum number of transaction service instances",
@@ -540,59 +601,6 @@
       "unit": "seconds"
     },
     {
-      "name": "flow_retry_policy_base_delay_ms",
-      "label": "Flow Retry Policy Base Delay Milliseconds",
-      "description": "The base delay between retries in milliseconds",
-      "configName": "flow.retry.policy.base.delay.ms",
-      "configurableInWizard": false,
-      "default": 100,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "flow_retry_policy_max_delay_ms",
-      "label": "Flow Retry Policy Maximum Delay Milliseconds",
-      "description": "The maximum delay between retries in milliseconds",
-      "configName": "flow.retry.policy.max.delay.ms",
-      "configurableInWizard": false,
-      "default": 1000,
-      "type": "long",
-      "unit": "milliseconds"
-    },
-    {
-      "name": "flow_retry_policy_max_retries",
-      "label": "Flow Retry Policy Maximum Retries",
-      "description": "The maximum number of retries to attempt before aborting",
-      "configName": "flow.retry.policy.max.retries",
-      "configurableInWizard": false,
-      "default": 3,
-      "type": "long"
-    },
-    {
-      "name": "flow_retry_policy_max_time_secs",
-      "label": "Flow Retry Policy Maximum Time Seconds",
-      "description": "The maximum elapsed time in seconds before retries are aborted",
-      "configName": "flow.retry.policy.max.time.secs",
-      "configurableInWizard": false,
-      "default": 10,
-      "type": "long",
-      "unit": "seconds"
-    },
-    {
-      "name": "flow_retry_policy_type",
-      "label": "Flow Retry Policy Type",
-      "description": "The type of retry policy for flows",
-      "configName": "flow.retry.policy.type",
-      "configurableInWizard": false,
-      "type": "string_enum",
-      "default": "none",
-      "validValues": [
-        "none",
-        "fixed.delay",
-        "exponential.backoff"
-      ]
-    },
-    {
       "name": "hbase_version_resolution_strategy",
       "label": "HBase Version Resolution Strategy",
       "description": "Determines how to behave when the HBase version on a cluster is an unsupported value. The default value of 'auto.strict' will require that the HBase version match a supported value, and CDAP Master will not start if the HBase version is unsupported. Set to \"auto.latest\" to use the latest HBase version available on the cluster with an unsupported HBase version.",
@@ -835,7 +843,6 @@
       "description": "The type of retry policy for programs. Allowed options:\"none\", \"fixed.delay\", or \"exponential.backoff\".",
       "configName": "program.message.retry.policy.type",
       "configurableInWizard": false,
-      "default": "fixed.delay",
       "type": "string_enum",
       "default": "fixed.delay",
       "validValues": [
@@ -1081,14 +1088,62 @@
       "unit": "megabytes"
     },
     {
-      "name": "metrics_data_table_retention_resolution_1_seconds",
-      "label": "Metrics Data Table Retention Resolution 1 Seconds",
-      "description": "Retention resolution in seconds of the 1-second resolution table; default retention period is 2 hours",
-      "configName": "metrics.data.table.retention.resolution.1.seconds",
+      "name": "metrics_admin_topic",
+      "label": "Metrics Admin Topic",
+      "description": "Topic name for publishing metrics administrative events to the messaging system",
+      "configName": "metrics.admin.topic",
+      "configurableInWizard": false,
+      "default": "metricsadmin",
+      "type": "string"
+    },
+    {
+      "name": "metrics_admin_poll_delay_millis",
+      "label": "Metrics Admin Poll Delay Millis",
+      "description": "The delay in milliseconds to check again for new metrics administrative events after it detects there was no event.",
+      "configName": "metrics.admin.poll.delay.millis",
+      "configurableInWizard": false,
+      "default": 2000,
+      "type": "long",
+      "unit": "milliseconds"
+    },
+    {
+      "name": "metrics_minimum_resolution_seconds",
+      "label": "Metrics Minimum Resolution Seconds",
+      "description": "Minimum metrics resolution in seconds, this value should be less than 60 seconds, otherwise the minimum metrics resolution will be 60 seconds.",
+      "configName": "metrics.minimum.resolution.seconds",
+      "configurableInWizard": false,
+      "default": 1,
+      "type": "long",
+      "unit": "seconds",
+      "max": 60
+    },
+    {
+      "name": "metrics_data_table_retention_minimum_resolution_seconds",
+      "label": "Metrics Data Table Retention Minimum Resolution Seconds",
+      "description": "Retention resolution in seconds of the minimum resolution table; default retention period is 2 hours, this retention will not be applied if the minimum resolution is greater than or equal to 60.",
+      "configName": "metrics.data.table.retention.minimum.resolution.seconds",
       "configurableInWizard": false,
       "default": 7200,
       "type": "long",
-      "min": 1
+      "unit": "seconds"
+    },
+    {
+      "name": "metrics_meta_table",
+      "label": "Metrics Meta Table",
+      "description": "Name of the metrics meta table.",
+      "configName": "metrics.meta.table",
+      "configurableInWizard": false,
+      "default": "metrics.meta",
+      "type": "string"
+    },
+    {
+      "name": "structured_table_time_metrics_enabled",
+      "label": "Structured Table Time Metrics Enabled",
+      "description": "Option to turn on the time metrics for the structured table operations.",
+      "configName": "structured.table.time.metrics.enabled",
+      "configurableInWizard": false,
+      "default": false,
+      "type": "boolean"
     },
     {
       "name": "metrics_hbase_max_scan_threads",
@@ -1099,16 +1154,6 @@
       "default": 96,
       "type": "long",
       "min": 1
-    },
-    {
-      "name": "metrics_kafka_meta_table",
-      "label": "Metrics Kafka Meta Table",
-      "description": "Name of the Kafka metrics meta table",
-      "configName": "metrics.kafka.meta.table",
-      "required": true,
-      "configurableInWizard": false,
-      "default": "metrics.kafka.meta",
-      "type": "string"
     },
     {
       "name": "metrics_kafka_partition_size",
@@ -1488,6 +1533,18 @@
       ]
     },
     {
+      "name": "security_store_extensions_dir",
+      "label": "Security Store Extensions Dir",
+      "description": "Semicolon-separated list of local directories that are scanned for secure store extensions.",
+      "configName": "security.store.extensions.dir",
+      "configurableInWizard": false,
+      "default": [
+      	"${cdap.home}/master/ext/securestores"
+      ],
+      "type": "string_array",
+      "separator": ";"
+    },
+    {
       "name": "service_retry_policy_base_delay_ms",
       "label": "Service Retry Policy Base Delay Milliseconds",
       "description": "The base delay between retries in milliseconds",
@@ -1601,46 +1658,6 @@
       "configurableInWizard": false,
       "default":false,
       "type": "boolean"
-    },
-    {
-      "name": "stream_container_instances",
-      "label": "Stream Container Instances",
-      "description": "Number of YARN container instances for the stream handler",
-      "configName": "stream.container.instances",
-      "configurableInWizard": true,
-      "default": 1,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "stream_container_memory_mb",
-      "label": "Stream Container Memory MB",
-      "description": "Memory in megabytes for each YARN container that runs the stream handler",
-      "configName": "stream.container.memory.mb",
-      "configurableInWizard": true,
-      "default": 1024,
-      "type": "memory",
-      "unit": "megabytes",
-      "min": 512
-    },
-    {
-      "name": "stream_container_num_cores",
-      "label": "Stream Container Number of Virtual Cores",
-      "description": "Number of virtual core for the YARN container that runs the stream handler",
-      "configName": "stream.container.num.cores",
-      "configurableInWizard": true,
-      "default": 2,
-      "type": "long",
-      "min": 1
-    },
-    {
-      "name": "stream_twill_java_heap_memory_ratio",
-      "label": "Stream Twill Java Heap Memory Ratio",
-      "description": "The minimum ratio of heap to non-heap memory for the stream service container",
-      "configName": "stream.twill.java.heap.memory.ratio",
-      "configurableInWizard": false,
-      "default": "0.6",
-      "type": "double"
     },
     {
       "name": "system_log_process_retry_policy_base_delay_ms",
@@ -2042,21 +2059,6 @@
           "configurableInWizard": false,
           "default": 10443,
           "type": "port"
-        },
-        {
-          "name": "router_userservice_fallback_strategy",
-          "label": "Router User Service Fallback Strategy",
-          "description": "If a RouteConfig is not found for a particular user service, this property is used to set the fallback routing strategy. Allowed options: \"random\", \"smallest\", \"largest\", or \"drop\". A string comparison of the versions of the user service is used for \"smallest\" or \"largest\". The \"drop\" option will not route the request to any service and will return \"service not found\".",
-          "configName": "router.userservice.fallback.strategy",
-          "configurableInWizard": false,
-          "default": "random",
-          "type": "string_enum",
-          "validValues": [
-            "random",
-            "smallest",
-            "largest",
-            "drop"
-          ]
         }
       ],
       "configWriter": {
@@ -2368,6 +2370,15 @@
           "max": 65535
         },
         {
+          "name": "app_max_concurrent_runs",
+          "label": "App Max Concurrent Runs",
+          "description": "Maximum number of concurrent program runs allowed; set to -1 for unlimited",
+          "configName": "app.max.concurrent.runs",
+          "configurableInWizard": false,
+          "default": -1,
+          "type": "long"
+        },
+        {
           "name": "app_program_metrics_enabled",
           "label": "App Program Metrics Enabled",
           "description": "Enable or disable emitting metrics from user application programs, by default set to true.",
@@ -2488,6 +2499,15 @@
           "max": 65535
         },
         {
+          "name": "dataset_executor_bind_address",
+          "label": "Dataset Executor Bind Address",
+          "description": "Dataset executor HTTP service bind address",
+          "configName": "dataset.executor.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
           "name": "dataset_executor_bind_port",
           "label": "Dataset Executor Bind Port",
           "description": "Dataset executor bind port; if 0 binds to a random port",
@@ -2508,6 +2528,23 @@
           "max": 65535
         },
         {
+          "name": "app_program_log_appender_extensions_dir",
+          "label": "App Program Log Appender Extensions Dir",
+          "description": "Directory for log appender jars",
+          "configName": "app.program.log.appender.extensions.dir",
+          "configurableInWizard": false,
+          "default": "${cdap.home}/master/ext/log/appenders",
+          "type": "string"
+        },
+        {
+          "name": "app_program_log_appender_provider",
+          "label": "App Program Log Appender Provider",
+          "description": "Provider for log appender. The log appender provided by this provider will be loaded in each program container",
+          "configName": "app.program.log.appender.provider",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
           "name": "log_kafka_topic",
           "label": "Log Kafka Topic",
           "description": "Kafka topic name used to publish logs",
@@ -2516,6 +2553,62 @@
           "configurableInWizard": false,
           "default": "logs.user-v2",
           "type": "string"
+        },
+        {
+          "name": "log_buffer_base_dir",
+          "label": "Log Buffer Base Dir",
+          "description": "Base directory for logs buffer",
+          "configName": "log.buffer.base.dir",
+          "configurableInWizard": false,
+          "default": "${local.data.dir}/logs.buffer",
+          "type": "string"
+        },
+        {
+          "name": "log_buffer_max_file_size_bytes",
+          "label": "Log Buffer Max File Size Bytes",
+          "description": "Maximum size in bytes of a log buffer file",
+          "configName": "log.buffer.max.file.size.bytes",
+          "configurableInWizard": false,
+          "default": 104857600,
+          "type": "memory",
+          "unit": "bytes"
+        },
+        {
+          "name": "log_buffer_server_bind_address",
+          "label": "Log Buffer Server Bind Address",
+          "description": "Log buffer HTTP service bind address",
+          "configName": "log.buffer.server.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "log_buffer_server_bind_port",
+          "label": "Log Buffer Server Bind Port",
+          "description": "Log buffer HTTP service bind port",
+          "configName": "log.buffer.server.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "log_buffer_recovery_batch_size",
+          "label": "Log Buffer Recovery Batch Size",
+          "description": "Log buffer recovery batch size in number of log events read. This will be used to recover logs in batches from log buffer upon log service restart",
+          "configName": "log.buffer.recovery.batch.size",
+          "configurableInWizard": false,
+          "default": 5000,
+          "type": "long"
+        },
+        {
+          "name": "log_queue_size",
+          "label": "Log Queue Size",
+          "description": "The buffer size used in Log Appender",
+          "configName": "log.queue.size",
+          "configurableInWizard": false,
+          "default": 512,
+          "type": "long"
         },
 	{
 	  "name": "log_pipeline_cdap_dir_permissions",
@@ -2546,6 +2639,15 @@
 	  "default": 104857600,
 	  "type": "long",
 	  "unit": "bytes"
+	},
+	{
+	  "name": "log_pipeline_cdap_file_cleanup_batch_size",
+	  "label": "Log Pipeline Cdap File Cleanup Batch Size",
+	  "description": "Batch size to clean up log metadata table.",
+	  "configName": "log.pipeline.cdap.file.cleanup.batch.size",
+	  "configurableInWizard": false,
+	  "default": 10000,
+	  "type": "long"
 	},
 	{
 	  "name": "log_pipeline_cdap_file_permissions",
@@ -2796,6 +2898,15 @@
           "unit": "milliseconds"
         },
         {
+          "name": "metadata_messaging_retries_on_conflict",
+          "label": "Metadata Messaging Retries On Conflict",
+          "description": "The maximal number of times a metadata message will be processed if it repeatedly causes a conflict exception. After this, the mesaage will be discarded.",
+          "configName": "metadata.messaging.retries.on.conflict",
+          "configurableInWizard": false,
+          "default": 100,
+          "type": "long"
+        },
+        {
           "name": "metadata_service_bind_address",
           "label": "Metadata Service Bind Address",
           "description": "Metadata HTTP service bind address",
@@ -2816,14 +2927,73 @@
           "max": 65535
         },
         {
-          "name": "notification_topic",
-          "label": "Notification Topic",
-          "description": "Topic name used to publish notifications",
-          "configName": "notification.topic",
-          "required": true,
+          "name": "messaging_http_server_bind_address",
+          "label": "Messaging Http Server Bind Address",
+          "description": " Messaging HTTP server bind address",
+          "configName": "messaging.http.server.bind.address",
           "configurableInWizard": false,
-          "default": "notifications",
+          "default": "0.0.0.0",
           "type": "string"
+        },
+        {
+          "name": "messaging_http_server_bind_port",
+          "label": "Messaging Http Server Bind Port",
+          "description": "Messaging HTTP service bind port; if 0, binds to a random port",
+          "configName": "messaging.http.server.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "metrics_bind_address",
+          "label": "Metrics Bind Address",
+          "description": "Metrics query HTTP service bind address",
+          "configName": "metrics.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "metrics_bind_port",
+          "label": "Metrics Bind Port",
+          "description": "Metrics query HTTP service bind port; if 0, binds to a random port",
+          "configName": "metrics.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "log_query_server_bind_address",
+          "label": "Log Query Server Bind Address",
+          "description": "Log query HTTP service bind address",
+          "configName": "log.query.server.bind.address",
+          "configurableInWizard": false,
+          "default": "0.0.0.0",
+          "type": "string"
+        },
+        {
+          "name": "log_query_server_bind_port",
+          "label": "Log Query Server Bind Port",
+          "description": "Log query HTTP service bind port",
+          "configName": "log.query.server.bind.port",
+          "configurableInWizard": false,
+          "default": 0,
+          "type": "port",
+          "zeroAllowed": true
+        },
+        {
+          "name": "master_environment_extensions_dir",
+          "label": "Master Environment Extensions Dir",
+          "description": "Semicolon-separated list of local directories that are scanned for CDAP Master environment providers.",
+          "configName": "master.environment.extensions.dir",
+          "configurableInWizard": false,
+          "default": [
+           "${cdap.home}/master/ext/environments"
+          ],
+          "type": "string_array",
+          "separator": ";"
         },
         {
           "name": "runtime_extensions_dir",
@@ -2844,16 +3014,6 @@
           "configName": "security.keytab.path",
           "configurableInWizard": false,
           "type": "string"
-        },
-        {
-          "name": "stream_bind_port",
-          "label": "Stream Bind Port",
-          "description": "Stream HTTP service bind port; if 0 binds to a random port",
-          "configName": "stream.bind.port",
-          "configurableInWizard": false,
-          "default": 0,
-          "type": "long",
-          "max": 65535
         }
       ],
       "configWriter": {
@@ -3121,7 +3281,7 @@
           "description": "File containing the theme to be used in UI",
           "configName": "ui.theme.file",
           "configurableInWizard": false,
-          "default": "ui/server/config/themes/default.json",
+          "default": "server/config/themes/default.json",
           "type": "string"
         }
       ],
