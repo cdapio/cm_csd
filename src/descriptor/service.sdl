@@ -2,7 +2,7 @@
   "name": "CDAP",
   "label": "CDAP",
   "description": "The Cask Data Application Platform (CDAP) is an easy-to-use, open source and enterprise-ready integrated platform for organizations to build, deploy, and operate data-driven applications.",
-  "version": "6.1.0-SNAPSHOT",
+  "version": "6.1.0",
   "runAs": {
     "user": "cdap",
     "group": "cdap"
@@ -1660,6 +1660,15 @@
       "type": "boolean"
     },
     {
+      "name": "ssl_internal_cert_path",
+      "label": "SSL Internal Cert Path",
+      "description": "File path to certificate and private key file in PEM format to use when ssl.internal.enabled is set to true.",
+      "configName": "ssl.internal.cert.path",
+      "configurableInWizard": false,
+      "type": "path",
+  	  "pathType": "localDataDir"
+    },
+    {
       "name": "system_log_process_retry_policy_base_delay_ms",
       "label": "System Log Process Retry Policy Base Delay Milliseconds",
       "description": "The base delay between retries in milliseconds",
@@ -1776,7 +1785,7 @@
       "description": "The maximum elapsed time in seconds before retries are aborted",
       "configName": "system.runtime.monitor.retry.policy.max.time.secs",
       "configurableInWizard": false,
-      "default": 2147483647,
+      "default": 3600,
       "type": "long",
       "unit": "seconds"
     },
@@ -2370,6 +2379,14 @@
           "max": 65535
         },
         {
+          "name": "network_proxy_address",
+          "label": "Network Proxy Address",
+          "description": "A SOCKS 5 proxy address for CDAP to proxy outgoing connections. The address must be in the format of host:port.",
+          "configName": "network.proxy.address",
+          "configurableInWizard": false,
+          "type": "string"
+        },
+        {
           "name": "app_max_concurrent_runs",
           "label": "App Max Concurrent Runs",
           "description": "Maximum number of concurrent program runs allowed; set to -1 for unlimited",
@@ -2469,15 +2486,6 @@
           "configurableInWizard": false,
           "default": true,
           "type": "boolean"
-        },
-        {
-          "name": "app_ssl_bind_port",
-          "label": "App SSL Bind Port",
-          "description": "App Fabric service bind port",
-          "configName": "app.ssl.bind.port",
-          "configurableInWizard": false,
-          "default": 30443,
-          "type": "port"
         },
         {
           "name": "bootstrap_file",
