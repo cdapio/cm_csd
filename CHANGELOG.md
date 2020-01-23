@@ -1,6 +1,10 @@
 CDAP CSD CHANGELOG
 ==================
 
+v6.1.1 (Jan 23, 2020)
+---------------------
+- Add configurations for CDAP 6.1 release ( Issues: #210 [CDAP-16214](https://issues.cask.co/browse/CDAP-16214))
+
 v6.0.0 (May 17, 2019)
 ---------------------
 - Update Market URL ( Issues: #206)
