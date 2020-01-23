@@ -16,7 +16,7 @@
     }
   },
   "parcel": {
-    "repoUrl": "http://repository.cask.co/parcels/cdap/6.0/",
+    "repoUrl": "http://repository.cask.co/parcels/cdap/6.1/",
     "requiredTags": [ "cdh", "cdap" ],
     "optionalTags" : ["spark2"]
   },
